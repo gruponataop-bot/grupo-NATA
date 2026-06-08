@@ -17,4 +17,4 @@ services:
     dockerfilePath: Dockerfile  #
     envVars:
       - key: APP_FRONTEND_RESET_PASSWORD_URL
-        value: https://meu-projeto-frontend.onrender.com/pages/resetarSenha.html
+        value: https://grupo-nata.vercel.app/pages/resetarSenha.html

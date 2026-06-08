@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const API_BASE_URL = ['localhost', '127.0.0.1'].includes(window.location.hostname)
     ? 'http://localhost:8080'
-    : 'https://meu-projeto-backend.onrender.com';
+    : 'https://grupo-nata.onrender.com';
 
   // Captura o token da URL
   const token = new URLSearchParams(window.location.search).get('token');
