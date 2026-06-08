@@ -1,0 +1,256 @@
+/* --- ESTILOS EXCLUSIVOS DO CARD DE ROTAS (UNIDADES EM REM) --- */
+
+#container-rotas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); 
+    gap: 1.875rem;
+    margin-top: 2rem;
+}
+
+.card-rota {
+    position: relative;
+    width: 20rem; 
+    height: 24rem; 
+    background: #db5c33; 
+    border-radius: 1.25rem; 
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0.25rem 0.9375rem rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.card-rota:hover {
+    transform: translateY(-0.3125rem);
+    box-shadow: 0 0.5rem 1.5625rem rgba(0,0,0,0.15);
+}
+
+/* --- CAPA FRONTAL --- */
+.card-rota-capa {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: 1.25rem; 
+    z-index: 2;
+    transition: opacity 0.3s ease;
+}
+
+.card-rota:hover .card-rota-capa {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card-rota-capa h2.titulo-serifado {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.tag-tipo-rota {
+    background: rgba(255,255,255,0.2);
+    padding: 0.375rem 0.9375rem; 
+    border-radius: 1.25rem; 
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.footer-capa {
+    position: absolute;
+    bottom: 2.1875rem; 
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* --- CONTEÚDO DETALHADO (HOVER) --- */
+.card-rota-detalhes {
+    position: absolute;
+    inset: 0;
+    background-color: #fdfdfd;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    color: #333;
+}
+
+.card-rota:hover .card-rota-detalhes {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.detalhes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem; 
+    padding-bottom: 0.5rem; 
+    border-bottom: 0.0625rem solid #eee; 
+}
+
+.detalhes-header h3 {
+    font-size: 1.2rem;
+    color: #db5c33;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 10rem; 
+}
+
+/* Status estilizado como a tag da capa */
+.status-badge-tag {
+    background: #db5c33;
+    color: white;
+    padding: 0.25rem 0.75rem; 
+    border-radius: 0.9375rem; 
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.info-recursos {
+    margin-bottom: 0.75rem;
+}
+
+.info-recursos p {
+    font-size: 0.85rem;
+    margin: 0.1875rem 0;
+    color: #666;
+}
+
+/* Área de scroll para as listas não empurrarem os botões para fora */
+.listas-pontos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9375rem; 
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 0.9375rem; 
+    padding-right: 0.3125rem;
+}
+
+/* Customização da scrollbar interna */
+.listas-pontos::-webkit-scrollbar {
+    width: 0.25rem; 
+}
+.listas-pontos::-webkit-scrollbar-thumb {
+    background: #db5c3355;
+    border-radius: 0.625rem; 
+}
+
+.coluna-pontos h4 {
+    border-bottom: 0.0625rem solid #ddd;
+    margin-bottom: 0.5rem; 
+    color: #db5c33;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+}
+
+
+
+/* Botões fixos no rodapé */
+.acoes-card-rota {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.625rem; 
+    padding-top: 0.9375rem;
+    border-top: 0.0625rem solid #eee;
+    margin-top: auto;
+}
+
+/* --- TAGS (PÍLULAS) DE LOCAIS E CARGA --- */
+.container-tags {
+    display: flex;
+    gap: 0.375rem; 
+    flex-wrap: wrap;
+    margin-top: 0.5rem; 
+    padding-bottom: 0.25rem; /* Evita que o scroll corte a borda inferior */
+}
+
+.tag-local {
+    display: inline-flex;
+    align-items: center;
+    background: #f8f9fa;
+    border: 0.0625rem solid #e9ecef;
+    color: #495057;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.375rem; 
+    font-size: 0.75rem; 
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.tag-carga {
+    display: inline-flex;
+    align-items: center;
+    background: #fff7f2;
+    border: 0.0625rem solid #f7ece6;
+    color: #c44d28;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.tag-vazia {
+    font-size: 0.75rem;
+    color: #999;
+    display: inline-block;
+}
+
+/* --- CARGA DO VEÍCULO --- */
+.carga-veiculo {
+    margin-top: 1rem; 
+    padding-top: 1rem; 
+    border-top: 0.0625rem solid rgba(0,0,0,0.05);
+}
+
+.carga-veiculo h4 {
+    font-size: 0.8125rem; 
+    margin-bottom: 0.625rem; 
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem; 
+    margin-top: 0;
+}
+
+.carga-veiculo h4 i {
+    color: #db5c33; 
+    font-size: 1.125rem; 
+}
+
+/* --- BOTÕES DO CARD --- */
+.btn-iniciar-rota {
+    background: #2e7d32;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+    font-family: inherit;
+    transition: background-color 0.2s ease;
+}
+
+.btn-iniciar-rota:hover {
+    background: #246327;
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=MonteCarlo&family=Lora:wght@500;600&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/home.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/home.js" defer></script>
+</head>
+
+<body>
+    <header class="public-header">
+        <a class="brand" href="#inicio">Nata</a>
+
+        <nav class="public-nav" aria-label="Navegacao principal">
+            <a href="#inicio">Início</a>
+            <a href="#comunidade">A comunidade</a>
+            <a href="#projetos">Projetos</a>
+            <a href="pages/doacoes.html">Doações</a>
+            <a href="#contato">Contato</a>
+        </nav>
+
+        <a class="btn btn-light" href="pages/login.html">Acesso interno</a>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio">
+            <div class="hero-content">
+                <p class="eyebrow">Núcleo de acolhimento e transformação social</p>
+                <h1>Acolhendo vidas,<br>construindo o amanhã.</h1>
+                <div class="hero-actions">
+                    <a class="btn btn-light" href="#comunidade">Conheça nossa história</a>
+                    <a class="btn btn-primary" href="pages/doacoes.html">Fazer doação</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section section-band" id="comunidade">
+            <div class="section-copy">
+                <span class="section-label">A comunidade</span>
+                <h2>O que é o NATA</h2>
+
+                <p>
+                    O NATA atua com acolhimento, cuidado e desenvolvimento comunitário,
+                    criando oportunidades para crianças, famílias e moradores
+                    acompanhados pelos projetos sociais.
+                </p>
+
+                <p>
+                    A plataforma ajuda a organizar projetos, participantes,
+                    voluntários, doações e rotinas internas,
+                    aproximando a gestão do trabalho que acontece todos os dias na comunidade.
+                </p>
+            </div>
+
+            <div class="community-photo" aria-label="Foto da comunidade NATA">
+                <span>NATA</span>
+            </div>
+        </section>
+
+        <section class="projects-section" id="projetos">
+            <div class="section-heading">
+                <span class="section-label">Projetos</span>
+                <h2>Projetos em destaque</h2>
+                <p id="projectsStatus" class="section-status">Carregando projetos cadastrados...</p>
+            </div>
+
+            <div class="project-list" id="homeProjects" aria-live="polite"></div>
+
+        </section>
+
+        <section class="join-section" id="doacoes">
+            <div>
+                <span class="section-label">Participe</span>
+                <h2>Junte-se a nós e faça a diferença</h2>
+            </div>
+
+            <div class="join-grid">
+                <article class="join-card">
+                    <h3>Doação</h3>
+                    <p>Contribua com recursos, alimentos, materiais ou itens de uso diário.</p>
+                    <a class="btn btn-primary" href="pages/doacoes.html">Doar agora</a>
+                </article>
+                <article class="join-card">
+                    <h3>Voluntariado</h3>
+                    <p>Compartilhe tempo, conhecimento e cuidado nos projetos da comunidade.</p>
+                    <a class="btn btn-outline" href="pages/doacoes.html#voluntariado">Quero ajudar</a>
+                </article>
+                <article class="join-card">
+                    <h3>Divulgação</h3>
+                    <p>Ajude a ampliar a rede de apoio apresentando o NATA para mais pessoas.</p>
+                    <a class="btn btn-outline" href="#contato">Contato</a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="public-footer" id="contato">
+        <div>
+            <div class="footer-brand">Nata</div>
+            <p>Gestão social com acolhimento, transparência e cuidado.</p>
+        </div>
+
+        <address>
+            <strong>Contato</strong>
+            <span id="home-contact-phone">00000000-0000</span>
+            <span id="home-contact-email">teste@teste.com</span>
+        </address>
+
+        <address>
+            <strong>Endereços e redes</strong>
+            <span id="home-contact-address">Comunidade NATA</span>
+            <span id="home-contact-social">@associacao.nata</span>
+        </address>
+    </footer>
+
+    <div class="project-modal" id="projectModal" hidden>
+        <div class="project-modal__backdrop" data-close-project-modal></div>
+        <article class="project-modal__card" role="dialog" aria-modal="true" aria-labelledby="modalProjectTitle">
+            <button class="project-modal__close" type="button" data-close-project-modal
+                aria-label="Fechar detalhes">x</button>
+            <div class="project-modal__image" id="modalProjectImage"></div>
+            <div class="project-modal__body">
+                <span class="project-tag" id="modalProjectType">Projeto</span>
+                <h2 id="modalProjectTitle">Projeto NATA</h2>
+                <p id="modalProjectDescription"></p>
+                <dl class="project-details">
+                    <div>
+                        <dt>Status</dt>
+                        <dd id="modalProjectStatus">Ativo</dd>
+                    </div>
+                    <div>
+                        <dt>Público-alvo</dt>
+                        <dd id="modalProjectAudience">Comunidade</dd>
+                    </div>
+                </dl>
+            </div>
+        </article>
+    </div>
+</body>
+
+</html>

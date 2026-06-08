@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Residente - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/residente.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="residentes">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo"><h1>Residentes</h1></div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+
+                <div class="cp-header">
+                    <button class="cp-back" onclick="window.history.back()">
+                        <i class="ph ph-caret-left"></i> Voltar
+                    </button>
+                    <div class="cp-title-block">
+                        <h2>Novo Residente</h2>
+                        <p>Preencha as informações para cadastrar um residente</p>
+                    </div>
+                </div>
+
+                <form id="form-cadastro-residente" class="cp-form" novalidate>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">1</div>
+                            <span class="cp-section-name">Projeto</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-field">
+                                <label>Vincular ao Projeto</label>
+                                <select id="projeto">
+                                    <option value="">Carregando projetos...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">2</div>
+                            <span class="cp-section-name">Informações do Residente</span>
+                            <div class="cp-section-right">
+                                <div class="cp-radios">
+                                    <label><input type="radio" name="status" value="Ativo" checked> Ativo</label>
+                                    <label><input type="radio" name="status" value="Inativo"> Inativo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Nome Completo</label>
+                                    <input type="text" id="nome" required>
+                                </div>
+                                <div class="cp-field">
+                                    <label>CPF</label>
+                                    <input type="text" id="cpf" placeholder="000.000.000-00">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Data de Nascimento</label>
+                                    <input type="date" id="dataNascimento">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Telefone</label>
+                                    <input type="text" id="telefone">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Email</label>
+                                    <input type="email" id="email">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Endereço</label>
+                                    <input type="text" id="endereco">
+                                </div>
+                            </div>
+                            <div class="cp-field">
+                                <label>Necessidades Especiais <span class="cp-hint">(opcional)</span></label>
+                                <textarea id="necessidadesEspeciais" placeholder="Descreva se houver..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">3</div>
+                            <span class="cp-section-name">Contato de Emergência</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Nome do Responsável</label>
+                                    <input type="text" id="contatoEmergencia">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Parentesco</label>
+                                    <input type="text" id="parentesco">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Telefone de Emergência</label>
+                                    <input type="text" id="telefoneEmergencia">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-footer">
+                        <button type="button" class="cp-btn-cancel" onclick="window.history.back()">Cancelar</button>
+                        <button type="submit" class="cp-btn-submit">
+                            <i class="ph ph-check-circle"></i> Cadastrar Residente
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

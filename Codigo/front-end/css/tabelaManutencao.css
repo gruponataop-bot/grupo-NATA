@@ -1,0 +1,105 @@
+/* --- Estilo da Tabela de Manutenção --- */
+
+.container-tabela {
+    width: 100%;
+    overflow-x: auto; /* Garante que em telas menores a tabela não quebre o layout */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-top: 20px;
+    margin-bottom: 1rem;
+}
+
+.tabela-manutencao {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+    text-align: left;
+}
+
+/* Cabeçalho */
+.tabela-manutencao thead {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #eee;
+}
+
+.tabela-manutencao th {
+    padding: 15px;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+/* Linhas e Células */
+.tabela-manutencao tbody tr {
+    border-bottom: 1px solid #f1f1f1;
+    transition: background-color 0.2s ease;
+}
+
+.tabela-manutencao tbody tr:hover {
+    background-color: #fffaf9; /* Um leve toque da cor do NATA ao passar o mouse */
+}
+
+.tabela-manutencao td {
+    padding: 15px;
+    color: #444;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+/* Estilização das Tags de Status (Baseado na sua imagem) */
+.status-tag {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    text-align: center;
+    min-width: 100px;
+}
+
+.status-tag.concluido {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-tag.pendente {
+    background-color: #fff8e1;
+    color: #f57f17;
+}
+
+.status-tag.em-progresso {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-tag.cancelado {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+/* Botão de Edição na Tabela */
+.btn-tabela-editar {
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-tabela-editar:hover {
+    color: #db5c33; /* Cor laranja NATA */
+    transform: scale(1.1);
+}
+
+/* Ajuste de Texto em Negrito para Placas */
+.tabela-manutencao td strong {
+    color: #333;
+    letter-spacing: 1px;
+}

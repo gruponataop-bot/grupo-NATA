@@ -1,0 +1,196 @@
+/* Container principal do formulário */
+.area-cadastro {
+    background-color: #f4f5f7;
+}
+
+/* Cabeçalho com o botão Voltar */
+.cabecalho-cadastro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.btn-voltar {
+    background: transparent;
+    border: 1px solid #db5c33;
+    color: #db5c33;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+/* O título elegante com Serifa */
+.titulo-serifado {
+    font-family: 'Playfair Display', serif; /* Ou a serif que preferir */
+    font-size: 26px;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.linha-divisoria {
+    border: none;
+    border-top: 1px solid #d1d1d1;
+    margin-bottom: 30px;
+}
+
+/* Seções do Formulário */
+.secao-form {
+    margin-bottom: 30px;
+}
+
+.secao-form h3 {
+    font-size: 18px;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.secao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.radio-status {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+}
+
+/* Grids de layout */
+.grid-2-colunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.grid-3-colunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    font-size: 14px;
+}
+
+/* Estilo dos Inputs e Textareas */
+.input-grupo-form label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.input-grupo-form input[type="text"],
+.input-grupo-form input[type="email"],
+.input-grupo-form input[type="date"],
+.input-grupo-form select,
+.input-grupo-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #eaeaea; /* Fundo levemente cinza do input */
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.mt-15 { margin-top: 15px; }
+
+/* Tabela de Disponibilidade */
+.tabela-disponibilidade {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    text-align: center;
+}
+
+.tabela-disponibilidade th, 
+.tabela-disponibilidade td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.tabela-disponibilidade th {
+    background-color: #f9f9f9;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.tabela-disponibilidade td:first-child {
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+/* Cores do checkbox terracota */
+input[type="checkbox"] {
+    accent-color: #db5c33;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Botões de Salvar e Cancelar */
+.acoes-rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.btn-salvar {
+    background-color: #db5c33;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    background-color: #a89f9e;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Botão de Upload */
+.upload-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.btn-upload {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #eaeaea;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    color: #333;
+    transition: background 0.2s;
+}
+
+.btn-upload:hover {
+    background-color: #dadada;
+}
+
+.btn-upload i {
+    font-size: 24px;
+    color: #666;
+}

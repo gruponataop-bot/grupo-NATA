@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreamento - NATA</title>
+    
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css"> 
+    <link rel="stylesheet" href="../css/rastreamento.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/rastreamento.js" defer></script>
+</head>
+<body data-nav-active="rotas">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+        
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo"><h1>Logística</h1></div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+                <div class="cp-header" style="max-width: 1200px; padding: 0;">
+                    <button class="cp-back" onclick="window.history.back()">
+                        <i class="ph ph-caret-left"></i> Voltar
+                    </button>
+                    <div class="cp-title-block">
+                        <h2>Monitoramento em Tempo Real</h2>
+                        <p>Acompanhe a posição, trajeto e status atual do veículo da rota</p>
+                    </div>
+                </div>
+
+                <div class="rastreamento-dashboard">
+                    <div class="rt-cards-grid">
+                        <div class="rt-card">
+                            <div class="rt-card-icon"><i class="ph ph-truck"></i></div>
+                            <div class="rt-card-content">
+                                <span class="rt-card-label">Veículo (Placa)</span>
+                                <span class="rt-card-value" id="info-placa">Buscando...</span>
+                            </div>
+                        </div>
+
+                        <div class="rt-card">
+                            <div class="rt-card-icon"><i class="ph ph-gauge"></i></div>
+                            <div class="rt-card-content">
+                                <span class="rt-card-label">Velocidade</span>
+                                <span class="rt-card-value"><span id="info-velocidade">0</span> km/h</span>
+                            </div>
+                        </div>
+
+                        <div class="rt-card">
+                            <div class="rt-card-icon"><i class="ph ph-key"></i></div>
+                            <div class="rt-card-content">
+                                <span class="rt-card-label">Motor (Ignição)</span>
+                                <span class="rt-card-value" id="info-ignicao">
+                                    <span style="color: #78716c; font-size: 14px;">Aguardando sinal...</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="rt-card">
+                            <div class="rt-card-icon"><i class="ph ph-clock"></i></div>
+                            <div class="rt-card-content">
+                                <span class="rt-card-label">Última Atualização</span>
+                                <span class="rt-card-value" id="info-hora">--:--:--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rt-map-container">
+                        <div id="mapa"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+/* Container principal dos dias */
+.dias-grid-turnos {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 0 5px;
+}
+
+/* Coluna individual (Dia + Turnos) */
+.dia-coluna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.circulo-dia {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #eee;
+    color: #888;
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+}
+
+.circulo-dia.ativo {
+    background-color: #db5c33; /* Laranja padrão do seu projeto */
+    color: white;
+    border-color: #c44d28;
+}
+
+/* Mini indicadores de turnos (m, t, n) */
+.turnos-indicador {
+    display: flex;
+    gap: 2px;
+    height: 12px;
+}
+
+.turnos-indicador span {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #ccc; /* Escondido por padrão (cor neutra) */
+    font-weight: 800;
+    line-height: 1;
+    display: none; /* Oculta se não houver disponibilidade */
+}
+
+.turnos-indicador span.show {
+    display: inline;
+    color: #db5c33; /* Cor de destaque quando disponível */
+}

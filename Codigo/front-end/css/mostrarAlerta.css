@@ -1,0 +1,125 @@
+/* Container para empilhar os alertas */
+.alert-container {
+    position: fixed;
+    bottom: 24px; 
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column-reverse; 
+    gap: 10px;
+    pointer-events: none;
+}
+
+/* Base do Alerta */
+.alert-toast {
+    width: min(360px, calc(100vw - 32px));
+    min-height: 48px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 14px 34px rgba(26, 24, 20, 0.14);
+    border: 1px solid #e8e6e1;
+    border-left: 4px solid #ccc;
+    color: #1a1814;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+    animation: slideInRight 0.3s ease forwards;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    pointer-events: auto;
+}
+
+.alert-toast i {
+    flex: 0 0 auto;
+    font-size: 21px;
+}
+
+.alert-toast span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+/* Variação: Sucesso */
+.alert-success {
+    border-left-color: #2d7a4f;
+}
+.alert-success i { color: #2d7a4f; }
+
+/* Variação: Erro (Usando o Terracota do projeto) */
+.alert-error {
+    border-left-color: #db5c33;
+}
+.alert-error i { color: #db5c33; }
+
+/* Variação: Aviso */
+.alert-warning {
+    border-left-color: #b7791f;
+}
+.alert-warning i { color: #b7791f; }
+
+/* Animação de entrada */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Classe para saída (opcional, via JS) */
+.alert-fade-out {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE DO ALERTA (MOBILE)
+   ========================================== */
+@media (max-width: 768px) {
+    .alert-container {
+        bottom: auto; /* Remove a fixação do rodapé */
+        top: 20px;    /* Fixa no topo */
+        
+        /* Centraliza o alerta perfeitamente no meio da tela */
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        
+        /* Inverte a ordem para que os alertas empilhem de cima para baixo */
+        flex-direction: column; 
+    }
+
+    /* Troca a animação lateral por uma de descida suave */
+    .alert-toast {
+        animation: slideInDown 0.3s ease forwards;
+    }
+
+    /* Altera a direção da saída para subir e sumir */
+    .alert-fade-out {
+        transform: translateY(-100%) !important;
+        opacity: 0;
+    }
+}
+
+/* Nova animação: Desliza de cima para baixo */
+@keyframes slideInDown {
+    from {
+        transform: translateY(-150%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

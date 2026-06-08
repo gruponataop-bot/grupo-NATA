@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard — NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/tabela.css">
+    <link rel="stylesheet" href="../css/adicionar.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/dashboard.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="dashboard">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Dashboard</h1>
+                </div>
+
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="area-principal dashboard-main">
+                <section class="page-header">
+                    <div>
+                        <p class="page-subtitle">Vis&atilde;o geral dos projetos, pessoas atendidas, financeiro e
+                            estoque</p>
+                    </div>
+                    <button class="btn btn-adicionar" type="button" onclick="window.location.href='financeiro.html'">
+                        <i class="ph ph-chart-line-up"></i>
+                        Ver financeiro
+                    </button>
+                </section>
+
+                <section class="dashboard-cards" aria-label="Resumo geral do sistema">
+                    <article class="dashboard-card dashboard-card--success">
+                        <span class="dashboard-card__label">Projetos ativos</span>
+                        <strong id="total-projetos-ativos" data-dashboard-value>0</strong>
+                        <small>Projetos em andamento</small>
+                    </article>
+                    <article class="dashboard-card dashboard-card--success">
+                        <span class="dashboard-card__label">Pessoas atendidas</span>
+                        <strong id="total-pessoas-atendidas" data-dashboard-value>0</strong>
+                        <small>Participantes e residentes</small>
+                    </article>
+
+                    <article class="dashboard-card dashboard-card--warning">
+                        <span class="dashboard-card__label">Volunt&aacute;rios ativos</span>
+                        <strong id="total-voluntarios-ativos" data-dashboard-value>0</strong>
+                        <small>Dispon&iacute;veis para apoio</small>
+                    </article>
+
+                    <article class="dashboard-card dashboard-card--brand">
+                        <span class="dashboard-card__label">Saldo atual</span>
+                        <strong id="saldo-atual" data-dashboard-value>R$ 0,00</strong>
+                        <small>Entradas menos sa&iacute;das</small>
+                    </article>
+
+
+                </section>
+
+                <section class="dashboard-mini-cards" aria-label="Indicadores complementares">
+                    <article>
+                        <span>Participantes</span>
+                        <strong id="total-participantes" data-dashboard-value>0</strong>
+                    </article>
+                    <article>
+                        <span>Residentes</span>
+                        <strong id="total-residentes" data-dashboard-value>0</strong>
+                    </article>
+                    <article>
+                        <span>Funcion&aacute;rios</span>
+                        <strong id="total-funcionarios" data-dashboard-value>0</strong>
+                    </article>
+                    <article>
+                        <span>Itens no estoque</span>
+                        <strong id="total-itens-estoque" data-dashboard-value>0</strong>
+                    </article>
+                </section>
+
+
+                <section class="tabela-container dashboard-panel dashboard-panel--full">
+                    <div class="cabecalho-secao dashboard-panel__header">
+                        <div>
+                            <h2 class="titulo-secao">Alertas do estoque</h2>
+                            <p id="dashboard-status">Carregando alertas...</p>
+                        </div>
+                    </div>
+
+                    <div id="lista-alertas-gerais" class="alert-list" aria-live="polite"></div>
+                </section>
+
+                <section class="dashboard-grid">
+                    <article class="tabela-container dashboard-panel">
+                        <div class="cabecalho-secao dashboard-panel__header">
+                            <div>
+                                <h2 class="titulo-secao">Financeiro do m&ecirc;s</h2>
+                                <p>Entradas, sa&iacute;das e movimenta&ccedil;&otilde;es recentes</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-summary-row">
+                            <div>
+                                <span>Entradas</span>
+                                <strong id="financeiro-entradas" data-dashboard-value>R$ 0,00</strong>
+                            </div>
+                            <div>
+                                <span>Sa&iacute;das</span>
+                                <strong id="financeiro-saidas" data-dashboard-value>R$ 0,00</strong>
+                            </div>
+                        </div>
+                        <div id="lista-lancamentos-recentes" class="dashboard-list"></div>
+                    </article>
+
+                    <article class="tabela-container dashboard-panel">
+                        <div class="cabecalho-secao dashboard-panel__header">
+                            <div>
+                                <h2 class="titulo-secao">Projetos e equipe</h2>
+                                <p>Status dos projetos e volunt&aacute;rios pendentes</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-stats-list">
+                            <div><span>Projetos ativos</span><strong id="projetos-ativos"
+                                    data-dashboard-value>0</strong></div>
+                            <div><span>Projetos suspensos</span><strong id="projetos-suspensos"
+                                    data-dashboard-value>0</strong></div>
+                            <div><span>Projetos encerrados</span><strong id="projetos-encerrados"
+                                    data-dashboard-value>0</strong></div>
+                            <div><span>Volunt&aacute;rios pendentes</span><strong id="voluntarios-pendentes"
+                                    data-dashboard-value>0</strong></div>
+                        </div>
+                    </article>
+
+                    <article class="tabela-container dashboard-panel">
+                        <div class="cabecalho-secao dashboard-panel__header">
+                            <div>
+                                <h2 class="titulo-secao">Estoque</h2>
+                                <p>Produtos vencidos, pr&oacute;ximos da validade ou em baixa</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-stats-list dashboard-stats-list--compact">
+                            <div><span>Esgotados</span><strong id="estoque-esgotados" data-dashboard-value>0</strong>
+                            </div>
+                            <div><span>No m&iacute;nimo</span><strong id="estoque-minimo"
+                                    data-dashboard-value>0</strong></div>
+                            <div><span>Vencidos</span><strong id="estoque-vencidos" data-dashboard-value>0</strong>
+                            </div>
+                            <div><span>Vencem em breve</span><strong id="estoque-vencendo"
+                                    data-dashboard-value>0</strong></div>
+                        </div>
+                        <div id="lista-estoque-critico" class="dashboard-list"></div>
+                    </article>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+/* O código vital para a mágica acontecer */
+body { 
+    margin: 0; 
+    padding: 0; 
+    background-color: #f9f8f6; 
+    font-family: 'Inter', sans-serif;
+    color: #333333; 
+}
+
+.layout-app { 
+    display: 
+    flex; height: 100vh; 
+    overflow: hidden; 
+}
+
+#sidebar-container { 
+    flex-shrink: 0; 
+}
+
+.conteudo-direito { 
+    flex: 1;
+    min-width: 0;
+    display: flex; 
+    flex-direction: column; 
+}
+
+.area-principal { 
+    flex-grow: 1; 
+    padding: 30px; 
+    overflow-y: auto; 
+}
+
+input, select, textarea, button {
+    font-family: inherit;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+@media (max-width: 768px) {
+    .layout-app {
+        flex-direction: column-reverse; 
+        height: 100vh;
+    }
+
+    .conteudo-direito {
+        flex: 1;
+        overflow-y: auto; 
+        padding-bottom: 70px;
+    }
+}

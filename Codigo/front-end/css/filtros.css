@@ -1,0 +1,202 @@
+/* Container da barra de filtros */
+.barra-filtros {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem; /* 20px */
+    margin-bottom: 1.875rem; /* 30px */
+    padding: 0.9375rem; /* 15px */
+    /*background: white;*/
+    /*border-radius: 0.75rem;  12px */
+    /*box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.05);  2px 8px */
+}
+
+/* Grupo de pesquisa (Input + Ícone) */
+.input-grupo.pesquisa {
+    position: relative;
+    flex: 1;
+    max-width: 15rem;
+    margin-right: 4rem;
+}
+
+.input-grupo.pesquisa input {
+    width: 100%;
+    padding: 0.625rem 1rem 0.625rem 2.5rem; /* Espaço para o ícone à esquerda */
+    border: 0.0625rem solid #e0e0e0;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-grupo.pesquisa input:focus {
+    border-color: #db5c33; /* Destaque na cor terracota ao clicar */
+}
+
+.input-grupo.pesquisa i {
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 1.125rem;
+}
+
+.filtro-status {
+    display: flex;
+    gap: 0.625rem; /* 10px */
+}
+
+/* Esconde o checkbox real */
+.filtro-checkbox {
+    display: none;
+}
+
+/* Estilização do botão de filtro (Label) */
+.filtro-item {
+    cursor: pointer;
+}
+
+.filtro-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* 8px */
+    padding: 0.5rem 1rem; /* 8px 16px */
+    border-radius: 1.25rem; /* 20px */
+    background-color: #e2e2e2;
+    color: #666;
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 0.0625rem solid transparent; /* 1px */
+}
+
+.filtro-label i {
+    font-size: 1.125rem; /* 18px */
+}
+
+/* Estado quando o checkbox estiver marcado */
+.filtro-checkbox:checked + .filtro-label {
+    background-color: #db5c33;
+    color: white;
+    box-shadow: 0 0.25rem 0.625rem rgba(219, 92, 51, 0.3); /* 4px 10px */
+}
+
+/* Efeito de hover */
+.filtro-item:hover .filtro-label {
+    background-color: #cecece;
+}
+
+.filtro-checkbox:checked + .filtro-item:hover .filtro-label {
+    background-color: #c44d28;
+}
+
+
+
+/* motoristas */
+
+.filtros-container-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    padding: 0;
+    border-top: none;
+    margin-top: 0;
+}
+
+.filtros-topo-agrupado {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.filtro-item-inline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.filtro-item-inline:hover {
+    color: #db5c33; /* Cor Terracota do projeto */
+}
+
+.filtro-checkbox-discreto {
+    accent-color: #db5c33;
+    cursor: pointer;
+}
+
+.grupo-filtro {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    padding: 0 12px;
+    height: 38px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.grupo-filtro:hover {
+    border-color: #db5c33;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.grupo-filtro span {
+    color: #666;
+    font-weight: 500;
+}
+
+.label-filtro {
+    font-weight: 600;
+    color: #db5c33;
+    margin-right: 5px;
+}
+
+.select-filtro {
+    background: transparent;
+    border: none;
+    outline: none;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    cursor: pointer;
+}
+
+.grupo-filtro label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+
+/* Filtros Veículos */
+
+.barra-filtros-veiculos {
+    padding: 15px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+}
+
+.input-filtro-curto {
+    width: 80px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-filtro-data {
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}

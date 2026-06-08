@@ -1,0 +1,611 @@
+/* ==========================================
+   MODAIS (POPUPS)
+   ========================================== */
+
+.modal-overlay,
+.modal-caixa {
+    display: none; /* Garante que comece fechada */
+    position: fixed;
+    z-index: 1000;
+}
+
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-caixa {
+    top: 50%;
+    left: 50%;
+    max-height: 90vh;
+    transform: translate(-50%, -50%); /* Centraliza na tela */
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); /* Sombra mais suave e dispersa */
+}
+
+.modal-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+}
+.modal-corpo { 
+    max-height: 80vh; 
+    overflow-y: auto;
+    padding: 20px;
+ }
+
+
+
+.btn-fechar {
+    background: none; border: none; font-size: 20px; cursor: pointer;
+}
+
+/* Classe para mostrar o modal no JS */
+.mostrar-modal { display: block !important; }
+
+.modal-overlay.mostrar-modal,
+.modal-caixa.mostrar-modal {
+    display: block;
+}
+
+.modal-caixa input[type="number"],
+.modal-caixa input[type="text"],
+.modal-caixa input[type="date"] {
+    width: 100%;
+    padding: 0.625rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box; /* Garante que o padding não estoure a largura */
+}
+
+.modal-caixa input:focus {
+    border-color: #db5c33;
+}
+
+.input-discreto-num {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    width: 60px;
+    text-align: center;
+    background: transparent;
+    outline: none;
+    font-weight: 600;
+    color: #db5c33;
+}
+
+.input-discreto-num:focus {
+    border-bottom-color: #db5c33;
+}
+
+/* Ajuste de tamanho para o modal de configuração */
+.modal-larga {
+    width: 650px; /* Mais largo para caber as 3 colunas de checkbox */
+    padding: 10px;
+}
+
+/* O botão X flutuante no canto superior direito */
+.btn-fechar-flutuante {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #db5c33; /* Cor terracota da imagem */
+    cursor: pointer;
+}
+
+/* Títulos internos do modal com serifa */
+.titulo-modal-serif {
+    font-size: 22px;
+    color: #000;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.mt-20 { margin-top: 0px !important; }
+
+.acoes-modal-centralizadas {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões principais à direita */
+    align-items: center;
+    gap: 15px; /* Espaçamento menor e mais moderno */
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee
+}
+
+.btn-modal-salvar, 
+.btn-modal-deletar, 
+.btn-modal-deletar-real {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 45px; /* Altura fixa para consistência */
+    padding: 0 25px;
+    border-radius: 8px;
+    font-size: 15px; /* Fonte levemente menor para maior elegância */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+/* Botão de Excluir (lado esquerdo) */
+.btn-modal-deletar-real {
+    background-color: #fff;
+    color: #d93025;
+    border: 1px solid #d93025;
+    margin-right: auto; /* Truque para empurrar este botão para a esquerda */
+}
+
+.btn-modal-deletar-real:hover {
+    background-color: #fff1f0;
+}
+
+.btn-modal-salvar {
+    background-color: #db5c33;
+    color: white;
+}
+
+.btn-modal-salvar:active, .btn-modal-deletar:active {
+    background-color: #db5c33;
+    color: white;
+}
+
+.btn-modal-salvar:hover {
+    background-color: #c44d29;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(219, 92, 51, 0.3);
+}
+
+.btn-modal-deletar {
+    background-color: #f0f0f0;
+    color: #444;
+    box-shadow: none;
+}
+
+.btn-modal-deletar:hover {
+    background-color: #e5e5e5;
+}
+
+.grid-2-colunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Organiza os checkboxes em três colunas */
+.grid-3-colunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    font-size: 14px;
+}
+
+/* Estiliza os grupos de label + input */
+.input-grupo-form {
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.secao-form-modal h3 {
+    margin: 0 0 12px 0; /* Margem apenas abaixo do título */
+    font-size: 14px;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.secao-form-modal {
+    margin-bottom: 20px;
+}
+
+.secao-form-modal:last-of-type {
+    margin-bottom: 0;
+}
+
+/* 5. Ajuste fino nos inputs para ficarem mais compactos */
+.input-grupo-form input {
+    height: 38px; /* Altura padrão para todos os inputs */
+    padding: 8px 12px;
+}
+
+.input-grupo-form label, 
+.label-cnh-custom {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #db5c33 !important; /* Tom laranja de volta */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+/* Estilo padronizado para os campos de digitação dentro do modal */
+.input-grupo-form input[type="text"],
+.input-grupo-form input[type="email"],
+.input-grupo-form input[type="date"],
+.input-grupo-form input[type="number"],
+.input-grupo-form select {
+    width: 100%;
+    height: 40px; /* Altura consistente */
+    padding: 8px 12px;
+    border: 1.5px solid #e0e0e0; /* Borda mais suave */
+    border-radius: 6px;
+    background-color: #f9f9f9; /* Fundo levemente acinzentado */
+    font-family: 'Inter', sans-serif; /* Alinhado com as fontes do projeto */
+    font-size: 14px;
+    color: #333;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+.input-grupo-form input[type="number"]:focus {
+    border-left-color: #db5c33;
+    border-color: #db5c33;
+}
+
+.input-grupo-form input {
+    border-left: 4px solid #e0e0e0; /* Detalhe lateral elegante */
+}
+
+.input-grupo-form input:focus {
+    border-left-color: #db5c33; /* A barra lateral acende no foco */
+}
+
+/* Efeito de foco: realça o campo que está sendo editado */
+.input-grupo-form input:focus,
+.input-grupo-form select:focus {
+    outline: none;
+    background-color: #fff;
+    border-color: #db5c33; /* Cor terracota do projeto */
+    box-shadow: 0 0 0 3px rgba(219, 92, 51, 0.1); /* Brilho sutil */
+}
+
+.input-grupo-form input:focus + label,
+.input-grupo-form input:not(:placeholder-shown) + label {
+    color: #c44d29;
+}
+
+.grid-3-colunas-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.radio-status.tipo-veiculo-container {
+    gap: 8px;
+}
+
+.radio-status.tipo-veiculo-container label {
+    width: auto; 
+    min-width: 100px; 
+    padding: 0 15px;
+    border-radius: 20px !important;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.radio-status.tipo-veiculo-container label:has(input:checked) {
+    background-color: #db5c33 !important;
+    color: white !important;
+    border-color: #db5c33 !important;
+}
+
+/* Organiza os botões de rádio (Ativo, Pendente, Inativo) na horizontal */
+.radio-status {
+    display: flex;
+    gap: 15px; 
+    padding: 5px 0;
+    flex-wrap: nowrap;
+}
+
+.radio-status label {
+    display: flex !important; /* Força o flex para centralizar a letra */
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 50% !important; /* Garante que seja redondo */
+    background: #f9f9f9;
+    cursor: pointer;
+    font-weight: 700;
+    color: #666;
+    margin: 0 !important; /* Remove margens que podem desalinhá-lo */
+    transition: all 0.2s ease;
+    position: static;
+}
+
+.radio-status input[type="checkbox"],
+.radio-status input[type="radio"] {
+    display: none;
+}
+
+.radio-status input[type="checkbox"]:checked + label,
+.radio-status input[type="radio"]:checked + label{
+    background-color: #db5c33;
+    color: white;
+    border-color: #db5c33;
+    box-shadow: 0 3px 8px rgba(219, 92, 51, 0.3);
+}
+
+.radio-status label:hover {
+    border-color: #db5c33;
+    background: #fff5f2;
+}
+
+/* Estilo visual para campos bloqueados (somente leitura) */
+.input-grupo-form input[readonly] {
+    background-color: #f0f0f0;
+    color: #888;
+    cursor: not-allowed;
+    border-color: #ddd;
+}
+
+/* Remove a borda de foco azul caso a pessoa tente clicar mesmo assim */
+.input-grupo-form input[readonly]:focus {
+    outline: none;
+}
+
+/* ==========================================
+   ESTILOS ESPECÍFICOS DO MODAL DE VISUALIZAR
+   ========================================== */
+
+/* Coloca a lista/tabela do lado esquerdo e a caixa de texto do lado direito */
+.grid-view-lado-a-lado {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Divide meio a meio */
+    gap: 30px;
+    align-items: stretch; /* Estica a caixa de texto para acompanhar a altura do vizinho */
+}
+
+/* Estilo para as habilidades listadas em texto */
+.lista-habilidades-view p {
+    margin: 0 0 10px 0;
+    font-size: 15px;
+    color: #333;
+}
+
+/* Garante que o textarea acompanhe a altura do grid e não possa ser esticado pelo usuário */
+.grid-view-lado-a-lado textarea {
+    height: 100%;
+    min-height: 100px; /* Altura mínima para não ficar esmagado */
+    resize: none; /* Tira aquela setinha de puxar o canto da caixa */
+}
+
+/* Adaptação da tabela de disponibilidade para caber bonito no modal */
+.tabela-view {
+    font-size: 12px; /* Letra menor */
+}
+
+.tabela-view th, .tabela-view td {
+    padding: 6px; /* Menos espaço interno */
+}
+
+/* Ajuste nos checkboxes desativados para eles não ficarem tão "invisíveis" */
+.tabela-view input[type="checkbox"]:disabled {
+    opacity: 0.8; 
+}
+
+
+/* Modal de Confirmação Estilo Referência */
+.modal-confirmacao {
+    width: 400px; 
+    background-color: #ffffff;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.header-confirmacao {
+    background-color: #fef2f2;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #fee2e2;
+}
+
+.header-confirmacao i {
+    color: #dc2626; 
+    font-size: 3rem !important;
+}
+
+.header-confirmacao h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #991b1b;
+    margin: 0;
+    text-align: center;
+}
+
+.conteudo-confirmacao {
+    padding: 24px;
+    text-align: center;
+    color: #4b5563;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.conteudo-confirmacao strong {
+    color: #1f2937;
+    display: block;
+    margin-top: 8px;
+}
+
+.acoes-confirmacao {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 0 24px 24px 24px;
+}
+
+.btn-cancela-confirmacao, .btn-sim-confirmacao {
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    padding: 0.8rem 2.5rem; /* Altura e largura padronizadas */
+    border-radius: 1.5rem;  /* Formato de pílula em ambos */
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn-cancela-confirmacao {
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancela-confirmacao:hover {
+    background: #e5e7eb;
+}
+
+.btn-sim-confirmacao {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn-sim-confirmacao:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+}
+
+
+.radio-status input[type="radio"]:checked + label,
+.radio-status input[type="checkbox"]:checked + label {
+    color: #ffffff !important; /* Força o branco sobre o fundo laranja */
+    box-shadow: 0 3px 8px rgba(219, 92, 51, 0.4);
+}
+
+
+
+
+/* Estilo Pílula para o Status do Aluno */
+#status-container-pílula {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+#status-container-pílula .radio-opcao {
+    display: none; /* Esconde o rádio padrão */
+}
+
+#status-container-pílula .label-pilula {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 24px; /* Formato de pílula */
+    border-radius: 20px !important; /* Arredondado nas pontas */
+    border: 1px solid #e0e0e0;
+    background: #f9f9f9;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: #666;
+    transition: all 0.2s ease;
+    min-width: 100px;
+}
+
+/* Quando selecionado -> Fica Vermelho e Texto Branco */
+#status-container-pílula .radio-opcao:checked + .label-pilula {
+    background-color: #db5c33 !important; /* Vermelho padrão */
+    color: white !important;
+    border-color: #db5c33 !important;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+}
+
+/* Hover suave */
+#status-container-pílula .label-pilula:hover {
+    border-color: #db5c33;
+    background: #fff5f5;
+}
+
+/* ==========================================
+   ESTILIZAÇÃO CUSTOMIZADA - VOLUNTÁRIOS
+   ========================================== */
+
+/* 2. Checkboxes de Habilidades estilo "Tag" */
+.grid-habilidades-custom {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.grid-habilidades-custom label {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: #ffffff;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.grid-habilidades-custom input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #db5c33; /* Checkbox fica vermelho */
+}
+
+.grid-habilidades-custom label:has(input:checked) {
+    border-color: #db5c33;
+    background-color: #fef2f2;
+    color: #db5c33;
+    font-weight: 600;
+}
+
+/* 3. Ajuste na Tabela de Disponibilidade */
+.tabela-disponibilidade {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.tabela-disponibilidade th {
+    color: #db5c33; /* Mantendo seu padrão de títulos */
+    font-size: 11px;
+}
+
+.tabela-disponibilidade input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #db5c33;
+}

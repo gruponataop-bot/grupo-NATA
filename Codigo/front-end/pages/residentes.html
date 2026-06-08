@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Residentes - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/tabela.css">
+    <link rel="stylesheet" href="../css/modal-padrao.css">
+    <link rel="stylesheet" href="../css/adicionar.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/residente.js" defer></script>
+</head>
+
+<body data-nav-active="residentes">
+    <div class="layout-app">
+
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Residentes</h1>
+                </div>
+
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+                <div class="page-header">
+                    <div>
+                        <p class="page-subtitle">Gerenciamento dos residentes do programa</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-adicionar" onclick="window.location.href='cadastroresidente.html'">
+                            <i class="ph ph-plus"></i> Adicionar Residente
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="barra-filtros">
+                    <div class="input-grupo pesquisa">
+                        <input type="text" id="pesquisa-nome" placeholder="Pesquisar">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </div>
+
+                </div>
+                <div class="tabela-container">
+                    <table class="tabela-dados">
+                        <thead>
+                            <tr>
+                                <th>Nome do Residente</th>
+                                <th>Telefone</th>
+                                <th>Projeto</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-residentes-body">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginação -->
+                <div class="paginacao-container">
+                    <span class="info-paginacao" id="info-paginacao">Carregando informações...</span>
+                    <div class="controles-paginacao" id="controles-paginacao">
+                    </div>
+                </div>
+
+                <div id="modal-overlay" class="modal-overlay" onclick="fecharModais()"></div>
+
+                <div id="modal-visualizar" class="modal-caixa modal-larga">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Dados do Residente</h2>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <div class="em-body">
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Projeto</label>
+                                <input type="text" id="view-projeto" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Status</label>
+                                <input type="text" id="view-status" readonly>
+                            </div>
+                        </div>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome Completo</label>
+                                <input type="text" id="view-nome" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>CPF</label>
+                                <input type="text" id="view-cpf" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Data de Nascimento</label>
+                                <input type="date" id="view-nascimento" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Telefone</label>
+                                <input type="text" id="view-telefone" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Email</label>
+                                <input type="email" id="view-email" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Endereço</label>
+                                <input type="text" id="view-endereco" readonly>
+                            </div>
+                        </div>
+                        <div class="em-field">
+                            <label>Necessidades Específicas</label>
+                            <textarea id="view-necessidades" readonly></textarea>
+                        </div>
+                        <p class="em-section-title">Contato de Emergência</p>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome do Responsável</label>
+                                <input type="text" id="view-contatoEmergencia" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Parentesco</label>
+                                <input type="text" id="view-parentesco" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Telefone de Emergência</label>
+                                <input type="text" id="view-telefoneEmergencia" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="em-footer">
+                        <button class="em-btn-cancel" onclick="fecharModais()">Fechar</button>
+                    </div>
+                </div>
+
+                <div id="modal-editar" class="modal-caixa modal-larga">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Editar Residente</h2>
+                            <p class="em-subtitle">Atualize os dados do residente</p>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <form id="form-editar-residente" class="em-body">
+                        <input type="hidden" id="edit-id">
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Projeto</label>
+                                <select id="edit-projeto">
+                                    <option value="">Selecione um projeto...</option>
+                                </select>
+                            </div>
+                            <div class="em-field">
+                                <label>Status</label>
+                                <div class="em-radios">
+                                    <label><input type="radio" name="edit-status" value="ativo" id="edit-ativo"> Ativo</label>
+                                    <label><input type="radio" name="edit-status" value="inativo" id="edit-inativo"> Inativo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome completo</label>
+                                <input type="text" id="edit-nome" required>
+                            </div>
+                            <div class="em-field">
+                                <label>CPF</label>
+                                <input type="text" id="edit-cpf">
+                            </div>
+                            <div class="em-field">
+                                <label>Data de Nascimento</label>
+                                <input type="date" id="edit-dataNascimento">
+                            </div>
+                            <div class="em-field">
+                                <label>Telefone</label>
+                                <input type="text" id="edit-telefone">
+                            </div>
+                            <div class="em-field">
+                                <label>Email</label>
+                                <input type="email" id="edit-email">
+                            </div>
+                            <div class="em-field">
+                                <label>Endereço</label>
+                                <input type="text" id="edit-endereco">
+                            </div>
+                        </div>
+                        <div class="em-field">
+                            <label>Necessidades Especiais</label>
+                            <textarea id="edit-necessidades"></textarea>
+                        </div>
+                        <p class="em-section-title">Contato de Emergência</p>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome do Responsável</label>
+                                <input type="text" id="edit-contatoEmergencia">
+                            </div>
+                            <div class="em-field">
+                                <label>Parentesco</label>
+                                <input type="text" id="edit-parentesco">
+                            </div>
+                            <div class="em-field">
+                                <label>Telefone de Emergência</label>
+                                <input type="text" id="edit-telefoneEmergencia">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="em-footer">
+                        <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
+                        <button type="submit" form="form-editar-residente" class="em-btn-save">
+                            <i class="ph ph-floppy-disk"></i> Salvar Alterações
+                        </button>
+                    </div>
+                </div>
+
+                <div id="modal-config" class="modal-caixa modal-confirmacao">
+                    <div class="em-confirm-head">
+                        <i class="ph ph-warning-circle"></i>
+                        <h3>Excluir Residente</h3>
+                    </div>
+                    <div class="em-confirm-body">
+                        Atenção: A exclusão é permanente e removerá todos os dados do residente.
+                        <strong><span id="config-nome-display"></span></strong>
+                    </div>
+                    <div class="em-confirm-foot">
+                        <button type="button" class="em-confirm-cancel" onclick="fecharModais()">Cancelar</button>
+                        <button type="button" class="em-confirm-delete" onclick="deletarParticipante()">
+                            <i class="ph ph-trash"></i> Excluir
+                        </button>
+                    </div>
+                </div>
+
+        </div>
+        </main>
+
+        <div id="footer-container"></div>
+
+    </div>
+    </div>
+
+</body>
+
+</html>

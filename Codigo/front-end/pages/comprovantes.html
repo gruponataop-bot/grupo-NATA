@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerar Comprovante - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css"> 
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/comprovante.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=MonteCarlo&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/comprovantes.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+<body data-nav-active="comprovantes">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Comprovante de doação</h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal-comprovante">
+                <section class="coluna-input">
+                    <button class="btn-voltar" onclick="abrirModalHistorico()">
+                        <i class="ph ph-clock-counter-clockwise"></i> Histórico de comprovantes
+                    </button>
+
+                    <div class="seletor-tipo">
+                        <h3>Escolha o tipo de comprovante:</h3>
+                        <div class="botoes-tipo">
+                            <button class="tipo-btn ativo" id="btn-oleo">Doação de óleo</button>
+                            <button class="tipo-btn" id="btn-pix">Doação PIX</button>
+                        </div>
+                    </div>
+
+                    <form id="form-comprovante">
+                        <div class="form-secao">
+                            <h4>Dados do comprovante</h4>
+                            <div class="input-grupo-form">
+                                <label>Empresa *</label>
+                                <select id="input-empresa" required>
+                                    <option value="">Selecione a empresa</option>
+                                    </select>
+                            </div>
+                            <div class="input-grupo-form">
+                                <label>Valor/Quantidade *</label>
+                                <input type="number" id="input-litros" placeholder="Quantidade em litros" required>
+                            </div>
+                        </div>
+
+                        <div class="input-grupo-form">
+                            <label>Data do Comprovante *</label>
+                            <input type="date" id="input-data" required>
+                        </div>
+
+                        <div class="form-secao">
+                            <div class="header-assinatura">
+                                <h4>Assinatura</h4>
+                                <button type="button" class="btn-assinatura-virtual" id="toggle-assinatura">
+                                     Assinatura vitual
+                                </button>
+                            </div>
+                            <div class="input-grupo-form">
+                                <label>Nome</label>
+                                <input type="text" id="input-nome-assinatura" placeholder="Nome do assinante">
+                            </div>
+                            <div class="input-grupo-form">
+                                <label>Cargo</label>
+                                <input type="text" id="input-cargo-assinatura" placeholder="Cargo">
+                            </div>
+                        </div>
+
+                        <div class="form-secao">
+                            <h4>Modelo de Emissão</h4>
+                            <div class="input-grupo-form">
+                                <button type="button" class="btn-modelo-especifico" id="btn-modelo-elisete">
+                                    <i class="ph ph-user-switch"></i> Usar modelo Elisete Câncio
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </section>
+
+                
+                <section class="coluna-preview">
+                    <div class="folha-a4" id="area-pdf">
+                        <div class="header-recibo">
+                            <img src="../img/logoNataComprovante.png" alt="Logo Nata" class="logo-recibo">
+                            <p class="linha-decorativa">NATA - Núcleo de Apoio aos Toxicômanos e Alcoólatras</p>
+                        </div>
+
+                        <div class="corpo-recibo">
+                            <h2 class="titulo-recibo">RECIBO</h2>
+                            <p class="texto-principal">
+                                Recebemos da Empresa <span class="campo-dinamico" id="view-empresa">________________</span> 
+                                <span class="campo-dinamico" id="view-litros">X (xxx)</span> litros de óleo de cozinha usado referente a doação para a Casa de Acolhimento São Francisco de Assis (NATA).
+                            </p>
+                            <p class="atenciosamente">Atenciosamente,</p>
+                        </div>
+
+                        <div class="assinatura-recibo">
+                            <div class="linha-assinatura"></div>
+                            <p id="view-nome-assinante">Nome do assinante</p>
+                            <p id="view-cargo-assinante">Cargo do assinante</p>
+                        </div>
+
+                        <div class="rodape-recibo">
+                            <p class="cidade-data">Ouro Preto, <span id="data-atual">01 de julho de 2022</span></p>
+                            <div class="info-instituicao">
+                                <strong>NATA</strong><br>
+                                Rua das Orquídeas, 01-Santa Cruz/Ouro Preto MG<br>
+                                Contato: 3551-6749 ou 98666-2311<br>
+                                CNPJ: 02.695.611/0001-27
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="acoes-finais">
+                        <button class="btn-gerar" id="btn-gerar-pdf">
+                            <i class="ph ph-gear"></i> Gerar PDF
+                        </button>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal-caixa" id="modal-historico" style="display: none;">
+        <div class="modal-conteudo-historico">
+            <header class="modal-header">
+                <h3><i class="ph ph-clock-counter-clockwise"></i> Histórico de Comprovantes</h3>
+                <button class="btn-fechar-modal" onclick="fecharModalHistorico()">&times;</button>
+            </header>
+            
+            <div class="modal-corpo">
+                <table class="tabela-comprovantes">
+                    <thead>
+                        <tr>
+                            <th>Entidade</th>
+                            <th>Tipo</th>
+                            <th>Data</th>
+                            <th>Baixar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-historico-body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

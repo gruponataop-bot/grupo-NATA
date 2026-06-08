@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pontos de Coleta e Entrega - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cardAnimadoFoto.css">
+    <link rel="stylesheet" href="../css/modal-padrao.css">
+    <link rel="stylesheet" href="../css/filtros.css">
+    <link rel="stylesheet" href="../css/adicionar.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+    <link rel="stylesheet" href="../css/switchView.css">
+    <link rel="stylesheet" href="../css/tabela.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/geocoding.js" defer></script>
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/pontos.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/switchView.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="pontos">
+
+    <div id="alert-container" class="alert-container"></div>
+
+    <div class="layout-app">
+
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1> Pontos de Coleta e Entrega </h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+                <div class="page-header">
+                    <div>
+                        <p class="page-subtitle">Gerenciamento de pontos de coleta e entrega</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-adicionar" onclick="window.location.href='cadastroponto.html'">
+                            <i class="ph ph-plus"></i> Adicionar Ponto
+                        </button>
+                    </div>
+                </div>
+
+                <div class="barra-filtros">
+                    <div class="filtros-topo-agrupado">
+                        <div class="input-grupo pesquisa">
+                            <i class="ph ph-magnifying-glass"></i>
+                            <input type="text" id="pesquisa-nome" placeholder="Pesquisar ponto ou representante...">
+                        </div>
+
+                        <div class="filtros-container-flex">
+                            <div class="grupo-filtro">
+                                <span class="label-filtro">Tipo:</span>
+                                <label class="filtro-item-inline">
+                                    <input type="checkbox" id="filtro-coleta" class="filtro-checkbox-discreto">
+                                    <i class="ph ph-truck"></i> Coleta
+                                </label>
+                                <label class="filtro-item-inline">
+                                    <input type="checkbox" id="filtro-entrega" class="filtro-checkbox-discreto">
+                                    <i class="ph ph-package"></i> Entrega
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="view-switcher" id="view-switcher">
+                            <button class="btn-view" data-view="tabela" title="Visualização em Tabela">
+                                <i class="ph ph-table"></i>
+                                <span>Tabela</span>
+                            </button>
+                            <button class="btn-view" data-view="cards" title="Visualização em Cards">
+                                <i class="ph ph-squares-four"></i>
+                                <span>Cards</span>
+                            </button>
+                            <div class="switch-selection"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="container-pontos" class="container-cards" style="display: none;"> </div>
+
+
+                <div id="tabela-pontos-container" class="tabela-container" style="display: block;">
+                    <table class="tabela-dados">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Responsável</th>
+                                <th>Cidade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-tabela-pontos">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacao-container">
+                    <span class="info-paginacao" id="info-paginacao">Carregando informações...</span>
+                    <div class="controles-paginacao" id="controles-paginacao"></div>
+                </div>
+
+                <div class="modal-overlay" id="modal-overlay" onclick="fecharModais()"></div>
+
+                <div class="modal-caixa modal-larga" id="modal-editar-ponto">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Editar Ponto</h2>
+                            <p class="em-subtitle">Atualize os dados do ponto de coleta ou entrega</p>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <form id="form-editar-ponto" class="em-body">
+                        <input type="hidden" id="editar-id">
+                        <div class="em-field">
+                            <label>Nome do Ponto</label>
+                            <input type="text" id="editar-nome" required placeholder="Ex: Unidade Centro">
+                        </div>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Ponto de coleta</label>
+                                <div class="em-radios">
+                                    <label><input type="radio" name="editar-ponto-coleta" id="coleta-sim" value="true">
+                                        Sim</label>
+                                    <label><input type="radio" name="editar-ponto-coleta" id="coleta-nao" value="false">
+                                        Não</label>
+                                </div>
+                            </div>
+                            <div class="em-field">
+                                <label>Ponto de entrega</label>
+                                <div class="em-radios">
+                                    <label><input type="radio" name="editar-ponto-entrega" id="entrega-sim"
+                                            value="true"> Sim</label>
+                                    <label><input type="radio" name="editar-ponto-entrega" id="entrega-nao"
+                                            value="false"> Não</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>CEP</label>
+                                <input type="text" id="editar-cep" placeholder="00000-000">
+                            </div>
+                            <div class="em-field">
+                                <label>Cidade</label>
+                                <input type="text" id="editar-cidade">
+                            </div>
+                        </div>
+                        <div class="em-g3">
+                            <div class="em-field">
+                                <label>Rua/Avenida</label>
+                                <input type="text" id="editar-rua">
+                            </div>
+                            <div class="em-field">
+                                <label>Número</label>
+                                <input type="text" id="editar-numero">
+                            </div>
+                            <div class="em-field">
+                                <label>Bairro</label>
+                                <input type="text" id="editar-bairro">
+                            </div>
+                        </div>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Complemento</label>
+                                <input type="text" id="editar-complemento">
+                            </div>
+                            <div class="em-field">
+                                <label>Representante</label>
+                                <input type="text" id="editar-contato">
+                            </div>
+                        </div>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>E-mail</label>
+                                <input type="email" id="editar-email" placeholder="email@exemplo.com">
+                            </div>
+                            <div class="em-field">
+                                <label>Telefone</label>
+                                <input type="text" id="editar-telefone" placeholder="(00) 00000-0000">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="em-footer em-footer--split">
+                        <button type="button" class="em-btn-danger" onclick="abrirConfirmacaoExclusao()">
+                            <i class="ph ph-trash"></i> Excluir
+                        </button>
+                        <div class="em-footer-end">
+                            <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
+                            <button type="submit" form="form-editar-ponto" class="em-btn-save">
+                                <i class="ph ph-floppy-disk"></i> Atualizar Dados
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-caixa modal-confirmacao" id="modal-confirmar-exclusao">
+                    <div class="em-confirm-head">
+                        <i class="ph ph-warning-circle"></i>
+                        <h3>Confirmar Exclusão</h3>
+                    </div>
+                    <div class="em-confirm-body">
+                        Você está prestes a excluir permanentemente:
+                        <strong><span id="nome-exclusao-corpo"></span></strong>
+                        <span id="nome-exclusao-titulo" style="display:none"></span>
+                    </div>
+                    <div class="em-confirm-foot">
+                        <button type="button" class="em-confirm-cancel" onclick="fecharConfirmacao()">Cancelar</button>
+                        <button type="button" class="em-confirm-delete" id="btn-confirmar-delete">Sim, excluir</button>
+                    </div>
+                </div>
+
+                <script src="https://unpkg.com/@phosphor-icons/web"></script>
+            </main>
+
+            <div id="footer-container"></div>
+
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Projetos - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/projetos.css">
+    <link rel="stylesheet" href="../css/adicionar.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/projetos.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+
+    <style>
+        /* ===== MODAL EDITAR PROJETO ===== */
+        .em-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0,0,0,.18);
+            width: 100%;
+            max-width: 640px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: emIn .22s cubic-bezier(.22,1,.36,1);
+        }
+
+        @keyframes emIn {
+            from { opacity: 0; transform: translateY(14px) scale(.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .em-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 20px 26px 16px;
+            border-bottom: 1px solid #e8e2db;
+            flex-shrink: 0;
+        }
+
+        .em-title {
+            font-family: 'Lora', serif;
+            font-size: 19px;
+            font-weight: 500;
+            color: #1c1917;
+            margin: 0 0 2px;
+            line-height: 1.2;
+        }
+
+        .em-subtitle {
+            font-size: 12px;
+            color: #9c9890;
+            margin: 0;
+        }
+
+        .em-close {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: none;
+            border: none;
+            color: #9c9890;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background .15s, color .15s;
+        }
+        .em-close:hover { background: #f5f3f0; color: #1c1917; }
+
+        .em-body {
+            padding: 18px 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+
+        .em-g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-width: 0; }
+        .em-g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; min-width: 0; }
+
+        .em-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-width: 0;
+        }
+
+        .em-field label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #6b6760;
+        }
+
+        .em-opt { font-weight: 400; color: #b5aba4; font-size: 11px; }
+
+        .em-field input[type="text"],
+        .em-field input[type="date"],
+        .em-field select,
+        .em-field textarea {
+            width: 100%;
+            padding: 8px 11px;
+            border: 1.5px solid #e8e2db;
+            border-radius: 8px;
+            background: #f5f3f0;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13.5px;
+            color: #1c1917;
+            box-sizing: border-box;
+            transition: border-color .15s, box-shadow .15s, background .15s;
+            -webkit-appearance: none;
+            appearance: none;
+            min-width: 0;
+        }
+
+        .em-field input::placeholder,
+        .em-field textarea::placeholder { color: #c2b9b3; }
+
+        .em-field input:focus,
+        .em-field select:focus,
+        .em-field textarea:focus {
+            outline: none;
+            border-color: #db5c33;
+            box-shadow: 0 0 0 3px rgba(219,92,51,.1);
+            background: #fff;
+        }
+
+        .em-field select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2378716c' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 30px;
+            cursor: pointer;
+        }
+
+        .em-field textarea {
+            resize: none;
+            min-height: 62px;
+            line-height: 1.5;
+        }
+
+        /* Upload compacto */
+        .em-upload {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border: 1.5px dashed #e8e2db;
+            border-radius: 8px;
+            background: #f5f3f0;
+            cursor: pointer;
+            transition: border-color .15s, background .15s;
+        }
+        .em-upload:hover { border-color: #db5c33; background: #f7ece6; }
+
+        .em-thumb {
+            width: 46px;
+            height: 46px;
+            border-radius: 7px;
+            background-size: cover;
+            background-position: center;
+            background-color: #e8e2db;
+            flex-shrink: 0;
+        }
+        .em-thumb.image-preview--filled { border: 1px solid #ccc; }
+
+        .em-upload-info { flex: 1; min-width: 0; }
+        .em-upload-label { font-size: 13px; font-weight: 500; color: #1c1917; margin: 0 0 2px; }
+        .em-upload-hint  { font-size: 11.5px; color: #9c9890; margin: 0; }
+        .em-upload-icon  { font-size: 18px; color: #db5c33; flex-shrink: 0; }
+
+        /* Rodapé */
+        .em-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 26px;
+            border-top: 1px solid #e8e2db;
+            flex-shrink: 0;
+            background: #fff;
+        }
+
+        .em-btn-cancel {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #6b6760;
+            background: none;
+            border: 1.5px solid #e8e2db;
+            border-radius: 8px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: all .15s;
+        }
+        .em-btn-cancel:hover { background: #f5f3f0; color: #1c1917; border-color: #c9c2bc; }
+
+        .em-btn-save {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #fff;
+            background: #db5c33;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            box-shadow: 0 3px 12px rgba(219,92,51,.26);
+            transition: background .15s, transform .1s, box-shadow .15s;
+        }
+        .em-btn-save:hover {
+            background: #c44d28;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 16px rgba(219,92,51,.32);
+        }
+        .em-btn-save:active { transform: translateY(0); }
+    </style>
+</head>
+
+<body data-nav-active="projetos">
+    <div class="layout-app">
+
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Projetos</h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="page-content">
+
+                <!-- Cabeçalho -->
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Projetos</h1>
+                        <p class="page-subtitle">Gerencie os projetos sociais do NATA</p>
+                    </div>
+                    <button class="btn btn-adicionar" onclick="window.location.href='cadastroprojeto.html'">
+                        + Novo Projeto
+                    </button>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filters-bar">
+                    <input type="text" id="filtroNome" placeholder="Buscar projeto..." class="filter-input" oninput="filtrar()">
+                    <select id="filtroStatus" class="filter-select" onchange="filtrar()">
+                        <option value="">Todos os status</option>
+                        <option value="Ativo">Ativo</option>
+                        <option value="Encerrado">Encerrado</option>
+                        <option value="Suspenso">Suspenso</option>
+                    </select>
+                    <select id="filtroTipo" class="filter-select" onchange="filtrar()">
+                        <option value="">Todos os tipos</option>
+                        <option value="Social">Social</option>
+                        <option value="Educacional">Educacional</option>
+                        <option value="Esportivo">Esportivo</option>
+                        <option value="Saúde">Saúde</option>
+                    </select>
+                </div>
+
+                <!-- Tabela -->
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Projeto</th>
+                                <th>Tipo</th>
+                                <th>Público-alvo</th>
+                                <th>Início</th>
+                                <th>Término</th>
+                                <th>Status</th>
+                                <th>Responsável</th>
+                                <th>Participantes</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaProjetos"></tbody>
+                    </table>
+                    <div id="emptyState" class="empty-state" style="display:none">
+                        <p>Nenhum projeto encontrado.</p>
+                    </div>
+                </div>
+
+                <!-- Paginação -->
+                <div class="pagination" id="paginacao"></div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Edição -->
+    <div id="modalForm" class="modal-overlay" style="display:none">
+        <div class="em-card">
+            <div class="em-header">
+                <div>
+                    <h2 class="em-title" id="modalFormTitulo">Editar Projeto</h2>
+                    <p class="em-subtitle">Atualize as informações do projeto</p>
+                </div>
+                <button class="em-close" onclick="fecharModalForm()">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+
+            <input type="hidden" id="formId">
+
+            <div class="em-body">
+                <div id="formErro" class="form-error"></div>
+
+                <div class="em-field">
+                    <label>Nome do projeto</label>
+                    <input type="text" id="formNome" placeholder="Ex: Futsal NATA">
+                </div>
+
+                <div class="em-field">
+                    <label>Descrição <span class="em-opt">(opcional)</span></label>
+                    <textarea id="formDescricao" placeholder="Descreva o projeto..."></textarea>
+                </div>
+
+                <div class="em-g3">
+                    <div class="em-field">
+                        <label>Tipo</label>
+                        <select id="formTipo">
+                            <option value="">Selecione</option>
+                            <option>Social</option>
+                            <option>Educacional</option>
+                            <option>Esportivo</option>
+                            <option>Saúde</option>
+                        </select>
+                    </div>
+                    <div class="em-field">
+                        <label>Público-alvo</label>
+                        <select id="formPublicoAlvo">
+                            <option value="">Selecione</option>
+                            <option>Comunidade</option>
+                            <option>Residente</option>
+                            <option>Ambos</option>
+                        </select>
+                    </div>
+                    <div class="em-field">
+                        <label>Status</label>
+                        <select id="formStatus">
+                            <option>Ativo</option>
+                            <option>Suspenso</option>
+                            <option>Encerrado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="em-g2">
+                    <div class="em-field">
+                        <label>Data de início</label>
+                        <input type="date" id="formDataInicio">
+                    </div>
+                    <div class="em-field">
+                        <label>Data de término <span class="em-opt">(opcional)</span></label>
+                        <input type="date" id="formDataFim">
+                    </div>
+                </div>
+
+                <div class="em-field">
+                    <label>Responsável <span class="em-opt">(opcional)</span></label>
+                    <label>Horarios do projeto <span class="em-opt">(opcional)</span></label>
+                    <textarea id="formHorarios" style="display:none"></textarea>
+                    <table class="cp-avail-table" style="margin-bottom: 10px;">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sab</th><th>Dom</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Manha</td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Seg-Manha"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Ter-Manha"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Qua-Manha"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Qui-Manha"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Sex-Manha"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Sab-Manha"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Dom-Manha"></td>
+                            </tr>
+                            <tr>
+                                <td>Tarde</td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Seg-Tarde"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Ter-Tarde"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Qua-Tarde"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Qui-Tarde"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Sex-Tarde"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Sab-Tarde"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Dom-Tarde"></td>
+                            </tr>
+                            <tr>
+                                <td>Noite</td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Seg-Noite"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Ter-Noite"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Qua-Noite"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Qui-Noite"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Sex-Noite"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Sab-Noite"></td>
+                                <td><input type="checkbox" name="form-horario-projeto" value="Dom-Noite"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <label>Termo de responsabilidade <span class="em-opt">(opcional)</span></label>
+                    <textarea id="formTermoResponsabilidade" placeholder="Termo de responsabilidade" style="margin-bottom: 10px;"></textarea>
+                    <label>Responsavel <span class="em-opt">(opcional)</span></label>
+                    <select id="formResponsavel">
+                        <option value="">Nenhum selecionado</option>
+                    </select>
+                </div>
+
+                <div class="em-field">
+                    <label>Imagem <span class="em-opt">(opcional)</span></label>
+                    <div class="em-upload" onclick="document.getElementById('formImagem').click()">
+                        <div class="em-thumb" id="imagePreview"></div>
+                        <div class="em-upload-info">
+                            <p class="em-upload-label">Clique para alterar a imagem</p>
+                            <p class="em-upload-hint">JPG ou PNG — até 2 MB</p>
+                        </div>
+                        <i class="ph ph-upload-simple em-upload-icon"></i>
+                    </div>
+                    <input type="file" id="formImagem" accept="image/*" style="display:none" onchange="previewImagem(event)">
+                </div>
+            </div>
+
+            <div class="em-footer">
+                <button class="em-btn-cancel" onclick="fecharModalForm()">Cancelar</button>
+                <button class="em-btn-save" onclick="salvarProjeto()">
+                    <i class="ph ph-check"></i> Salvar alterações
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualizar -->
+    <div id="modalVer" class="modal-overlay" style="display:none">
+        <div class="modal-card modal-card--lg">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalVerTitulo">Detalhes do Projeto</h2>
+                <button class="modal-close" onclick="fecharModalVer()">✕</button>
+            </div>
+            <div class="modal-tabs">
+                <button class="tab-btn tab-btn--active" id="tabBtnDetalhes" onclick="trocarAba('detalhes')">Detalhes</button>
+                <button class="tab-btn" id="tabBtnParticipantes" onclick="trocarAba('participantes')">
+                    Participantes<span class="tab-count" id="tabCountParticipantes">0</span>
+                </button>
+            </div>
+            <div id="abaDetalhes" class="tab-content">
+                <div id="modalVerConteudo"></div>
+            </div>
+            <div id="abaParticipantes" class="tab-content" style="display:none">
+
+                <!-- Barra: busca + botão novo -->
+                <div class="participantes-toolbar">
+                    <div class="participantes-search-wrap">
+                        <i class="ph ph-magnifying-glass participantes-search-icon"></i>
+                        <input type="text" id="buscaParticipante"
+                               placeholder="Buscar participante existente por nome..."
+                               class="form-input participantes-search-input"
+                               oninput="buscarParticipante()">
+                    </div>
+                    <button class="btn btn-primary btn--sm" onclick="abrirFormNovoParticipante()">
+                        + Novo participante
+                    </button>
+                </div>
+
+                <!-- Resultado da busca -->
+                <div id="resultadoBusca" style="display:none">
+                    <div id="resultadoEncontrado" class="search-result" style="display:none">
+                        <div class="search-result__info">
+                            <span class="search-result__nome" id="resultNome"></span>
+                            <span class="search-result__sub" id="resultResponsavel"></span>
+                        </div>
+                        <button class="btn btn-primary btn--sm" onclick="vincularParticipanteEncontrado()">Vincular</button>
+                    </div>
+                    <div id="resultadoNaoEncontrado" class="search-result search-result--empty" style="display:none">
+                        <span>Nenhum participante encontrado com esse nome.</span>
+                    </div>
+                </div>
+
+                <!-- Form cadastro rápido (oculto por padrão) -->
+                <div id="formNovoParticipante" class="quick-form" style="display:none">
+                    <div class="quick-form__header">
+                        <span class="quick-form__title">Novo Participante</span>
+                        <button class="modal-close" onclick="fecharFormNovoParticipante()">✕</button>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nome completo</label>
+                            <input type="text" id="rpNome" class="form-input" placeholder="Nome do participante">
+                        </div>
+                        <div class="form-group">
+                            <label>Data de Nascimento</label>
+                            <input type="date" id="rpDataNasc" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Nome do Responsável</label>
+                            <input type="text" id="rpResponsavel" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Telefone do Responsável</label>
+                            <input type="text" id="rpTelefone" class="form-input" inputmode="tel" autocomplete="tel" maxlength="15" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="form-group form-group--full">
+                            <label>Série Escolar <span class="label-optional">(opcional)</span></label>
+                            <input type="text" id="rpSerie" class="form-input" placeholder="Ex: 5º ano">
+                        </div>
+                    </div>
+                    <div id="formNovoParticipanteErro" class="form-error"></div>
+                    <div class="quick-form__actions">
+                        <button class="btn btn-secondary btn--sm" onclick="fecharFormNovoParticipante()">Cancelar</button>
+                        <button class="btn btn-primary btn--sm" onclick="cadastrarEVincular()">Salvar e Vincular</button>
+                    </div>
+                </div>
+
+                <!-- Lista vinculados -->
+                <div class="participantes-list-section">
+                    <p class="participantes-list-label">Vinculados ao projeto</p>
+                    <div id="listaParticipantesVinculados"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="fecharModalVer()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirmar Exclusão -->
+    <div id="modalDeletar" class="modal-overlay" style="display:none">
+        <div class="modal-card modal-card--sm">
+            <div class="modal-header">
+                <h2 class="modal-title">Excluir Projeto</h2>
+                <button class="modal-close" onclick="fecharModalDeletar()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir o projeto <strong id="nomeDeletar"></strong>? Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="fecharModalDeletar()">Cancelar</button>
+                <button class="btn btn-danger" onclick="confirmarDeletar()">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

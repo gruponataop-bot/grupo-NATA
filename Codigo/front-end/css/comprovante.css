@@ -1,0 +1,492 @@
+html, body {
+    height: auto !important; 
+    overflow-y: auto !important; 
+    min-height: 100%;
+}
+
+.layout-app {
+    display: flex;
+    min-height: 100vh;
+    height: auto;
+}
+
+.conteudo-direito {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: visible;
+}
+
+.area-principal-comprovante {
+    display: flex;
+    gap: 40px;
+    padding: 20px;
+    align-items: flex-start;
+    flex: 1;
+    height: auto;
+    min-height: calc(100vh - 80px);
+}
+
+/* Coluna de Inputs (Esquerda) */
+.coluna-input {
+    flex: 1;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.seletor-tipo h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.botoes-tipo {
+    display: flex;
+    gap: 15px;
+}
+
+.tipo-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #e26a39; /* Cor principal Nata */
+    background: transparent;
+    color: #e26a39;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.tipo-btn.ativo {
+    background: #e26a39;
+    color: white;
+}
+
+/* Seções do Formulário */
+.form-secao {
+    margin-top: 20px;
+}
+
+.form-secao h4 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+}
+
+/* Coluna de Preview (Folha A4) */
+.coluna-preview {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.folha-a4 {
+    width: 100%;
+    max-width: 595px; /* Proporção A4 aproximada */
+    aspect-ratio: 1 / 1.41;
+    background: white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: #2c3e50;
+}
+
+/* Elementos Internos do PDF */
+.header-recibo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 2px solid #8B0000;
+    padding-bottom: 10px;
+}
+
+.folha-pdf {
+    background: white;
+    width: 100%;
+    aspect-ratio: 1 / 1.41; /* Proporção A4 */
+    padding: 60px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Botão de Assinatura Virtual */
+.header-assinatura {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.header-assinatura h4 {
+    border-bottom: none; /* Removemos a borda do H4 original */
+    margin-bottom: 0;
+}
+
+.logo-recibo {
+    height: 60px;
+    margin-bottom: 5px;
+}
+
+.linha-decorativa {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #8B0000;
+}
+
+.titulo-recibo {
+    text-align: center;
+    margin: 40px 0;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+.texto-principal {
+    line-height: 1.8;
+    text-align: justify;
+    font-size: 1.1rem;
+}
+
+.campo-dinamico {
+    border-bottom: 1px solid #000;
+    font-weight: 600;
+    padding: 0 5px;
+}
+
+.assinatura-recibo {
+    margin-top: auto;
+    text-align: center;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.linha-assinatura {
+    border-top: 1px solid #000;
+    margin-bottom: 5px;
+}
+
+.rodape-recibo {
+    margin-top: 50px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+/* Botões de Ação Final */
+.acoes-finais {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+
+/* Ajuste de espaçamento nos grupos do formulário */
+.input-grupo-form {
+    margin-bottom: 18px; /* Mais espaço entre os campos */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Campos de texto brancos, arredondados e com borda suave */
+.input-grupo-form input, 
+.input-grupo-form select {
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px; /* Mais arredondado */
+    padding: 12px 15px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-grupo-form input:focus, 
+.input-grupo-form select:focus {
+    border-color: #e26a39;
+    box-shadow: 0 0 0 3px rgba(226, 106, 57, 0.1);
+}
+
+
+.btn-gerar {
+    background-color: #e26a39;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-assinatura-virtual {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 6px 15px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+/* Classe que será aplicada via JS para mostrar que está ativo */
+.btn-assinatura-virtual.ativo {
+    background-color: #e26a39;
+    color: white;
+    border-color: #e26a39;
+}
+
+/* Botão Adicionar Assinatura (Ajuste para combinar) */
+.btn-adicionar-assinatura {
+    background-color: #e9ecef;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    color: #495057;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Botão de Histórico - Estética Discreta */
+.btn-voltar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa; /* Fundo bem claro, quase branco */
+    border: 1px solid #dcdcdc; /* Borda sutil */
+    color: #666; /* Texto em cinza para não chamar tanta atenção */
+    padding: 10px 18px;
+    border-radius: 10px; /* Mantendo o padrão arredondado dos inputs */
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: auto;
+}
+
+.btn-voltar i {
+    font-size: 1.2rem;
+    color: #e26a39; /* O ícone pode manter a cor do sistema para dar identidade */
+}
+
+.btn-voltar:hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+    color: #333; /* Escurece levemente no hover */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+
+.btn-modelo-especifico {
+    width: 100%;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border: 2px dashed #e26a39;
+    color: #e26a39;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-modelo-especifico:hover {
+    background-color: #e26a39;
+    color: white;
+}
+
+
+
+.modal-caixa {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-conteudo-historico {
+    background: white;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 15px;
+    padding: 25px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.btn-fechar-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
+@media print {
+    body { background: none; }
+    .conteudo-direito, .layout-app { padding: 0; margin: 0; }
+    .area-preview-papel { 
+        box-shadow: none; 
+        margin: 0; 
+        width: 100%;
+    }
+}
+
+/* Estilos específicos para a geração do PDF */
+.html2pdf__container .area-preview-papel {
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: 210mm !important; /* Largura exata do A4 */
+    min-height: 297mm !important; /* Altura exata do A4 */
+    transform: none !important;
+}
+
+/* Evita que elementos de UI apareçam caso capturados por engano */
+.html2pdf__container .btn-assinatura-tipo,
+.html2pdf__container .acoes-finais {
+    display: none !important;
+}
+
+
+/* Container do corpo do modal */
+.modal-corpo {
+    padding: 10px 5px;
+}
+
+/* Tabela Base */
+.tabela-comprovantes {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px; /* Cria o espaçamento entre as linhas */
+    margin-top: 10px;
+}
+
+/* Cabeçalho da Tabela */
+.tabela-comprovantes thead th {
+    text-align: left;
+    padding: 10px 15px;
+    color: #666;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #eee;
+}
+
+/* Linhas da Tabela (Corpo) */
+.tabela-comprovantes tbody tr {
+    background-color: #ffffff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tabela-comprovantes tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.tabela-comprovantes td {
+    padding: 15px;
+    font-size: 0.95rem;
+    color: #333;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Arredondamento das bordas das linhas (efeito de card) */
+.tabela-comprovantes td:first-child {
+    border-left: 1px solid #f0f0f0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.tabela-comprovantes td:last-child {
+    border-right: 1px solid #f0f0f0;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-align: center;
+}
+
+/* Estilização do Badges de Tipo */
+.badge-tipo {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge-oleo {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.badge-pix {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+/* Botão de Download (Círculo Laranja) */
+.btn-tabela-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background-color: #e26a39; /* Cor principal Nata */
+    color: white !important;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-tabela-view:hover {
+    background-color: #c4562d;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(226, 106, 57, 0.3);
+}
+
+.btn-tabela-view i {
+    font-size: 1.2rem;
+}

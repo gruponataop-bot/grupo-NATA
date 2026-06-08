@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Item - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/components.js" defer></script>
+    <script src="../js/estoque.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="estoque">
+    <div id="alert-container" class="alert-container"></div>
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo"><h1>Estoque</h1></div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+
+                <div class="cp-header">
+                    <button class="cp-back" onclick="window.history.back()">
+                        <i class="ph ph-caret-left"></i> Voltar
+                    </button>
+                    <div class="cp-title-block">
+                        <h2>Novo Item no Estoque</h2>
+                        <p>Preencha as informações do item a ser cadastrado</p>
+                    </div>
+                </div>
+
+                <form class="cp-form" onsubmit="cadastrarItemEstoque(event)" novalidate>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">1</div>
+                            <span class="cp-section-name">Informações Básicas</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Nome do Item / Produto</label>
+                                    <input type="text" id="nome-item" required placeholder="Ex: Arroz Tipo 1">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Categoria</label>
+                                    <select id="categoria-item">
+                                        <option value="Alimento">Alimento</option>
+                                        <option value="Higiene">Higiene</option>
+                                        <option value="Limpeza">Limpeza</option>
+                                        <option value="Material Escolar">Material Escolar</option>
+                                        <option value="Outros">Outros</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Quantidade Inicial</label>
+                                    <div class="cp-stepper">
+                                        <button type="button" class="cp-stepper-btn"
+                                            onclick="const i=document.getElementById('quantidade-item');i.value=Math.max(0,parseInt(i.value||0)-1)">
+                                            <i class="ph ph-minus"></i>
+                                        </button>
+                                        <input class="cp-stepper-input" type="text" id="quantidade-item" required value="0"
+                                            inputmode="numeric"
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                            onclick="this.select()">
+                                        <button type="button" class="cp-stepper-btn"
+                                            onclick="const i=document.getElementById('quantidade-item');i.value=parseInt(i.value||0)+1">
+                                            <i class="ph ph-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="cp-field">
+                                    <label>Valor Unitário (R$)</label>
+                                    <input type="number" id="valor-item" step="0.01" min="0" placeholder="0,00">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Unidade de Medida <span class="cp-hint">(opcional)</span></label>
+                                    <input type="text" id="unidade-item" placeholder="Ex: kg, un, pacotes">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">2</div>
+                            <span class="cp-section-name">Detalhes Técnicos</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Data de Validade <span class="cp-hint">(se houver)</span></label>
+                                    <input type="date" id="validade-item">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Estoque Mínimo (Alerta)</label>
+                                    <div class="cp-stepper">
+                                        <button type="button" class="cp-stepper-btn"
+                                            onclick="const i=document.getElementById('minimo-item');i.value=Math.max(0,parseInt(i.value||0)-1)">
+                                            <i class="ph ph-minus"></i>
+                                        </button>
+                                        <input class="cp-stepper-input" type="text" id="minimo-item" placeholder="5" value="5"
+                                            inputmode="numeric"
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                            onclick="this.select()">
+                                        <button type="button" class="cp-stepper-btn"
+                                            onclick="const i=document.getElementById('minimo-item');i.value=parseInt(i.value||0)+1">
+                                            <i class="ph ph-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="cp-field">
+                                    <label>Fornecedor / Origem da Doação</label>
+                                    <input type="text" id="origem-item" placeholder="Nome da empresa ou doador">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Localização no Depósito</label>
+                                    <input type="text" id="localizacao-item" placeholder="Ex: Prateleira A, Freezer 2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">3</div>
+                            <span class="cp-section-name">Observações</span>
+                            <span class="cp-optional-tag">opcional</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-field">
+                                <textarea id="obs-item" rows="3" placeholder="Informações adicionais sobre o armazenamento ou estado do item..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-footer">
+                        <button type="button" class="cp-btn-cancel" onclick="window.history.back()">Cancelar</button>
+                        <button type="submit" class="cp-btn-submit">
+                            <i class="ph ph-check-circle"></i> Salvar no Inventário
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

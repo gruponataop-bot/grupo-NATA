@@ -1,0 +1,363 @@
+/* ==============================================
+   FINANCEIRO — Financial-specific styles only.
+   Shared tokens, components, and utilities live
+   in projetos.css (loaded before this file).
+   ============================================== */
+
+/* ==============================================
+   FINANCIAL COLOR TOKENS
+   ============================================== */
+:root {
+  --color-entrada: #2d7a4f;
+  --color-entrada-bg: #edf7f1;
+  --color-entrada-border: #b8dfc9;
+  --color-saida: #c0392b;
+  --color-saida-bg: #fdf0ee;
+  --color-saida-border: #f0c0bb;
+  --color-saldo-positivo: #1a5c38;
+  --color-saldo-negativo: #8b1a1a;
+}
+
+/* ==============================================
+   HEADER ACTIONS (multiple buttons)
+   ============================================== */
+.header-actions {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+/* ==============================================
+   SUMMARY CARDS
+   ============================================== */
+.resumo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.resumo-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--transition), transform var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.resumo-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.resumo-card--entrada::before { background: var(--color-entrada); }
+.resumo-card--saida::before   { background: var(--color-saida); }
+.resumo-card--saldo::before   { background: var(--color-brand); }
+
+.resumo-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.resumo-card__label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.resumo-card__valor {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  line-height: 1;
+  margin: var(--space-1) 0;
+}
+
+.resumo-card--entrada .resumo-card__valor { color: var(--color-entrada); }
+.resumo-card--saida   .resumo-card__valor { color: var(--color-saida); }
+.resumo-card--saldo   .resumo-card__valor { color: var(--color-text-primary); }
+.resumo-card--saldo   .resumo-card__valor.positivo { color: var(--color-saldo-positivo); }
+.resumo-card--saldo   .resumo-card__valor.negativo { color: var(--color-saldo-negativo); }
+
+.resumo-card__periodo {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-weight: 300;
+}
+
+/* ==============================================
+   FILTER TABS (segmented control)
+   ============================================== */
+.filter-tabs {
+  display: flex;
+  background: var(--color-bg-hover);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 2px;
+}
+
+.filter-tab {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: calc(var(--radius-md) - 2px);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.filter-tab--active {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-xs);
+}
+
+.filter-periodo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.filter-separator {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* ==============================================
+   TABLE — FINANCIAL CELLS
+   ============================================== */
+.valor-cell {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.valor-cell--entrada { color: var(--color-entrada); }
+.valor-cell--saida   { color: var(--color-saida); }
+
+.tipo-indicator {
+  display: inline-flex;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: var(--space-2);
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.tipo-indicator--entrada { background: var(--color-entrada); }
+.tipo-indicator--saida   { background: var(--color-saida); }
+
+.categoria-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  background: var(--color-bg-hover);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.comprovante-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  transition: color var(--transition);
+  padding: 2px;
+  position: relative;
+}
+
+.comprovante-btn:hover { color: var(--color-brand); }
+
+.comprovante-btn[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-text-primary);
+  color: white;
+  font-size: var(--text-xs);
+  font-family: var(--font-body);
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ==============================================
+   FINANCIAL BUTTONS
+   ============================================== */
+.btn-entrada {
+  background: var(--color-entrada-bg);
+  color: var(--color-entrada);
+  border: 1px solid var(--color-entrada-border);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn-entrada:hover {
+  background: var(--color-entrada);
+  color: white;
+  border-color: var(--color-entrada);
+}
+
+.btn-saida {
+  background: var(--color-saida-bg);
+  color: var(--color-saida);
+  border: 1px solid var(--color-saida-border);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn-saida:hover {
+  background: var(--color-saida);
+  color: white;
+  border-color: var(--color-saida);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn-ghost:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-strong);
+}
+
+/* ==============================================
+   R$ PREFIX INPUT
+   ============================================== */
+.input-prefix-wrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.input-prefix-wrap:focus-within {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px rgba(219, 92, 51, 0.12);
+}
+
+.input-prefix {
+  padding: var(--space-3);
+  background: var(--color-bg-hover);
+  border-right: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+
+.form-input--prefixed {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  flex: 1;
+}
+
+/* ==============================================
+   UPLOAD AREA — file-selected state
+   ============================================== */
+.image-upload-area.has-file {
+  border-color: var(--color-entrada);
+  background: var(--color-entrada-bg);
+}
+
+.upload-hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.upload-hint--small { font-size: var(--text-xs); }
+
+.label-optional {
+  font-weight: 300;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* ==============================================
+   MODAL VER — financial layout
+   ============================================== */
+.lancamento-tipo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  margin-bottom: var(--space-4);
+}
+
+.lancamento-tipo-badge--entrada {
+  background: var(--color-entrada-bg);
+  color: var(--color-entrada);
+}
+
+.lancamento-tipo-badge--saida {
+  background: var(--color-saida-bg);
+  color: var(--color-saida);
+}
+
+.lancamento-valor-display {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  margin-bottom: var(--space-6);
+}
+
+.lancamento-valor-display--entrada { color: var(--color-entrada); }
+.lancamento-valor-display--saida   { color: var(--color-saida); }
+
+/* ==============================================
+   RESPONSIVE
+   ============================================== */
+@media (max-width: 768px) {
+  .resumo-grid { grid-template-columns: 1fr; }
+  .filters-bar { flex-direction: column; align-items: flex-start; }
+  .filter-periodo { flex-wrap: wrap; }
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meus Projetos - Professor NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/perfil-administrativo.css">
+    <link rel="stylesheet" href="../css/coordenador.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@300;400;500;600;700&family=MonteCarlo&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="../js/sidebarVoluntarios.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/projetos-professor.js" defer></script>
+</head>
+
+<body data-nav-active="projetos">
+    <div id="alert-container" class="alert-container"></div>
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Meus Projetos</h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="perfil-admin-page">
+                <section class="perfil-admin-header">
+                    <p class="page-kicker">Área do professor</p>
+                    <h2>Projetos e chamada</h2>
+                    <p>Selecione um projeto para registrar a presença dos participantes.</p>
+                </section>
+
+                <section class="work-area">
+                    <aside class="projects-panel">
+                        <div class="section-title-row">
+                            <div>
+                                <h3>Projetos associados</h3>
+                                <p id="totalProjetos">0 projetos encontrados</p>
+                            </div>
+                            <button class="icon-button" type="button" onclick="carregarProjetosProfessor()" title="Atualizar">
+                                <i class="ph ph-arrow-clockwise"></i>
+                            </button>
+                        </div>
+                        <div id="listaProjetosProfessor" class="project-list"></div>
+                    </aside>
+
+                    <section class="attendance-panel">
+                        <div class="attendance-empty" id="estadoSemProjeto">
+                            <i class="ph ph-chalkboard-teacher"></i>
+                            <p>Selecione um projeto para visualizar os participantes e registrar a chamada.</p>
+                        </div>
+
+                        <div id="areaChamada" style="display:none">
+                            <div class="attendance-header">
+                                <div>
+                                    <span class="profile-label">Projeto selecionado</span>
+                                    <h3 id="projetoSelecionadoNome">-</h3>
+                                    <p id="projetoSelecionadoDetalhes">-</p>
+                                </div>
+                                <div class="attendance-summary">
+                                    <strong id="totalPresentes">0</strong>
+                                    <span>presentes</span>
+                                </div>
+                            </div>
+
+                            <div id="feedbackChamada" class="feedback" style="display:none"></div>
+
+                            <div class="call-actions">
+                                <div class="call-date-control">
+                                    <label for="dataChamada">Data da chamada</label>
+                                    <input type="date" id="dataChamada">
+                                </div>
+                                <button class="btn-lite" type="button" onclick="marcarTodos(true)">
+                                    <i class="ph ph-check-circle"></i> Marcar todos
+                                </button>
+                                <button class="btn-lite" type="button" onclick="marcarTodos(false)">
+                                    <i class="ph ph-x-circle"></i> Limpar
+                                </button>
+                                <button class="btn-primary-prof" type="button" onclick="salvarChamada()">
+                                    <i class="ph ph-floppy-disk"></i> Salvar chamada
+                                </button>
+                            </div>
+
+                            <div id="listaChamada" class="attendance-list"></div>
+                        </div>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

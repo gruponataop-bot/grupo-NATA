@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Esqueci a Senha - Nata</title>
+  <link rel="stylesheet" href="../css/esqueciSenha.css" />
+  <link rel="stylesheet" href="../css/auth-padrao.css" />
+  <script src="../js/esqueciSenha.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="logo">Nata</div>
+
+      <nav class="nav">
+        <a href="../index.html">Início</a>
+        <a href="../index.html#comunidade">A comunidade</a>
+        <a href="../index.html#projetos">Projetos</a>
+        <a href="doacoes.html">Doações</a>
+        <a href="../index.html#contato">Contato</a>
+      </nav>
+
+
+      <button class="menu-toggle" aria-label="Abrir menu" type="button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="../index.html">Início</a>
+      <a href="../index.html#comunidade">A comunidade</a>
+      <a href="../index.html#projetos">Projetos</a>
+      <a href="doacoes.html">Doações</a>
+      <a href="../index.html#contato">Contato</a>
+    </nav>
+
+    <main class="content">
+      <button class="back-btn" onclick="history.back()">
+        <span>←</span>
+        VOLTAR
+      </button>
+
+      <div class="card-wrapper">
+        <section class="login-card">
+          <div class="lock-badge">
+            <i class="fas fa-lock"></i>
+          </div>
+
+          <h1 class="title">ESQUECI A SENHA</h1>
+
+          <div class="divider"></div>
+
+          <form id="forgotPasswordForm">
+            <div class="field">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 21a8 8 0 0 0-16 0"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <input type="text" id="usuario" placeholder="E-MAIL" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; display: block;">
+              Enviar e-mail de redefinição
+            </button>
+          </form>
+        </section>
+      </div>
+
+      <div class="welcome">
+        ♡ Que bom ter você por aqui!
+        <small>── ❦ ──</small>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

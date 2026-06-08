@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Funcionário - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/components.js" defer></script>
+    <script src="../js/cadastroFuncionario.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="participantes">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo"><h1>Funcionários</h1></div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+
+                <div class="cp-header">
+                    <button class="cp-back" onclick="window.history.back()">
+                        <i class="ph ph-caret-left"></i> Voltar
+                    </button>
+                    <div class="cp-title-block">
+                        <h2>Novo Funcionário</h2>
+                        <p>Preencha as informações para cadastrar um funcionário</p>
+                    </div>
+                </div>
+
+                  <form class="cp-form" onsubmit="cadastrarFuncionario(event)" novalidate>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">1</div>
+                            <span class="cp-section-name">Informações do funcionário</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Nome Completo</label>
+                                    <input type="text" id="nome-funcionario" required placeholder="Digite o nome completo">
+                                </div>
+                                <div class="cp-field">
+                                    <label>CPF</label>
+                                    <input type="text" id="cpf-funcionario" required placeholder="000.000.000-00" maxlength="14" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="cp-grid-3">
+                                <div class="cp-field">
+                                    <label>Telefone</label>
+                                    <input type="text" id="telefone-funcionario" required placeholder="(00) 00000-0000" maxlength="15" autocomplete="off">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Email de contato</label>
+                                    <input type="text" id="email-funcionario" required placeholder="Insira o email">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Cargo</label>
+                                    <select id="cargo-funcionario" name="cargo" required>
+                                        <option value="" disabled selected>Selecione uma opção...</option>
+                                        <option value="Professor">Professor</option>
+                                        <option value="Coordenador">Coordenador</option>
+                                        <option value="Administrativo">Administrativo</option>
+                                        <option value="Financeiro">Financeiro</option>
+                                        <option value="Voluntário">Voluntário</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-footer">
+                        <button type="button" class="cp-btn-cancel" onclick="window.history.back()">Cancelar</button>
+                        <button type="submit" class="cp-btn-submit">
+                            <i class="ph ph-check-circle"></i> Cadastrar Funcionário
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

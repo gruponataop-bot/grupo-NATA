@@ -1,0 +1,361 @@
+/* Variáveis de cor para facilitar a manutenção */
+:root {
+    --cor-terracota: #db5c33;
+    /* Ajuste para o tom exato da sua imagem */
+    --cor-terracota-escuro: #c44d28;
+    /* Cor quando passa o mouse ou item ativo */
+    --cor-texto: #ffffff;
+}
+
+/* O Segredo da Sidebar Flutuante */
+.sidebar-flutuante {
+    width: 260px;
+    height: calc(100vh - 40px);
+    /* Ocupa a altura da tela inteira, menos 40px */
+    margin: 20px;
+    /* Desgruda das bordas da tela */
+    background-color: var(--cor-terracota);
+    border-radius: 16px;
+    /* Arredonda as pontas */
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
+    /* Cria a sombra de flutuação */
+
+    display: flex;
+    flex-direction: column;
+    /* Organiza os itens de cima para baixo */
+    position: sticky;
+    /* Mantém a barra fixa enquanto a página rola */
+    top: 20px;
+    color: var(--cor-texto);
+    font-family: 'Inter', sans-serif;
+    /* Substitua pela fonte sem serifa que escolher */
+}
+
+/* --- LOGO --- */
+.sidebar-logo {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.logo-text {
+    font-family: 'MonteCarlo', cursive;
+    /* A fonte desenhada apenas para a logo */
+    font-size: 60px;
+    margin: 0;
+    font-weight: normal;
+}
+
+/* --- NAVEGAÇÃO E LINKS --- */
+.sidebar-nav {
+    flex-grow: 1;
+    /* Faz essa área empurrar o botão "Sair" lá para baixo */
+    overflow-y: auto;
+    /* Adiciona rolagem interna caso o menu fique muito grande */
+}
+
+.nav-list,
+.submenu {
+    list-style: none;
+    /* Tira as bolinhas da lista */
+    padding: 0;
+    margin: 0;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    color: var(--cor-texto);
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.link-conteudo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* Espaço entre o ícone e o texto */
+}
+
+.nav-link:hover {
+    background-color: var(--cor-terracota-escuro);
+}
+
+/* --- ESTADOS ATIVOS (O bloco mais escuro) --- */
+.item-ativo {
+    background-color: var(--cor-terracota-escuro);
+}
+
+.link-sub-ativo {
+    text-decoration: underline;
+    /* Como na sua imagem para "Parceiros" */
+}
+
+/* --- SUBMENU --- */
+.submenu {
+    padding-left: 20px;
+    background-color: var(--cor-terracota-escuro);
+}
+
+.submenu-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px 10px 40px;
+    color: var(--cor-texto);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.submenu-link:hover {
+    opacity: 0.8;
+}
+
+/* --- BOTÃO SAIR --- */
+.sidebar-footer {
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* Uma linha sutil separando o rodapé */
+}
+
+/* Esconde todos os submenus por padrão */
+.submenu {
+    display: none;
+    /* Adicione um padding aqui se quiser afastar os itens da borda esquerda */
+    padding-left: 20px;
+}
+
+/* Mostra o submenu APENAS quando o item pai (.nav-item) ganhar a classe 'menu-aberto' */
+.nav-item.menu-aberto .submenu {
+    display: block;
+}
+
+/* Prepara a setinha para uma animação suave */
+.nav-link>.ph-caret-down {
+    transition: transform 0.3s ease;
+}
+
+/* Gira a setinha para cima quando o menu estiver aberto */
+.nav-item.menu-aberto .nav-link>.ph-caret-down {
+    transform: rotate(180deg);
+}
+
+/* Tamanho de todos os ícones da barra lateral */
+.sidebar-flutuante i {
+    font-size: 24px;
+    /* Aumente este valor (ex: 28px, 32px) para ícones maiores */
+    margin-right: 12px;
+    /* Aumentei um pouquinho o espaçamento para não grudar no texto */
+    display: flex;
+    align-items: center;
+}
+
+/* Tamanho específico apenas para a setinha de abrir/fechar */
+.sidebar-flutuante .seta,
+.sidebar-flutuante .ph-caret-down {
+    font-size: 18px;
+    /* Geralmente a seta fica melhor se for um pouco menor que o ícone principal */
+}
+
+/* ==========================================
+   ESTILIZAÇÃO DA BARRA DE ROLAGEM (SCROLLBAR)
+   ========================================== */
+
+/* 1. Para Chrome, Edge e Safari (WebKit) */
+
+/* Largura da barra */
+.sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* O fundo da barra (o "trilho") */
+.sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+    /* Deixa invisível para aparecer só o fundo terracota */
+}
+
+/* A barrinha que você clica e arrasta (o "polegar") */
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    /* Branco meio transparente */
+    border-radius: 10px;
+    /* Deixa as pontas bem arredondadas */
+}
+
+/* Cor da barrinha quando passa o mouse por cima */
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    /* Fica um pouco mais branca */
+}
+
+/* 2. Para Firefox */
+.sidebar-nav {
+    scrollbar-width: thin;
+    /* Deixa a barra fina */
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    /* Cor da barrinha e cor do fundo */
+}
+
+.mobile-only-exit {
+    display: none;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+@media (max-width: 768px) {
+
+    .mobile-only-exit {
+        display: flex;
+    }
+
+    .sidebar-flutuante {
+        width: 100%;
+        height: 70px;
+        /* Um pouco mais alto para os botões respirarem */
+        margin: 0;
+        border-radius: 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        z-index: 9999;
+        flex-direction: row;
+        box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .sidebar-logo,
+    .sidebar-footer {
+        display: none !important;
+    }
+
+    .sidebar-nav {
+        width: 100%;
+        overflow: visible !important;
+        /* Importante para o submenu vazar a barra */
+        position: relative;
+        /* O submenu vai se guiar por este elemento */
+    }
+
+    .nav-list {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: space-around;
+        align-items: stretch;
+    }
+
+    .nav-item {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* position: static; para o submenu pegar a largura inteira da tela */
+    }
+
+    .nav-link {
+        width: 100%;
+        height: 100%;
+        padding: 5px 2px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 10px;
+        /* Fonte menor para não sobrepor */
+        text-align: center;
+        gap: 4px;
+    }
+
+    .link-conteudo {
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .sidebar-flutuante i {
+        font-size: 22px;
+        margin-right: 0;
+    }
+
+    /* Esconde a setinha no mobile para economizar espaço */
+    .nav-link>.ph-caret-down {
+        display: none;
+    }
+
+    /* =======================================
+       SUBMENU NO MOBILE (ESTILO GAVETA)
+       ======================================= */
+    .submenu {
+        position: absolute;
+        bottom: 100%;
+        /* Gruda exatamente no topo da barra inferior */
+        left: 0;
+        width: 100%;
+        /* Ocupa a tela inteira de ponta a ponta */
+        background-color: var(--cor-terracota-escuro);
+        border-radius: 20px 20px 0 0;
+        /* Arredondamento mais suave */
+        padding: 20px 0 8px 0;
+        /* Espaço extra no topo para o puxador */
+        box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.3);
+        /* Sombra mais destacada */
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        /* Brilho no topo para destacar do fundo */
+    }
+
+    /* Puxador visual da gaveta (tracinho no topo) */
+    .submenu::before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+    }
+
+    .submenu-link {
+        padding: 16px 24px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        /* Linha divisória suave */
+    }
+
+    /* Remove a linha divisória do último item para ficar limpo */
+    .submenu li:last-child .submenu-link {
+        border-bottom: none;
+    }
+
+    .nav-item.menu-aberto .nav-link {
+        background-color: var(--cor-terracota-escuro);
+    }
+
+    .nav-list::append-fallback {
+        content: '';
+    }
+}
+
+
+/* ========================================================
+   CORREÇÃO DO BUG VISUAL DO DASHBOARD (FOCO EXCLUSIVO)
+   ======================================================== */
+
+/* 1. Remove o sublinhado apenas na página do Dashboard */
+body[data-nav-active="dashboard"] .sidebar-flutuante a {
+    text-decoration: none !important;
+}
+
+/* 2. Aplica o fundo escuro APENAS no link direto do Dashboard */
+body[data-nav-active="dashboard"] .sidebar-flutuante .nav-link[href*="dashboard"],
+body[data-nav-active="dashboard"] .sidebar-flutuante a[href*="dashboard"] {
+    background-color: var(--cor-terracota-escuro) !important;
+    color: var(--cor-texto) !important;
+}

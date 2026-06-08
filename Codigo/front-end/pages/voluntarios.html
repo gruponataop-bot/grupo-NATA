@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Voluntários - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css"> 
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/tabela.css">
+    <link rel="stylesheet" href="../css/modal-padrao.css">
+    <link rel="stylesheet" href="../css/adicionar.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/voluntario.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+<body data-nav-active="voluntarios">
+    <div class="layout-app">
+
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Voluntários</h1>
+                </div>
+                
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+                
+                <div class="page-header">
+                    <div>
+                        <p class="page-subtitle">Gerenciamento dos voluntários da organização</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-adicionar" onclick="window.location.href='cadastrovoluntario.html'">
+                            <i class="ph ph-plus"></i> Adicionar Voluntário
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="barra-filtros">
+                    <div class="input-grupo pesquisa">
+                        <input type="text" id="pesquisa-nome" placeholder="Pesquisar">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </div>
+                    <div class="input-grupo filtro-status">
+                        <select id="filtro-status">
+                            <option value="">Filtrar por status</option>
+                            <option value="ativo">Ativo</option>
+                            <option value="inativo">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="tabela-container">
+                    <table class="tabela-dados">
+                        <thead>
+                            <tr>
+                                <th>Nome completo</th>
+                                <th>Telefone</th>
+                                <th>Área de interesse</th>
+                                <th>Disponibilidade (Dias)</th>
+                                <th>Turnos disponíveis</th>
+                                <th>Projetos</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-voluntarios-body">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacao-container">
+                    <span class="info-paginacao" id="info-paginacao">Carregando informações...</span>
+                    <div class="controles-paginacao" id="controles-paginacao">
+                    </div>
+                </div>
+
+                <div id="modal-overlay" class="modal-overlay" onclick="fecharModais()"></div>
+
+                <div id="modal-visualizar" class="modal-caixa modal-larga">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Informações do Voluntário</h2>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <div class="em-body">
+                        <p class="em-section-title">Dados Pessoais</p>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome Completo</label>
+                                <input type="text" id="view-nome" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Email</label>
+                                <input type="email" id="view-email" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Telefone</label>
+                                <input type="text" id="view-telefone" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Data de Nascimento</label>
+                                <input type="date" id="view-nascimento" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Endereço</label>
+                                <input type="text" id="view-endereco" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>CPF</label>
+                                <input type="text" id="view-cpf" readonly>
+                            </div>
+                        </div>
+                        <p class="em-section-title">Habilidades</p>
+                        <div id="view-habilidades-lista"></div>
+                        <div class="em-field">
+                            <label>Outras habilidades</label>
+                            <textarea id="view-outras-habilidades" readonly></textarea>
+                        </div>
+                        <p class="em-section-title">Disponibilidade</p>
+                        <div id="view-disponibilidade-lista"></div>
+                        <div class="em-field">
+                            <label>Observações</label>
+                            <textarea id="view-obs-disponibilidade" readonly></textarea>
+                        </div>
+                        <p class="em-section-title">Projetos Sociais Vinculados</p>
+                        <div id="view-projetos-lista" style="min-height:50px;"></div>
+                    </div>
+                    <div class="em-footer">
+                        <button class="em-btn-cancel" onclick="fecharModais()">Fechar</button>
+                    </div>
+                </div>
+
+                <div id="modal-editar" class="modal-caixa modal-larga">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Editar Voluntário</h2>
+                            <p class="em-subtitle">Atualize os dados do voluntário</p>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <form id="form-editar-voluntario" class="em-body">
+                        <input type="hidden" id="edit-id">
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome Completo</label>
+                                <input type="text" id="edit-nome">
+                            </div>
+                            <div class="em-field">
+                                <label>Email</label>
+                                <input type="email" id="edit-email">
+                            </div>
+                            <div class="em-field">
+                                <label>Telefone</label>
+                                <input type="text" id="edit-telefone">
+                            </div>
+                            <div class="em-field">
+                                <label>Data de Nascimento</label>
+                                <input type="date" id="edit-nascimento">
+                            </div>
+                            <div class="em-field">
+                                <label>Endereço</label>
+                                <input type="text" id="edit-endereco">
+                            </div>
+                            <div class="em-field">
+                                <label>CPF</label>
+                                <input type="text" id="edit-cpf" placeholder="000.000.000-00" oninput="mascaraCPF(this)">
+                            </div>
+                        </div>
+                        <div class="em-field">
+                            <label>Status</label>
+                            <select id="edit-status">
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
+                            </select>
+                        </div>
+                        <p class="em-section-title">Habilidades</p>
+                        <div class="em-checks">
+                            <label><input type="checkbox" name="edit-habilidade" value="Educação/Ensino"> Educação/Ensino</label>
+                            <label><input type="checkbox" name="edit-habilidade" value="Esporte/Lazer"> Esporte/Lazer</label>
+                            <label><input type="checkbox" name="edit-habilidade" value="Evento/Organização"> Evento/Org.</label>
+                            <label><input type="checkbox" name="edit-habilidade" value="Saúde/Bem Estar"> Saúde/Bem Estar</label>
+                            <label><input type="checkbox" name="edit-habilidade" value="Administrativo"> Administrativo</label>
+                            <label><input type="checkbox" name="edit-habilidade" value="Logística"> Logística</label>
+                        </div>
+                        <div class="em-field">
+                            <label>Outras habilidades</label>
+                            <textarea id="edit-outras-habilidades" placeholder="Outras habilidades (se houver)"></textarea>
+                        </div>
+                        <p class="em-section-title">Disponibilidade</p>
+                        <table class="em-avail-table">
+                            <thead>
+                                <tr>
+                                    <th></th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th><th>Dom</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Manhã (8-12h)</td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Seg-Manha"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Ter-Manha"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Qua-Manha"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Qui-Manha"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Sex-Manha"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Sab-Manha"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Dom-Manha"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tarde (13-17h)</td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Seg-Tarde"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Ter-Tarde"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Qua-Tarde"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Qui-Tarde"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Sex-Tarde"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Sab-Tarde"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Dom-Tarde"></td>
+                                </tr>
+                                <tr>
+                                    <td>Noite (18-22h)</td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Seg-Noite"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Ter-Noite"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Qua-Noite"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Qui-Noite"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Sex-Noite"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Sab-Noite"></td>
+                                    <td><input type="checkbox" name="edit-disponibilidade" value="Dom-Noite"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="em-field">
+                            <label>Observações sobre a disponibilidade</label>
+                            <textarea id="edit-obs-disponibilidade" placeholder="Observações..."></textarea>
+                        </div>
+                    </form>
+                    <div class="em-footer">
+                        <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
+                        <button type="submit" form="form-editar-voluntario" class="em-btn-save">
+                            <i class="ph ph-floppy-disk"></i> Salvar
+                        </button>
+                    </div>
+                </div>
+
+                <div id="modal-config" class="modal-caixa">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Vincular a Projetos</h2>
+                            <p class="em-subtitle">Selecione os projetos para este voluntário</p>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <form id="form-vincular-projeto" class="em-body">
+                        <input type="hidden" id="config-voluntario-id">
+                        <div class="em-field">
+                            <label>Voluntário selecionado</label>
+                            <input type="text" id="config-nome" readonly>
+                        </div>
+                        <p class="em-section-title">Projetos Disponíveis</p>
+                        <div id="container-projetos-dinamicos">
+                            <p style="color:#9c9890;font-family:'DM Sans',sans-serif;font-size:13px;">Carregando projetos...</p>
+                        </div>
+                    </form>
+                    <div class="em-footer">
+                        <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
+                        <button type="button" class="em-btn-save" onclick="salvarVinculoProjetos()">
+                            <i class="ph ph-check"></i> Salvar Vínculos
+                        </button>
+                    </div>
+                </div>
+
+            </main>
+            <div id="footer-container"></div>
+        </div> 
+    </div>
+</body>
+</html>

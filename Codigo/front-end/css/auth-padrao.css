@@ -1,0 +1,406 @@
+/* =============================================================
+   NATA - Padrao visual para telas de autenticacao
+   ============================================================= */
+
+:root {
+    --auth-terra: #db5c33;
+    --auth-terra-hover: #c44e27;
+    --auth-terra-soft: #f7ece6;
+    --auth-bg: #f9f8f6;
+    --auth-card: #ffffff;
+    --auth-text: #1c1917;
+    --auth-muted: #78716c;
+    --auth-border: #e8e2db;
+    --auth-input-bg: #f5f3f0;
+    --auth-shadow: 0 1px 3px rgba(0, 0, 0, .05), 0 4px 14px rgba(0, 0, 0, .06);
+    --auth-radius: 14px;
+}
+
+body {
+    margin: 0;
+    background: var(--auth-bg);
+    color: var(--auth-text);
+    font-family: "DM Sans", Arial, sans-serif;
+}
+
+body::before,
+body::after {
+    display: none;
+}
+
+.page {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    min-height: 100vh;
+    background: var(--auth-bg);
+    backdrop-filter: none;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.topbar {
+    min-height: 64px;
+    height: auto;
+    gap: 28px;
+    padding: 0 38px;
+    background: var(--auth-terra);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-radius: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+}
+
+.logo {
+    font-size: 2.2rem;
+    line-height: 1;
+    white-space: nowrap;
+    text-shadow: none;
+}
+
+.nav {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-size: .78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.nav a {
+    color: #fff;
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: 0;
+}
+
+.nav a:hover,
+.nav a:focus-visible {
+    border-color: currentColor;
+    opacity: 1;
+    text-decoration: none;
+}
+
+.internal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: #f8e3d6;
+    color: #5b321f;
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    box-shadow: none;
+}
+
+.internal-btn:hover {
+    transform: translateY(-1px);
+    background: #fff0e7;
+    box-shadow: none;
+}
+
+.mobile-menu {
+    background: var(--auth-terra);
+}
+
+.content {
+    width: min(100%, 760px);
+    margin: 0 auto;
+    padding: 36px 24px 56px;
+}
+
+.back-btn {
+    gap: 6px;
+    margin-bottom: 22px;
+    padding: 7px 14px 7px 10px;
+    border-radius: 20px;
+    background: var(--auth-terra-soft);
+    color: var(--auth-terra);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    background: #f0ddd4;
+}
+
+.back-btn span {
+    font-size: 1rem;
+}
+
+.card-wrapper {
+    align-items: stretch;
+}
+
+.login-card {
+    width: min(100%, 520px);
+    margin: 0 auto;
+    padding: 34px;
+    border: 1.5px solid var(--auth-border);
+    border-radius: var(--auth-radius);
+    background: var(--auth-card);
+    box-shadow: var(--auth-shadow);
+}
+
+.lock-badge {
+    position: static;
+    transform: none;
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 18px;
+    border-radius: 12px;
+    background: var(--auth-terra-soft);
+    color: var(--auth-terra);
+    font-size: 1.35rem;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+.title {
+    margin: 0;
+    color: var(--auth-text);
+    font-family: "Lora", Georgia, serif;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: .01em;
+    text-align: center;
+}
+
+.divider {
+    width: 72px;
+    height: 3px;
+    margin: 16px auto 26px;
+    border-radius: 999px;
+    background: var(--auth-terra);
+}
+
+.divider::before,
+.divider::after {
+    display: none;
+}
+
+.field,
+.select-wrapper .field {
+    min-height: 48px;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 0 13px;
+    border: 1.5px solid var(--auth-border);
+    border-radius: 9px;
+    background: var(--auth-input-bg);
+    box-shadow: none;
+}
+
+.field:focus-within,
+.select-wrapper .field:focus-within {
+    border-color: var(--auth-terra);
+    background: #fff;
+    box-shadow: 0 0 0 3.5px rgba(219, 92, 51, .10);
+    transform: none;
+}
+
+.select-wrapper {
+    margin-bottom: 14px;
+}
+
+.select-wrapper .field {
+    overflow: visible;
+    cursor: default;
+}
+
+.select-wrapper .field::before {
+    display: none;
+}
+
+.select-wrapper .field:hover {
+    border-color: var(--auth-border);
+    box-shadow: none;
+    transform: none;
+}
+
+.icon,
+.select-wrapper .icon {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 0;
+    background: transparent;
+    color: var(--auth-terra);
+}
+
+.icon svg,
+.select-wrapper .icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.field input,
+.field select,
+.select-wrapper select {
+    width: 100%;
+    height: 46px;
+    border: 0;
+    background: transparent;
+    color: var(--auth-text);
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 500;
+    outline: none;
+}
+
+.field input::placeholder {
+    color: #a8a09a;
+    letter-spacing: .02em;
+}
+
+.select-wrapper select {
+    appearance: none;
+    cursor: pointer;
+    padding-right: 30px;
+}
+
+.select-wrapper select:invalid {
+    color: #a8a09a;
+}
+
+.select-wrapper::after {
+    right: 17px;
+    width: 8px;
+    height: 8px;
+    border-color: var(--auth-muted);
+}
+
+.select-wrapper:focus-within::after {
+    transform: translateY(-60%) rotate(45deg);
+    border-color: var(--auth-terra);
+}
+
+.password-toggle {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--auth-muted);
+}
+
+.password-toggle:hover {
+    transform: none;
+    background: var(--auth-terra-soft);
+    color: var(--auth-terra);
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid rgba(219, 92, 51, .28);
+    outline-offset: 2px;
+}
+
+.forgot-password {
+    color: var(--auth-terra);
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.forgot-password:hover {
+    color: var(--auth-terra-hover);
+    transform: none;
+}
+
+.btn {
+    min-height: 46px;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(219, 92, 51, .22);
+}
+
+.btn-primary {
+    border: 0;
+    background: var(--auth-terra);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(219, 92, 51, .24);
+}
+
+.btn-primary:hover {
+    background: var(--auth-terra-hover);
+}
+
+.welcome {
+    margin-top: 22px;
+    color: var(--auth-muted);
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 500;
+}
+
+.welcome small {
+    margin-top: 6px;
+    color: #b5aba4;
+    font-size: .8rem;
+}
+
+@media (max-width: 900px) {
+    .topbar {
+        position: static;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px 18px;
+        padding: 14px 18px;
+    }
+
+    .nav {
+        order: 3;
+        flex-basis: 100%;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+}
+
+@media (max-width: 620px) {
+    .topbar {
+        min-height: 64px;
+        height: auto;
+        padding: 14px 18px;
+    }
+
+    .logo {
+        font-size: 2.2rem;
+    }
+
+    .content {
+        padding: 24px 16px 40px;
+    }
+
+    .login-card {
+        padding: 28px 18px;
+    }
+
+    .title {
+        font-size: 1.7rem;
+    }
+}

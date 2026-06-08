@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relatórios de Observações - NATA</title>
+    
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/coordenador.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+    <link rel="stylesheet" href="../css/observacoes.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/relatorios-observacoes.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="observacoes">
+    <div id="alert-container" class="alert-container"></div>
+    
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Relatórios de Observações</h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="coordenador-page">
+                <section class="coordenador-header">
+                    <div>
+                        <p class="page-kicker">Acompanhamento e Evolução</p>
+                        <h2>Registro de Observações</h2>
+                    </div>
+                </section>
+
+                <section class="work-area">
+                    <aside class="projects-panel">
+                        <div class="section-title-row" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+                            <div class="toggle-tipo-usuario">
+                                <button class="btn-toggle active" id="btnResidentes" onclick="alternarTipoVisualizacao('residente')">Residentes</button>
+                                <button class="btn-toggle" id="btnParticipantes" onclick="alternarTipoVisualizacao('participante')">Participantes</button>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                                <p id="totalUsuarios">0 encontrados</p>
+                                <button class="icon-button" type="button" onclick="carregarListaUsuarios()" title="Atualizar Lista">
+                                    <i class="ph ph-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="listaUsuarios" class="project-list">
+                            </div>
+                    </aside>
+
+                    <section class="attendance-panel" id="painelObservacoes">
+                        <div class="attendance-empty" id="estadoSemSelecao">
+                            <i class="ph ph-user-focus"></i>
+                            <p>Selecione um residente ou participante ao lado para ver e adicionar observações.</p>
+                        </div>
+
+                        <div id="areaTrabalho" style="display:none">
+                            <div class="attendance-header" style="margin-bottom: 24px;">
+                                <div>
+                                    <span class="profile-label" id="labelTipoUsuario">Residente</span>
+                                    <h3 id="nomeUsuarioSelecionado">-</h3>
+                                    <p id="detalhesUsuarioSelecionado">-</p>
+                                </div>
+                            </div>
+
+                            <div class="nova-observacao-box">
+                                <h4>Nova Observação</h4>
+                                <div class="em-field" style="margin-top: 12px;">
+                                    <label>Data da ocorrência / registro</label>
+                                    <input type="date" id="dataNovaObservacao" style="width: 200px;" class="input-padrao">
+                                </div>
+                                <div class="em-field" style="margin-top: 12px;">
+                                    <label>Relatório</label>
+                                    <textarea id="textoNovaObservacao" placeholder="Descreva os acontecimentos, evoluções ou pontos de atenção..." class="input-padrao" style="min-height: 100px; resize: vertical;"></textarea>
+                                </div>
+                                <div class="call-actions" style="margin-top: 12px; justify-content: flex-end;">
+                                    <button class="btn-primary-prof" type="button" onclick="salvarObservacao()">
+                                        <i class="ph ph-paper-plane-tilt"></i> Registrar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="historico-box" style="margin-top: 32px;">
+                                <h4>Histórico de Registros</h4>
+                                <div id="listaHistorico" class="timeline-observacoes">
+                                    </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

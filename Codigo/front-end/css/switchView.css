@@ -1,0 +1,81 @@
+/* Container que agrupa pesquisa e botões */
+.filtros-topo-agrupado {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Bloco dos filtros (CNH, Turno, Dia) */
+.filtros-container-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 0 !important; /* Força o alinhamento no topo exato */
+    padding-top: 0;
+    align-items: flex-start;
+}
+
+/* Ajuste da pesquisa */
+.input-grupo.pesquisa {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+}
+
+.input-grupo.pesquisa input {
+    flex: 0 1 350px;
+    margin: 0 !important;
+    height: 40px; /* Altura fixa padronizada */
+    box-sizing: border-box;
+}
+
+/* Estrutura do Alternador (Switch) */
+.view-switcher {
+    display: flex;
+    background: #f1f1f1;
+    padding: 4px;
+    border-radius: 10px;
+    gap: 4px;
+    height: 40px; /* Mesma altura dos inputs */
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.btn-view {
+    border: none;
+    background: transparent;
+    padding: 0 15px;
+    height: 100%; 
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-view.active {
+    background: white;
+    color: #db5c33;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Alinhamento dos filtros inferiores com a barra de pesquisa */
+.barra-filtros {
+    display: flex;
+    flex-direction: row; 
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 5rem; 
+    margin-bottom: 30px;
+    width: 100%;
+}

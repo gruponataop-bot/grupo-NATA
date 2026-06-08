@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova Rota - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/cadastrorota.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+<body data-nav-active="rotas">
+
+    <div id="alert-container" class="alert-container"></div>
+    
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo"><h1>Rotas</h1></div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+
+                <div class="cp-header">
+                    <button class="cp-back" onclick="window.location.href='rotas.html'">
+                        <i class="ph ph-caret-left"></i> Voltar
+                    </button>
+                    <div class="cp-title-block">
+                        <h2>Nova Rota</h2>
+                        <p>Configure os pontos de parada e o itinerário da rota</p>
+                    </div>
+                </div>
+
+                <form id="form-nova-rota" class="cp-form" novalidate>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">1</div>
+                            <span class="cp-section-name">Informações Gerais</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-field">
+                                <label>Nome da Rota</label>
+                                <input type="text" name="nome_rota" placeholder="Ex: Rota Ouro Preto - Centro" required>
+                            </div>
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Veículo</label>
+                                    <select name="id_veiculo" id="select-veiculo" required>
+                                        <option value="">Carregando veículos...</option>
+                                    </select>
+                                </div>
+                                <div class="cp-field">
+                                    <label>Motorista</label>
+                                    <select name="id_motorista" id="select-motorista" required>
+                                        <option value="">Carregando motoristas...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">2</div>
+                            <span class="cp-section-name">Itinerário (Pontos de Parada)</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div style="display:flex; gap:12px; align-items:flex-end;">
+                                <div class="cp-field" style="flex:1;">
+                                    <label>Adicionar Ponto (Coleta / Entrega)</label>
+                                    <select id="select-ponto-base">
+                                        <option value="">Selecione um ponto cadastrado...</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="cp-btn-secondary" onclick="adicionarPontoNaLista()" style="margin-bottom:0; align-self:flex-end;">
+                                    <i class="ph ph-plus"></i> Inserir na Rota
+                                </button>
+                            </div>
+
+                            <table class="cp-table" id="tabela-paradas">
+                                <thead>
+                                    <tr>
+                                        <th>Ordem</th>
+                                        <th>Ponto</th>
+                                        <th>Tipo</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lista-paradas-corpo"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">3</div>
+                            <span class="cp-section-name">Carga do Veículo (Estoque)</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div style="display:flex; gap:12px; align-items:flex-end; flex-wrap: wrap;">
+                                <div class="cp-field" style="flex: 2; min-width: 200px;">
+                                    <label>Selecionar Item do Estoque</label>
+                                    <select id="select-estoque">
+                                        <option value="">Carregando estoque disponível...</option>
+                                    </select>
+                                </div>
+                                <div class="cp-field" style="flex: 1; min-width: 100px;">
+                                    <label>Quantidade</label>
+                                    <input type="number" id="input-qtd-estoque" placeholder="Qtd" min="1">
+                                </div>
+                                <button type="button" class="cp-btn-secondary" onclick="adicionarItemCarga()" style="margin-bottom:0; align-self:flex-end; white-space: nowrap;">
+                                    <i class="ph ph-package"></i> Adicionar Carga
+                                </button>
+                            </div>
+
+                            <table class="cp-table" id="tabela-carga" style="margin-top: 16px;">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Quantidade</th>
+                                        <th>Valor Unit.</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lista-carga-corpo">
+                                    <tr><td colspan="4" style="text-align: center; color: var(--prof-muted);">Nenhum item adicionado à carga.</td></tr>
+                                </tbody>
+                            </table>
+
+                            <div style="text-align: right; margin-top: 16px; font-size: 15px; padding-right: 10px;">
+                                <strong style="color: var(--prof-text);">Total da Carga: </strong>
+                                <span id="valor-total-carga" style="color: var(--cor-terracota); font-weight: bold; font-size: 18px;">R$ 0,00</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">4</div>
+                            <span class="cp-section-name">Visualização do Mapa</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div id="mapa-placeholder" class="cp-map-placeholder">
+                                <i class="ph ph-map-trifold"></i>
+                                <p>O mapa será renderizado aqui</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-footer">
+                        <button type="button" class="cp-btn-cancel" onclick="window.location.href='rotas.html'">Cancelar</button>
+                        <button type="submit" class="cp-btn-submit">
+                            <i class="ph ph-check-circle"></i> Registrar Rota
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Participante - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/components.js" defer></script>
+    <script src="../js/participantes.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="participantes">
+    <div id="alert-container" class="alert-container"></div>
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo"><h1>Participantes</h1></div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+
+                <div class="cp-header">
+                    <button class="cp-back" onclick="window.history.back()">
+                        <i class="ph ph-caret-left"></i> Voltar
+                    </button>
+                    <div class="cp-title-block">
+                        <h2>Novo Participante</h2>
+                        <p>Preencha as informações para cadastrar um participante</p>
+                    </div>
+                </div>
+
+                <form class="cp-form" onsubmit="cadastrarParticipante(event)" novalidate>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">1</div>
+                            <span class="cp-section-name">Projeto e dados do aluno</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-field">
+                                <label>Selecione o Projeto</label>
+                                <select id="projeto-selecionado" onchange="ajustarCamposPorProjeto()" required>
+                                    <option value="reforco">Reforço Escolar</option>
+                                    <option value="natinha">Natinha</option>
+                                    <option value="futebol">Futebol</option>
+                                </select>
+                            </div>
+
+                            <div class="cp-field" id="projeto-horarios-info" style="display:none;">
+                                <label>Horarios do projeto</label>
+                                <div id="projeto-horarios-texto" style="padding:12px;border:1px solid #ece7df;border-radius:8px;background:#fffaf6;font-size:14px;color:#4c443d;white-space:pre-line;"></div>
+                            </div>
+
+                            <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:4px;">
+                                <span style="font-size:13px; font-weight:600; color:var(--cp-text);">Status</span>
+                                <div class="cp-radios">
+                                    <label><input type="radio" name="status" value="ativo" checked> Ativo</label>
+                                    <label><input type="radio" name="status" value="inativo"> Inativo</label>
+                                </div>
+                            </div>
+
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Nome Completo</label>
+                                    <input type="text" id="nome-aluno" required placeholder="Digite o nome completo">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Série Escolar <span class="cp-hint">(opcional)</span></label>
+                                    <input type="text" id="serie-escolar" placeholder="Ex: 5º ano">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Data de Nascimento</label>
+                                    <input type="date" id="data-nascimento">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Nome da Escola</label>
+                                    <input type="text" id="nome-escola" placeholder="Escola onde estuda">
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <label>Possui alguma necessidade específica de aprendizagem?</label>
+                                <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+                                    <div class="cp-radios">
+                                        <label><input type="radio" name="tem_necessidade" value="Sim"> Sim</label>
+                                        <label><input type="radio" name="tem_necessidade" value="Não" checked> Não</label>
+                                    </div>
+                                    <div class="cp-field" style="flex:1; min-width:180px; margin:0;">
+                                        <input type="text" id="necessidades-detalhe" placeholder="Qual? Descreva aqui...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">2</div>
+                            <span class="cp-section-name">Dados do Responsável</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Nome do Responsável</label>
+                                    <input type="text" id="nome-responsavel" required>
+                                </div>
+                                <div class="cp-field">
+                                    <label>Parentesco</label>
+                                    <input type="text" id="parentesco-responsavel" placeholder="Mãe, Pai, Avô...">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Telefone de Contato</label>
+                                    <input type="text" id="telefone-responsavel" placeholder="( ) _____-____">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Endereço</label>
+                                    <input type="text" id="endereco-pais" placeholder="Rua, número, bairro...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">3</div>
+                            <span class="cp-section-name">Escolha de Horários</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div id="container-horarios" class="cp-grid-2" style="gap:40px;">
+                                <div class="opcoes-horario">
+                                    <p style="font-size:13px; font-weight:600; color:var(--cp-text); margin:0 0 10px;">Reforço Manhã (09h00 às 10h40):</p>
+                                    <label style="display:flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;margin-bottom:6px;"><input type="checkbox" name="horario" value="Seg-M"> Segunda-feira</label>
+                                    <label style="display:flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;margin-bottom:6px;"><input type="checkbox" name="horario" value="Qui-M"> Quinta-feira</label>
+                                    <label style="display:flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;"><input type="checkbox" name="horario" value="Sex-M"> Sexta-feira</label>
+                                </div>
+                                <div class="opcoes-horario">
+                                    <p style="font-size:13px; font-weight:600; color:var(--cp-text); margin:0 0 10px;">Reforço Tarde (13h30 às 16h00):</p>
+                                    <label style="display:flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;margin-bottom:6px;"><input type="checkbox" name="horario" value="Seg-T"> Segunda-feira</label>
+                                    <label style="display:flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;margin-bottom:6px;"><input type="checkbox" name="horario" value="Ter-T"> Terça-feira</label>
+                                    <label style="display:flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;margin-bottom:6px;"><input type="checkbox" name="horario" value="Qua-T"> Quarta-feira</label>
+                                    <label style="display:flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;"><input type="checkbox" name="horario" value="Sex-T"> Sexta-feira</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">4</div>
+                            <span class="cp-section-name">Termo de ciência do Responsável</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <p class="cp-terms-text" id="termo-projeto-texto" style="display:none; white-space:pre-line;">
+                                Declaro que estou ciente de que as aulas do projeto "REFORÇO ESCOLAR" possuem dias e horários fixos,
+                                previamente informados no ato desta inscrição. Esses horários foram definidos com base na disponibilidade
+                                dos(as) bolsistas universitários(as), não sendo possível adaptá-los a especificidades individuais.
+                            </p>
+                            <label class="cp-terms-check">
+                                <input type="checkbox" id="termo-aceite" required>
+                                <span>Estou de acordo com as condições descritas e autorizo a participação do(a) meu(minha) filho(a).</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="cp-footer">
+                        <button type="button" class="cp-btn-cancel" onclick="window.history.back()">Cancelar</button>
+                        <button type="submit" class="cp-btn-submit">
+                            <i class="ph ph-check-circle"></i> Cadastrar Participante
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

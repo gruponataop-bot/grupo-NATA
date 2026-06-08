@@ -1,0 +1,17 @@
+services:
+  # -----------------------------------------------------------------
+  # 1. CONFIGURAÇÃO DO FRONTEND (Static Site)
+  # -----------------------------------------------------------------
+  - type: web
+    name: meu-projeto-frontend
+    env: static
+    rootDir: Codigo/front-end  # <-- Ajustado para a pasta correta (C maiúsculo)
+
+  # -----------------------------------------------------------------
+  # 2. CONFIGURAÇÃO DO BACKEND (Java Spring Boot com Docker)
+  # -----------------------------------------------------------------
+  - type: web
+    name: meu-projeto-backend
+    env: docker
+    rootDir: Codigo/back-end   # <-- Define a pasta do backend (C maiúsculo)
+    dockerfilePath: Dockerfile  #

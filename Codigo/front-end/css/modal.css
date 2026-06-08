@@ -1,0 +1,293 @@
+/* ==========================================
+   MODAIS (POPUPS)
+   ========================================== */
+.modal-overlay {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    animation: fadeIn 150ms ease;
+    inset: 0;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.modal-caixa {
+    background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 200ms ease;
+}
+
+.modal-cabecalho {
+    display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-6) var(--space-8);
+  border-bottom: 1px solid var(--color-border);
+}
+.modal-corpo {padding: var(--space-6) var(--space-8); }
+
+.btn-fechar {
+    background: none; border: none; font-size: 20px; cursor: pointer;
+}
+
+/* Classe para mostrar o modal no JS */
+.mostrar-modal { display: block; }
+
+/* Ajuste de tamanho para o modal de configuração */
+.modal-larga {
+    width: 650px; /* Mais largo para caber as 3 colunas de checkbox */
+    padding: 10px;
+}
+
+/* O botão X flutuante no canto superior direito */
+.btn-fechar-flutuante {
+   background: none;
+  border: none;
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+.btn-fechar-flutuante:hover {
+    color: var(--color-text-primary);
+  background: var(--color-bg-hover);
+}
+
+/* Títulos internos do modal com serifa */
+.titulo-modal-serif {
+      font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.mt-20 { margin-top: 25px; }
+
+.acoes-modal-centralizadas {
+    display: flex;
+    justify-content: center;
+    gap: 50px; /* Espaço grande entre os dois botões */
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+.btn-modal-salvar, .btn-modal-deletar {
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2); /* Sombreado */
+    transition: transform 0.2s;
+}
+.btn-modal-salvar:active, .btn-modal-deletar:active {
+    transform: scale(0.95); /* Efeito de clique */
+}
+
+.btn-modal-salvar {
+    background-color: #db5c33; /* Terracota escuro */
+}
+
+.btn-modal-deletar {
+    background-color: #e27553; /* Um tom de terracota um pouquinho mais claro/opaco */
+}
+
+.grid-2-colunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+}
+
+/* Organiza os checkboxes em três colunas */
+.grid-3-colunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    font-size: 14px;
+}
+
+/* Estiliza os grupos de label + input */
+.input-grupo-form {
+    display: flex;
+    flex-direction: column; /* Coloca o label em cima do input */
+}
+
+.input-grupo-form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Estilo padronizado para os campos de digitação dentro do modal */
+.input-grupo-form input[type="text"],
+.input-grupo-form input[type="email"],
+.input-grupo-form input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #eaeaea; /* Fundo cinza claro */
+    font-family: inherit;
+    box-sizing: border-box; /* Garante que o padding não quebre a largura */
+}
+
+/* Organiza os botões de rádio (Ativo, Pendente, Inativo) na horizontal */
+.radio-status {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    align-items: center;
+}
+
+.radio-status label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espaço entre a bolinha e o texto */
+    cursor: pointer;
+}
+/* Estilo visual para campos bloqueados (somente leitura) */
+.input-grupo-form input[readonly] {
+    background-color: #dcdcdc; /* Um cinza um pouquinho mais escuro */
+    color: #666; /* Texto mais apagado */
+    cursor: not-allowed; /* Muda o mouse para aquele símbolo de "proibido" */
+    border: 1px solid #c0c0c0;
+}
+
+/* Remove a borda de foco azul caso a pessoa tente clicar mesmo assim */
+.input-grupo-form input[readonly]:focus {
+    outline: none;
+}
+
+/* ==========================================
+   ESTILOS ESPECÍFICOS DO MODAL DE VISUALIZAR
+   ========================================== */
+
+/* Coloca a lista/tabela do lado esquerdo e a caixa de texto do lado direito */
+.grid-view-lado-a-lado {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Divide meio a meio */
+    gap: var(--space-5);
+  margin-bottom: var(--space-5); /* Estica a caixa de texto para acompanhar a altura do vizinho */
+}
+
+/* Estilo para as habilidades listadas em texto */
+.lista-habilidades-view p {
+    margin: 0 0 10px 0;
+    font-size: 15px;
+    color: #333;
+}
+
+/* Garante que o textarea acompanhe a altura do grid e não possa ser esticado pelo usuário */
+.grid-view-lado-a-lado textarea {
+    height: 100%;
+    min-height: 100px; /* Altura mínima para não ficar esmagado */
+    resize: none; /* Tira aquela setinha de puxar o canto da caixa */
+}
+
+/* Adaptação da tabela de disponibilidade para caber bonito no modal */
+.tabela-view {
+    font-size: 12px; /* Letra menor */
+}
+
+.tabela-view th, .tabela-view td {
+    padding: 6px; /* Menos espaço interno */
+}
+
+/* Ajuste nos checkboxes desativados para eles não ficarem tão "invisíveis" */
+.tabela-view input[type="checkbox"]:disabled {
+    opacity: 0.8; 
+}
+
+
+/* DELETE */
+/* Botão Excluir no modal de edição */
+.btn-modal-deletar-real {
+    background-color: #d93025; /* Vermelho Google/Erro */
+    color: white;
+    border: none;
+    padding: 0.75rem 2.1875rem;
+    border-radius: 0.5rem;
+    font-size: 1.125rem;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: auto; /* Empurra os outros para a direita */
+}
+
+/* Modal de Confirmação Estilo Referência */
+.modal-confirmacao {
+    width: 31.25rem;
+    background-color: #db5c33; /* Fundo terracota da sua imagem */
+    border: 0.1875rem solid #007bff; /* Borda azul da imagem */
+    border-radius: 0.625rem;
+    color: white;
+    text-align: center;
+}
+
+.header-confirmacao {
+    border-bottom: 0.0625rem solid rgba(255,255,255,0.2);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+}
+
+.header-confirmacao h3 {
+    font-family: 'Serif', serif;
+    color: white;
+    margin: 0;
+}
+
+.conteudo-confirmacao {
+    padding: 2.5rem 1.25rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.acoes-confirmacao {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 1.25rem;
+}
+
+.btn-cancela-confirmacao, .btn-sim-confirmacao {
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    padding: 0.8rem 2.5rem; /* Altura e largura padronizadas */
+    border-radius: 1.5rem;  /* Formato de pílula em ambos */
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn-cancela-confirmacao {
+    background: transparent;
+    border: 0.125rem solid white;
+    color: white;
+}
+
+.btn-sim-confirmacao {
+    background: #d93025; /* Vermelho vibrante da referência */
+    border: none;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.btn-sim-confirmacao:hover, .btn-cancela-confirmacao:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <title>Manutenção - NATA</title>
+        <link rel="stylesheet" href="../css/layout.css"> 
+        <link rel="stylesheet" href="../css/sidebar.css">
+        <link rel="stylesheet" href="../css/topbar.css">
+        <link rel="stylesheet" href="../css/modal-padrao.css">
+        <link rel="stylesheet" href="../css/filtros.css">
+        <link rel="stylesheet" href="../css/tabela.css">
+        <link rel="stylesheet" href="../css/adicionar.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+        <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <script src="https://unpkg.com/@phosphor-icons/web"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        
+        <script src="../js/sidebar.js" defer></script>
+        <script src="../js/topbar.js" defer></script>
+        <script src="../js/manutencao.js" defer></script>
+        <script src="../js/mascaras.js" defer></script>
+    </head>
+    <body data-nav-active="manutencao">
+        <div class="layout-app">
+
+            <div id="sidebar-container"></div>
+
+            <div class="conteudo-direito">
+                
+                <header class="topbar">
+                    <div class="topbar-titulo">
+                        <h1> Manutenção </h1>
+                    </div>
+                    
+                    <div class="topbar-usuario">
+                        <div class="separador"></div>
+                        <span class="saudacao">
+                            Olá, <strong id="nome-usuario">carregando...</strong>
+                        </span>
+                    </div>
+                </header>
+
+                <main class="area-principal">
+                    <!-- Cabeçalho -->
+                    <div class="page-header">
+                        <div>
+                            <p class="page-subtitle">Controle de manutenções preventivas e corretivas</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-adicionar" onclick="window.location.href='cadastromotorista.html'">
+                                <i class="ph ph-plus"></i> Adicionar manutenção
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="barra-filtros">
+                        <div class="input-grupo pesquisa">
+                            <i class="ph ph-magnifying-glass"></i> 
+                            <input type="text" id="pesquisa-geral" placeholder="Placa, modelo, serviço ou local...">
+                        </div>
+
+                        <div class="filtros-container-flex">
+                            <div class="grupo-filtro">
+                                <span class="label-filtro">Tipo:</span>
+                                <select id="filtro-tipo-servico" class="select-filtro">
+                                    <option value="">Todos</option>
+                                    <option value="Preventiva">Preventiva</option>
+                                    <option value="Corretiva">Corretiva</option>
+                                    <option value="Revisão">Revisão</option>
+                                </select>
+                            </div>
+
+                            <div class="grupo-filtro">
+                                <span class="label-filtro">Ordenar por:</span>
+                                <select id="ordenacao-manutencao" class="select-filtro">
+                                    <option value="data-desc">Data (Mais recente)</option>
+                                    <option value="data-asc">Data (Mais antiga)</option>
+                                    <option value="valor-desc">Preço (Maior)</option>
+                                    <option value="valor-asc">Preço (Menor)</option>
+                                    <option value="status">Status</option>
+                                </select>
+                            </div>
+                            
+                            <div class="grupo-filtro">
+                                <span class="label-filtro">Data:</span>
+                                <input type="date" id="filtro-data-especifica" class="input-filtro-data">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="container-cards"> </div>
+
+                    <div class="paginacao-container">
+                        <span class="info-paginacao" id="info-paginacao">Carregando informações...</span>
+                        <div class="controles-paginacao" id="controles-paginacao"></div>
+                    </div>
+
+                    <div class="modal-overlay" id="modal-overlay" onclick="fecharModais()"></div>
+
+                    <div class="modal-caixa modal-larga" id="modal-editar">
+                        <div class="em-header">
+                            <div>
+                                <h2 class="em-title">Editar Manutenção</h2>
+                                <p class="em-subtitle">Atualize os dados do registro</p>
+                            </div>
+                            <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                        </div>
+                        <form id="form-editar-manutencao" class="em-body">
+                            <input type="hidden" id="editar-id">
+                            <div class="em-g2">
+                                <div class="em-field">
+                                    <label>Placa do Veículo</label>
+                                    <input type="text" id="editar-placa" readonly>
+                                </div>
+                                <div class="em-field">
+                                    <label>Tipo de Serviço</label>
+                                    <select id="editar-tipo" required>
+                                        <option value="Preventiva">Preventiva</option>
+                                        <option value="Corretiva">Corretiva</option>
+                                        <option value="Revisão">Revisão</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="em-field">
+                                <label>Descrição / Serviço</label>
+                                <input type="text" id="editar-servico" required>
+                            </div>
+                            <div class="em-g2">
+                                <div class="em-field">
+                                    <label>Data</label>
+                                    <input type="date" id="editar-data" required>
+                                </div>
+                                <div class="em-field">
+                                    <label>Local</label>
+                                    <input type="text" id="editar-local" required>
+                                </div>
+                            </div>
+                            <div class="em-g2">
+                                <div class="em-field">
+                                    <label>Custo (R$)</label>
+                                    <input type="number" step="0.01" id="editar-custo">
+                                </div>
+                                <div class="em-field">
+                                    <label>Status</label>
+                                    <select id="editar-status" required>
+                                        <option value="Pendente">Pendente</option>
+                                        <option value="Em Progresso">Em Progresso</option>
+                                        <option value="Concluído">Concluído</option>
+                                        <option value="Cancelado">Cancelado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="em-footer em-footer--split">
+                            <button type="button" class="em-btn-danger" onclick="abrirConfirmacaoExclusao()">
+                                <i class="ph ph-trash"></i> Excluir
+                            </button>
+                            <div class="em-footer-end">
+                                <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
+                                <button type="submit" form="form-editar-manutencao" class="em-btn-save">
+                                    <i class="ph ph-floppy-disk"></i> Atualizar Dados
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="modal-confirmar-exclusao" class="modal-caixa modal-confirmacao">
+                        <div class="em-confirm-head">
+                            <i class="ph ph-warning-circle"></i>
+                            <h3>Remover Registro</h3>
+                        </div>
+                        <div class="em-confirm-body">
+                            Tem certeza que deseja excluir esta manutenção?
+                            Esta ação não pode ser desfeita.
+                        </div>
+                        <div class="em-confirm-foot">
+                            <button type="button" class="em-confirm-cancel" onclick="fecharModais()">Cancelar</button>
+                            <button type="button" class="em-confirm-delete" id="btn-confirmar-delete">Sim, excluir</button>
+                        </div>
+                    </div>
+
+                    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+                </main>
+
+                <div id="footer-container"></div>
+
+            </div>
+        </div> 
+    </body>
+</html>

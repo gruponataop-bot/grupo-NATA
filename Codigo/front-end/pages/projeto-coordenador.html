@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gerenciar Meus Projetos - NATA</title>
+    
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/coordenador.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@300;400;500;600;700&family=MonteCarlo&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/sidebarVoluntarios.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/projeto-coordenador.js" defer></script>
+</head>
+
+<body data-nav-active="projetos">
+    <div id="alert-container" class="alert-container"></div>
+    
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Meus Projetos</h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="coordenador-page">
+                <section class="coordenador-header">
+                    <div>
+                        <br>
+                        <!-- 
+                        <p class="page-kicker">Gerenciamento Avançado</p>
+                        <h2>Informações do Projeto</h2>-->
+                    </div>
+                </section>
+
+                <section class="work-area">
+                    <aside class="projects-panel">
+                        <div class="section-title-row">
+                            <div>
+                                <h3>Seus Projetos</h3>
+                                <p id="totalProjetos">0 projetos encontrados</p>
+                            </div>
+                            <button class="icon-button" type="button" onclick="carregarProjetosDoCoordenador()" title="Atualizar Lista">
+                                <i class="ph ph-arrow-clockwise"></i>
+                            </button>
+                        </div>
+                        <div id="listaProjetosCoordenador" class="project-list"></div>
+                    </aside>
+
+                    <section class="attendance-panel" id="painelFormularioProjeto">
+                        <div class="attendance-empty" id="estadoSemProjeto">
+                            <i class="ph ph-folder-open"></i>
+                            <p>Selecione um projeto ao lado para editar suas informações.</p>
+                        </div>
+
+                        <div id="areaEdicao" style="display:none">
+                            <div class="attendance-header" style="margin-bottom: 24px;">
+                                <div>
+                                    <span class="profile-label">Modo Edição</span>
+                                    <h3 id="projetoNomeTitulo">-</h3>
+                                    <p id="projetoDetalhesSubtitulo">-</p>
+                                </div>
+                            </div>
+
+                            <div id="feedbackEdicao" class="feedback" style="display:none"></div>
+
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <input type="hidden" id="formId">
+
+                                <div class="em-field">
+                                    <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Nome do projeto</label>
+                                    <input type="text" id="formNome" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--prof-border); border-radius: 8px; box-sizing: border-box;">
+                                </div>
+
+                                <div class="em-field">
+                                    <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Descrição</label>
+                                    <textarea id="formDescricao" style="width: 100%; min-height: 80px; padding: 10px 12px; border: 1px solid var(--prof-border); border-radius: 8px; box-sizing: border-box; resize: vertical; font-family: inherit; font-size: 14px;"></textarea>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px;">
+                                    <div class="em-field">
+                                        <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Tipo</label>
+                                        <select id="formTipo" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--prof-border); border-radius: 8px; background: #fff;">
+                                            <option>Social</option>
+                                            <option>Educacional</option>
+                                            <option>Esportivo</option>
+                                            <option>Saúde</option>
+                                        </select>
+                                    </div>
+                                    <div class="em-field">
+                                        <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Público-alvo</label>
+                                        <select id="formPublicoAlvo" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--prof-border); border-radius: 8px; background: #fff;">
+                                            <option>Comunidade</option>
+                                            <option>Residente</option>
+                                            <option>Ambos</option>
+                                        </select>
+                                    </div>
+                                    <div class="em-field">
+                                        <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Status</label>
+                                        <select id="formStatus" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--prof-border); border-radius: 8px; background: #fff;">
+                                            <option>Ativo</option>
+                                            <option>Suspenso</option>
+                                            <option>Encerrado</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+                                    <div class="em-field">
+                                        <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Data de início</label>
+                                        <input type="date" id="formDataInicio" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--prof-border); border-radius: 8px; box-sizing: border-box;">
+                                    </div>
+                                    <div class="em-field">
+                                        <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Data de término</label>
+                                        <input type="date" id="formDataFim" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--prof-border); border-radius: 8px; box-sizing: border-box;">
+                                    </div>
+                                </div>
+
+                                <div class="em-field">
+                                    <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Horarios do projeto</label>
+                                    <textarea id="formHorarios" style="display:none"></textarea>
+                                    <table class="cp-avail-table" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sab</th><th>Dom</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Manha</td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Seg-Manha"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Ter-Manha"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Qua-Manha"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Qui-Manha"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Sex-Manha"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Sab-Manha"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Dom-Manha"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tarde</td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Seg-Tarde"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Ter-Tarde"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Qua-Tarde"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Qui-Tarde"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Sex-Tarde"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Sab-Tarde"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Dom-Tarde"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Noite</td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Seg-Noite"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Ter-Noite"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Qua-Noite"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Qui-Noite"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Sex-Noite"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Sab-Noite"></td>
+                                                <td><input type="checkbox" name="form-horario-projeto" value="Dom-Noite"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="em-field">
+                                    <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Termo de responsabilidade</label>
+                                    <textarea id="formTermoResponsabilidade" style="width: 100%; min-height: 90px; padding: 10px 12px; border: 1px solid var(--prof-border); border-radius: 8px; box-sizing: border-box; resize: vertical; font-family: inherit; font-size: 14px;"></textarea>
+                                </div>
+
+                                <div class="em-field">
+                                    <label style="font-size: 13px; font-weight: 600; color: var(--prof-text); margin-bottom: 6px; display: block;">Imagem do Projeto</label>
+                                    <div onclick="document.getElementById('formImagem').click()" style="display: flex; align-items: center; gap: 14px; padding: 12px; border: 1.5px dashed var(--prof-border); border-radius: 8px; background: var(--prof-soft); cursor: pointer;">
+                                        <div id="imagePreview" style="width: 52px; height: 52px; border-radius: 6px; background-size: cover; background-position: center; background-color: #e8e2db; flex-shrink: 0; border: 1px solid #ddd;"></div>
+                                        <div style="flex: 1;">
+                                            <p style="margin: 0; font-size: 13px; font-weight: 500; color: var(--prof-text);">Alterar imagem de capa</p>
+                                            <p style="margin: 0; font-size: 11px; color: var(--prof-muted);">JPG ou PNG — até 2 MB</p>
+                                        </div>
+                                        <i class="ph ph-upload-simple" style="color: var(--prof-brand); font-size: 20px;"></i>
+                                    </div>
+                                    <input type="file" id="formImagem" accept="image/*" style="display:none" onchange="previewImagemProjeto(event)">
+                                </div>
+
+                                <div class="call-actions" style="margin-top: 12px; justify-content: flex-end;">
+                                    <button class="btn-primary-prof" type="button" onclick="salvarAlteracoesProjeto()" style="height: 42px; padding: 0 24px; font-size: 14px;">
+                                        <i class="ph ph-floppy-disk"></i> Salvar alterações
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

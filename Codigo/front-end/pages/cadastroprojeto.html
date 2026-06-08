@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Projeto - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/cadastroprojeto.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+<body data-nav-active="projetos">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo"><h1>Projetos</h1></div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+
+                <div class="cp-header">
+                    <button class="cp-back" onclick="window.location.href='projetos.html'">
+                        <i class="ph ph-caret-left"></i> Voltar
+                    </button>
+                    <div class="cp-title-block">
+                        <h2>Novo Projeto</h2>
+                        <p>Preencha as informações abaixo para criar um projeto</p>
+                    </div>
+                </div>
+
+                <form id="form-novo-projeto" class="cp-form" novalidate>
+
+                    <div id="formErro" class="cp-erro"></div>
+
+                    <!-- 1. Sobre o projeto -->
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">1</div>
+                            <span class="cp-section-name">Sobre o projeto</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-field">
+                                <label>Nome do projeto</label>
+                                <input type="text" id="formNome" placeholder="Ex: Futsal NATA">
+                            </div>
+                            <div class="cp-field">
+                                <label>Descrição <span class="cp-hint">(opcional)</span></label>
+                                <textarea id="formDescricao" placeholder="Conte brevemente sobre o que é esse projeto..."></textarea>
+                            </div>
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Tipo</label>
+                                    <select id="formTipo">
+                                        <option value="">Selecione um tipo...</option>
+                                        <option>Social</option>
+                                        <option>Educacional</option>
+                                        <option>Esportivo</option>
+                                        <option>Saúde</option>
+                                    </select>
+                                </div>
+                                <div class="cp-field">
+                                    <label>Público-alvo</label>
+                                    <select id="formPublicoAlvo">
+                                        <option value="">Selecione...</option>
+                                        <option>Comunidade</option>
+                                        <option>Residente</option>
+                                        <option>Ambos</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Datas e situação -->
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">2</div>
+                            <span class="cp-section-name">Datas e situação</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-3">
+                                <div class="cp-field">
+                                    <label>Data de início</label>
+                                    <input type="date" id="formDataInicio">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Data de término <span class="cp-hint">(opcional)</span></label>
+                                    <input type="date" id="formDataFim">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Situação atual</label>
+                                    <select id="formStatus">
+                                        <option>Ativo</option>
+                                        <option>Suspenso</option>
+                                        <option>Encerrado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Responsável -->
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">3</div>
+                            <span class="cp-section-name">Horarios e termo</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-field">
+                                <label>Horarios do projeto <span class="cp-hint">(opcional)</span></label>
+                                <textarea id="formHorarios" style="display:none"></textarea>
+                                <table class="cp-avail-table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sab</th><th>Dom</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Manha</td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Seg-Manha"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Ter-Manha"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Qua-Manha"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Qui-Manha"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Sex-Manha"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Sab-Manha"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Dom-Manha"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tarde</td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Seg-Tarde"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Ter-Tarde"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Qua-Tarde"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Qui-Tarde"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Sex-Tarde"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Sab-Tarde"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Dom-Tarde"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Noite</td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Seg-Noite"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Ter-Noite"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Qua-Noite"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Qui-Noite"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Sex-Noite"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Sab-Noite"></td>
+                                            <td><input type="checkbox" name="horario-projeto" value="Dom-Noite"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="cp-field">
+                                <label>Termo de responsabilidade <span class="cp-hint">(opcional)</span></label>
+                                <textarea id="formTermoResponsabilidade" placeholder="Texto que o responsavel devera aceitar ao cadastrar ou vincular o aluno ao projeto."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">4</div>
+                            <span class="cp-section-name">Responsável</span>
+                            <span class="cp-optional-tag">opcional</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-field">
+                                <label>Funcionário responsável pelo projeto</label>
+                                <select id="formResponsavel">
+                                    <option value="">Nenhum selecionado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Imagem -->
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">5</div>
+                            <span class="cp-section-name">Imagem do projeto</span>
+                            <span class="cp-optional-tag">opcional</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-upload-zone" onclick="document.getElementById('formImagem').click()">
+                                <i class="ph ph-image"></i>
+                                <p class="cp-upload-main">Clique para escolher uma foto</p>
+                                <p class="cp-upload-sub">JPG ou PNG — até 2 MB</p>
+                                <p class="cp-upload-fname" id="uploadFilename"></p>
+                            </div>
+                            <input type="file" id="formImagem" accept="image/*" style="display:none" onchange="previewImagem(event)">
+                            <div class="cp-preview-wrap" id="imagePreviewContainer">
+                                <img id="imagePreview" src="" alt="Pré-visualização">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rodapé -->
+                    <div class="cp-footer">
+                        <button type="button" class="cp-btn-cancel" onclick="window.location.href='projetos.html'">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="cp-btn-submit" id="btnSubmit">
+                            <i class="ph ph-check-circle"></i> Criar Projeto
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

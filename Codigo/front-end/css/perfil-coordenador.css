@@ -1,0 +1,238 @@
+/* =========================================================
+   LAYOUT PRINCIPAL E ROLAGEM
+   ========================================================= */
+.coordenador-page {
+    flex: 1;
+    overflow-y: auto; /* Permite que o conteúdo role verticalmente */
+    padding: 34px 42px;
+    background: var(--prof-bg, #f9f8f6);
+    height: calc(100vh - 70px); /* Ajusta a altura considerando a topbar */
+    box-sizing: border-box;
+}
+
+/* Centraliza e define largura máxima para manter a simetria */
+.coordenador-header,
+.profile-panel,
+.profile-extras {
+    max-width: 1040px;
+    width: 100%;
+    margin: 0 auto 24px auto;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   PAINEL EXTRA: HABILIDADES E DISPONIBILIDADE
+   ========================================================= */
+.profile-extras {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Coloca os cards lado a lado simetricamente */
+    gap: 24px;
+    align-items: stretch; /* Faz os dois cards terem a mesma altura */
+}
+
+.extra-card {
+    background: var(--prof-surface, #ffffff);
+    border: 1px solid var(--prof-border, #e8e6e1);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+}
+
+.extra-card-header {
+    margin-bottom: 20px;
+}
+
+.extra-card-header h3 {
+    margin: 0;
+    color: var(--prof-text, #1a1814);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.extra-card-header p {
+    margin: 4px 0 0;
+    color: var(--prof-muted, #77716a);
+    font-size: 13.5px;
+}
+
+/* =========================================================
+   TABELA DE DISPONIBILIDADE (VISUALIZAÇÃO)
+   ========================================================= */
+.table-responsive-wrapper {
+    overflow-x: auto; /* Rola horizontalmente no celular se a tabela for larga */
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--prof-border, #e8e6e1);
+}
+
+.table-view {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.table-view th {
+    padding: 14px;
+    background: var(--prof-soft, #f4f3f0);
+    color: var(--prof-muted, #77716a);
+    font-weight: 600;
+    font-size: 13px;
+    border-bottom: 2px solid var(--prof-border, #e8e6e1);
+}
+
+.table-view th:first-child {
+    text-align: left;
+}
+
+.table-view td {
+    padding: 14px;
+    border-bottom: 1px solid var(--prof-border, #e8e6e1);
+    font-size: 14px;
+}
+
+.table-view tr:last-child td {
+    border-bottom: none;
+}
+
+.table-view td:first-child {
+    text-align: left;
+    font-weight: 600;
+    color: var(--prof-text, #1a1814);
+}
+
+/* =========================================================
+   AJUSTES DO MODAL (Para permitir rolagem interna)
+   ========================================================= */
+.em-body {
+    max-height: 65vh; /* O corpo do modal ocupa no máximo 65% da altura da tela */
+    overflow-y: auto; /* Adiciona scroll interno no modal se o conteúdo for grande */
+    padding-right: 10px; /* Dá um espacinho para a barra de rolagem */
+}
+
+/* Personalização da barra de rolagem do modal */
+.em-body::-webkit-scrollbar {
+    width: 6px;
+}
+.em-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+.em-body::-webkit-scrollbar-thumb {
+    background-color: #d1cdc7;
+    border-radius: 10px;
+}
+
+/* =========================================================
+    REPOSICIONAMENTO DO BOTÃO DE EDITAR
+   ========================================================= */
+.coordenador-header {
+    display: flex;
+    justify-content: space-between; /* Joga os textos para esquerda e o botão para a direita */
+    align-items: flex-end; /* Alinha a base do botão com a base do título */
+}
+
+/* Estilo aprimorado para o botão no topo */
+.btn-editar-topo {
+    background: var(--prof-surface, #ffffff);
+    border: 1px solid var(--prof-border, #e8e6e1);
+    color: var(--prof-text, #1a1814);
+    box-shadow: 0 1px 3px rgba(26, 24, 20, 0.06);
+    font-size: 14px;
+    padding: 10px 20px;
+    height: 42px;
+}
+
+.btn-editar-topo:hover {
+    background: var(--prof-soft, #f4f3f0);
+    color: var(--prof-brand, #db5c33);
+    border-color: var(--prof-brand, #db5c33);
+}
+
+/* =========================================================
+   RESPONSIVIDADE (CELULARES E TABLETS)
+   ========================================================= */
+
+@media (max-width: 1060px) {
+    .profile-panel,
+    .work-area {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-data {
+        grid-template-columns: 1fr;
+    }
+
+    /* NOVA REGRA: Deixa a altura do painel se ajustar automaticamente à quantidade de projetos */
+    .projects-panel {
+        min-height: auto; 
+    }
+}
+
+@media (max-width: 900px) {
+    .profile-extras {
+        grid-template-columns: 1fr; /* Empilha as habilidades e a tabela no mobile */
+    }
+    .profile-panel {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .profile-avatar {
+        margin: 0 auto;
+    }
+    .profile-data {
+        grid-template-columns: 1fr 1fr; /* Dados de contato em 2 colunas no celular */
+    }
+
+}
+
+@media (max-width: 720px) {
+    .coordenador-header {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .btn-editar-topo {
+        width: 100%; 
+        justify-content: center;
+    }
+
+    /* Reduz o respiro interno do card para dar mais espaço à tabela */
+    .extra-card {
+        padding: 16px; 
+    }
+
+    /* Diminui os espaços entre colunas para caber na tela */
+    .table-view th, 
+    .table-view td {
+        padding: 12px 6px; 
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 500px) {
+    .profile-data {
+        grid-template-columns: 1fr; /* Empilha dados de contato */
+    }
+    
+    .coordenador-page {
+        padding: 20px 16px;
+    }
+
+    /* Ajuste extremo para telas de celulares bem pequenos */
+    .table-view th, 
+    .table-view td {
+        padding: 8px 2px;
+        font-size: 11px; /* Letra um pouco menor para "Segunda-feira" não quebrar */
+    }
+    
+    .table-view td:first-child {
+        word-break: break-word; /* Permite quebrar linha no nome do dia se precisar */
+    }
+
+    /* Reduz o ícone do Check verde na tabela */
+    .table-view td i {
+        font-size: 18px !important; 
+    }
+}

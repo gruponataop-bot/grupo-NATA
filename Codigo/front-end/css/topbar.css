@@ -1,0 +1,61 @@
+/* ==========================================
+   ESTILOS DA TOPBAR (BARRA SUPERIOR)
+   ========================================== */
+.topbar {
+    display: flex;
+    justify-content: space-between; /* Afasta o título da área do usuário */
+    align-items: center; /* Centraliza verticalmente */
+    background-color: #ffffff; /* Fundo branco */
+    padding: 15px 30px; /* Espaço interno */
+    border-bottom: 2px solid #e0e0e0; /* Linha sutil embaixo da barra */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02); /* Sombra bem leve */
+    font-family: 'Inter', sans-serif; /* Mesma fonte da sidebar */
+}
+
+/* Título da página atual */
+.topbar-titulo h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+/* Área do usuário à direita */
+.topbar-usuario {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaço entre a linha e o texto */
+}
+
+/* A linha vertical cinza */
+.separador {
+    width: 2px;
+    height: 30px;
+    background-color: #e0e0e0;
+}
+
+/* O texto "Olá, admin" */
+.saudacao {
+    font-size: 16px;
+    color: #757575; /* Cinza mais claro como na imagem */
+}
+
+.saudacao strong {
+    font-weight: 500;
+    color: #424242; /* O nome um pouquinho mais escuro */
+}
+
+@media (max-width: 768px) {
+    .topbar {
+        padding: 12px 16px;
+    }
+    .topbar-titulo h1 {
+        font-size: 18px;
+    }
+    .saudacao {
+        font-size: 13px;
+    }
+    .separador {
+        height: 20px;
+    }
+}

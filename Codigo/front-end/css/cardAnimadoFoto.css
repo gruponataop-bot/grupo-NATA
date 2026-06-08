@@ -1,0 +1,207 @@
+/* Container que envolve todos os cards */
+.container-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(21.875rem, 1fr)); /* 350px */
+    gap: 1.5625rem; /* 25px */
+    margin-top: 2rem;
+    margin-bottom: 3.125rem; /* 50px - Aumentado para dar espaço ao texto de exibição */
+}
+
+
+.card-ponto {
+    background-color: #db5c33; /* Cor laranja da imagem */
+    border-radius: 1.5rem;
+    height: 25rem; /* Altura fixa */
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card-ponto:hover {
+    transform: translateY(-5px);
+}
+
+/* Camada da Capa (Exibe Nome e Tipo) */
+.card-capa {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.card-capa::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+}
+
+.card-capa h3, 
+.card-capa .tipo-capa {
+    position: relative;
+    z-index: 1;
+}
+
+.card-capa h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.tipo-capa {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Camada de Detalhes (Escondida por padrão) */
+.card-conteudo-detalhado {
+    position: absolute;
+    inset: 0;
+    background-color: #f5f5f5;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1; 
+    pointer-events: none;
+}
+
+.card-ponto:hover .card-conteudo-detalhado {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    z-index: 50;
+}
+
+/* Ajustes no corpo interno para caber no card fixo */
+.card-body-scroll {
+    overflow-y: auto;
+    flex-grow: 1;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.9375rem; /* 15px */
+    margin-bottom: 0.9375rem; /* 15px */
+}
+
+.card-header h3 {
+    font-size: 1.375rem; /* 22px */
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Corpo do Card */
+.card-body {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.6;
+}
+
+.card-body hr {
+    border: 0;
+    border-top: 0.0625rem solid #bbb; /* 1px */
+    margin: 0.625rem 0; /* 10px */
+}
+
+.info-linha {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3125rem; /* 5px */
+}
+
+.endereco-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3125rem; /* 5px */
+    margin-top: 0.625rem; /* 10px */
+}
+
+/* Tags de Tipo (Coleta/Entrega) */
+.tags-tipo-card {
+    display: flex;
+    gap: 0.5rem; /* 8px */
+    flex-wrap: wrap;
+}
+
+.tag-tipo {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem; /* 6px */
+    padding: 0.375rem 0.75rem; /* 6px 12px */
+    border-radius: 1rem; /* 16px */
+    font-size: 0.75rem; /* 12px */
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.tag-tipo i {
+    font-size: 1rem; /* 16px */
+}
+
+.tag-tipo.coleta,
+.tag-tipo.entrega {
+    background-color: #db5c33;
+    color: white;
+}
+
+/* Rodapé e Botões */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 0.9375rem; /* 15px */
+}
+
+.btn-card-editar {
+    background: transparent;
+    border: 0.0625rem solid #db5c33;
+    color: #1a1a1a;
+    padding: 0.375rem 0.9375rem;
+    border-radius: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+    font-weight: 500;
+    position: relative;
+    z-index: 100; 
+    cursor: pointer !important;
+    pointer-events: all !important;
+}
+
+.btn-card-recibo {
+    background-color: #db5c33;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem; /* 8px 20px */
+    border-radius: 1.25rem; /* 20px */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* 8px */
+    cursor: pointer;
+    font-weight: 500;
+}

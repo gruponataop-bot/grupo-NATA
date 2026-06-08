@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Motorista - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/cadastromotorista.js" defer></script>
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/motoristas.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+<body data-nav-active="motoristas">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo"><h1>Motoristas</h1></div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+
+                <div class="cp-header">
+                    <button class="cp-back" onclick="window.location.href='motoristas.html'">
+                        <i class="ph ph-caret-left"></i> Voltar
+                    </button>
+                    <div class="cp-title-block">
+                        <h2>Novo Motorista</h2>
+                        <p>Preencha os dados do motorista a ser cadastrado</p>
+                    </div>
+                </div>
+
+                <form id="form-novo-motorista" class="cp-form" novalidate>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">1</div>
+                            <span class="cp-section-name">Informações do motorista</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Nome do Motorista</label>
+                                    <input type="text" name="nome_motorista" placeholder="Nome completo">
+                                </div>
+                                <div class="cp-field">
+                                    <label>CPF</label>
+                                    <input type="text" name="cpf_motorista" placeholder="000.000.000-00">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Telefone</label>
+                                    <input type="text" name="tel_rep" placeholder="(00) 00000-0000">
+                                </div>
+                                <div class="cp-field">
+                                    <label>E-mail</label>
+                                    <input type="text" name="email_rep" placeholder="email@exemplo.com">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">2</div>
+                            <span class="cp-section-name">Endereço</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-3">
+                                <div class="cp-field">
+                                    <label>CEP</label>
+                                    <input type="text" name="cep" placeholder="00000-000">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Rua</label>
+                                    <input type="text" name="rua">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Número</label>
+                                    <input type="text" name="numero">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Bairro</label>
+                                    <input type="text" name="bairro">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Cidade</label>
+                                    <input type="text" name="cidade">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Complemento <span class="cp-hint">(opcional)</span></label>
+                                    <input type="text" name="complemento" placeholder="Apto, Casa, etc.">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">3</div>
+                            <span class="cp-section-name">Tipo de CNH</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-radios">
+                                <label><input type="checkbox" name="cnh_a" value="sim"> A</label>
+                                <label><input type="checkbox" name="cnh_b" value="sim"> B</label>
+                                <label><input type="checkbox" name="cnh_c" value="sim"> C</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">4</div>
+                            <span class="cp-section-name">Disponibilidade</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <table class="cp-avail-table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th><th>Dom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Manhã (8-12h)</td>
+                                        <td><input type="checkbox" name="disp" value="seg-manha"></td>
+                                        <td><input type="checkbox" name="disp" value="ter-manha"></td>
+                                        <td><input type="checkbox" name="disp" value="qua-manha"></td>
+                                        <td><input type="checkbox" name="disp" value="qui-manha"></td>
+                                        <td><input type="checkbox" name="disp" value="sex-manha"></td>
+                                        <td><input type="checkbox" name="disp" value="sab-manha"></td>
+                                        <td><input type="checkbox" name="disp" value="dom-manha"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tarde (13-17h)</td>
+                                        <td><input type="checkbox" name="disp" value="seg-tarde"></td>
+                                        <td><input type="checkbox" name="disp" value="ter-tarde"></td>
+                                        <td><input type="checkbox" name="disp" value="qua-tarde"></td>
+                                        <td><input type="checkbox" name="disp" value="qui-tarde"></td>
+                                        <td><input type="checkbox" name="disp" value="sex-tarde"></td>
+                                        <td><input type="checkbox" name="disp" value="sab-tarde"></td>
+                                        <td><input type="checkbox" name="disp" value="dom-tarde"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Noite (18-22h)</td>
+                                        <td><input type="checkbox" name="disp" value="seg-noite"></td>
+                                        <td><input type="checkbox" name="disp" value="ter-noite"></td>
+                                        <td><input type="checkbox" name="disp" value="qua-noite"></td>
+                                        <td><input type="checkbox" name="disp" value="qui-noite"></td>
+                                        <td><input type="checkbox" name="disp" value="sex-noite"></td>
+                                        <td><input type="checkbox" name="disp" value="sab-noite"></td>
+                                        <td><input type="checkbox" name="disp" value="dom-noite"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="cp-footer">
+                        <button type="button" class="cp-btn-cancel" onclick="window.history.back()">Cancelar</button>
+                        <button type="submit" class="cp-btn-submit">
+                            <i class="ph ph-check-circle"></i> Cadastrar Motorista
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestão de Estoque - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/tabela.css">
+    <link rel="stylesheet" href="../css/modal-padrao.css">
+    <link rel="stylesheet" href="../css/adicionar.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/components.js" defer></script>
+    <script src="../js/estoque.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+
+</head>
+
+<body data-nav-active="estoque">
+    <div id="alert-container" class="alert-container"></div>
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Gestão de Estoque</h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+                <div class="page-header">
+                    <div>
+                        <p class="page-subtitle">Controle de insumos e doações recebidas</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-adicionar" onclick="window.location.href='cadastroestoque.html'">
+                            <i class="ph ph-plus"></i> Adicionar Item
+                        </button>
+                    </div>
+                </div>
+
+                <div class="barra-filtros">
+                    <div class="input-grupo pesquisa">
+                        <input type="text" id="pesquisa-item" placeholder="Pesquisar item">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </div>
+                </div>
+
+                <div class="tabela-container">
+                    <table class="tabela-dados">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Categoria</th>
+                                <th>Quantidade</th>
+                                <th>Unidade</th>
+                                <th>Validade</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-estoque-body">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacao-container">
+                    <span class="info-paginacao" id="info-paginacao">Carregando informações...</span>
+                    <div class="controles-paginacao" id="controles-paginacao"></div>
+                </div>
+
+                <div id="modal-overlay" class="modal-overlay" onclick="fecharModais()"></div>
+
+                <div id="modal-visualizar" class="modal-caixa modal-larga">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Detalhes do Produto</h2>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <div class="em-body">
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome do Item</label>
+                                <input type="text" id="view-nome" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Categoria</label>
+                                <input type="text" id="view-categoria" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Quantidade em Estoque</label>
+                                <input type="text" id="view-quantidade" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Data de Validade</label>
+                                <input type="text" id="view-validade" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Valor Unitário (R$)</label>
+                                <input type="text" id="view-valor" readonly>
+                            </div>
+                        </div>
+                        <p class="em-section-title">Informações Adicionais</p>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Fornecedor / Doador</label>
+                                <input type="text" id="view-fornecedor" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Localização (Prateleira/Corredor)</label>
+                                <input type="text" id="view-localizacao" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="em-footer">
+                        <button class="em-btn-cancel" onclick="fecharModais()">Fechar</button>
+                    </div>
+                </div>
+
+                <div id="modal-editar" class="modal-caixa modal-larga">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Editar Item</h2>
+                            <p class="em-subtitle">Atualize as informações do produto</p>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <form id="form-editar-estoque" class="em-body">
+                        <input type="hidden" id="edit-id">
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome do Item</label>
+                                <input type="text" id="edit-nome" required>
+                            </div>
+                            <div class="em-field">
+                                <label>Categoria</label>
+                                <select id="edit-categoria">
+                                    <option value="Alimento">Alimento</option>
+                                    <option value="Higiene">Higiene</option>
+                                    <option value="Limpeza">Limpeza</option>
+                                    <option value="Material Escolar">Material Escolar</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>
+                            <div class="em-field">
+                                <label>Quantidade</label>
+                                <div class="em-stepper">
+                                    <button type="button" class="em-stepper-btn" onclick="const i=document.getElementById('edit-quantidade');i.value=Math.max(0,parseInt(i.value||0)-1)"><i class="ph ph-minus"></i></button>
+                                    <input type="text" id="edit-quantidade" class="em-stepper-input" inputmode="numeric" required oninput="this.value=this.value.replace(/[^0-9]/g,'')" onclick="this.select()">
+                                    <button type="button" class="em-stepper-btn" onclick="const i=document.getElementById('edit-quantidade');i.value=parseInt(i.value||0)+1"><i class="ph ph-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="em-field">
+                                <label>Unidade de Medida</label>
+                                <input type="text" id="edit-unidade" placeholder="Ex: kg, un, litros">
+                            </div>
+                            <div class="em-field">
+                                <label>Valor Unitário (R$)</label>
+                                <input type="number" id="edit-valor" step="0.01" min="0" placeholder="0,00">
+                            </div>
+                        </div>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Data de Validade</label>
+                                <input type="date" id="edit-validade">
+                            </div>
+                            <div class="em-field">
+                                <label>Estoque Mínimo (Alerta)</label>
+                                <div class="em-stepper">
+                                    <button type="button" class="em-stepper-btn" onclick="const i=document.getElementById('edit-minimo');i.value=Math.max(1,parseInt(i.value||1)-1)"><i class="ph ph-minus"></i></button>
+                                    <input type="text" id="edit-minimo" class="em-stepper-input" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" onclick="this.select()">
+                                    <button type="button" class="em-stepper-btn" onclick="const i=document.getElementById('edit-minimo');i.value=parseInt(i.value||0)+1"><i class="ph ph-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="em-footer">
+                        <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
+                        <button type="submit" form="form-editar-estoque" class="em-btn-save">
+                            <i class="ph ph-floppy-disk"></i> Atualizar Estoque
+                        </button>
+                    </div>
+                </div>
+
+                <div id="modal-config" class="modal-caixa modal-confirmacao">
+                    <div class="em-confirm-head">
+                        <i class="ph ph-warning-circle"></i>
+                        <h3>Remover do Inventário</h3>
+                    </div>
+                    <div class="em-confirm-body">
+                        Você está prestes a excluir permanentemente:
+                        <strong><span id="config-nome-display"></span></strong>
+                    </div>
+                    <div class="em-confirm-foot">
+                        <button type="button" class="em-confirm-cancel" onclick="fecharModais()">Cancelar</button>
+                        <button type="button" class="em-confirm-delete" onclick="deletarItemEstoque()">
+                            <i class="ph ph-trash"></i> Confirmar
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

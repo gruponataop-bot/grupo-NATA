@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meu Perfil - Professor NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/perfil-administrativo.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@300;400;500;600;700&family=MonteCarlo&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="../js/sidebarVoluntarios.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/perfil-professor.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="perfil">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Meu Perfil</h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="perfil-admin-page">
+                <section class="perfil-admin-header">
+                    <p class="page-kicker">Área do professor</p>
+                    <h2>Dados do funcionário</h2>
+                    <p>Visualize e atualize as informações do seu cadastro como professor.</p>
+                </section>
+
+                <section class="perfil-admin-panel">
+                    <aside class="profile-summary">
+                        <div class="profile-avatar" id="professorIniciais">PR</div>
+                        <span class="profile-label">Professor</span>
+                        <h3 id="professorNomeResumo">Carregando...</h3>
+                        <p id="professorCargoResumo">Professor</p>
+                    </aside>
+
+                    <form id="formPerfilProfessor" class="profile-form">
+                        <input type="hidden" id="professorId">
+                        <input type="hidden" id="professorCargo">
+                        <input type="hidden" id="professorSenha">
+
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="professorNome">Nome completo</label>
+                                <input type="text" id="professorNome" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="professorCpf">CPF</label>
+                                <input type="text" id="professorCpf" required maxlength="14">
+                            </div>
+                            <div class="form-field">
+                                <label for="professorTelefone">Telefone</label>
+                                <input type="text" id="professorTelefone" required maxlength="15">
+                            </div>
+                            <div class="form-field">
+                                <label for="professorEmail">E-mail</label>
+                                <input type="email" id="professorEmail" required>
+                            </div>
+                        </div>
+
+                        <div id="perfilProfessorFeedback" class="feedback" style="display:none"></div>
+
+                        <div class="profile-actions">
+                            <button type="button" class="btn-secondary-profile" onclick="carregarPerfilProfessor()">
+                                <i class="ph ph-arrow-clockwise"></i> Recarregar
+                            </button>
+                            <button type="submit" class="btn-primary-profile">
+                                <i class="ph ph-floppy-disk"></i> Salvar alterações
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

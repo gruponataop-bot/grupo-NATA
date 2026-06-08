@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Ponto - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cadastro-padrao.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/geocoding.js" defer></script>
+    <script src="../js/cadastroponto.js" defer></script>
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/pontos.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+    
+</head>
+<body data-nav-active="pontos">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+        <div id="alert-container" class="alert-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo"><h1>Pontos de Coleta e Entrega</h1></div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">Olá, <strong id="nome-usuario">carregando...</strong></span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+
+                <div class="cp-header">
+                    <button class="cp-back" onclick="window.location.href='pontos.html'">
+                        <i class="ph ph-caret-left"></i> Voltar
+                    </button>
+                    <div class="cp-title-block">
+                        <h2>Novo Ponto</h2>
+                        <p>Cadastre um ponto de coleta ou entrega</p>
+                    </div>
+                </div>
+
+                <form id="form-novo-ponto" class="cp-form" novalidate>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">1</div>
+                            <span class="cp-section-name">Informações do Ponto</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-field">
+                                <label>Nome do Ponto</label>
+                                <input type="text" name="nome_ponto" placeholder="Nome do ponto de coleta ou entrega">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">2</div>
+                            <span class="cp-section-name">Endereço</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-3">
+                                <div class="cp-field">
+                                    <label>CEP</label>
+                                    <input type="text" name="cep">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Rua</label>
+                                    <input type="text" name="rua">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Número</label>
+                                    <input type="text" name="numero">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Bairro</label>
+                                    <input type="text" name="bairro">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Cidade</label>
+                                    <input type="text" name="cidade">
+                                </div>
+                                <div class="cp-field">
+                                    <label>Complemento <span class="cp-hint">(opcional)</span></label>
+                                    <input type="text" name="complemento">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">3</div>
+                            <span class="cp-section-name">Tipo de ponto</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>É Ponto de coleta?</label>
+                                    <div class="cp-radios">
+                                        <label><input type="radio" name="ponto_coleta" value="sim"> Sim</label>
+                                        <label><input type="radio" name="ponto_coleta" value="nao" checked> Não</label>
+                                    </div>
+                                </div>
+                                <div class="cp-field">
+                                    <label>É Ponto de entrega?</label>
+                                    <div class="cp-radios">
+                                        <label><input type="radio" name="ponto_entrega" value="sim"> Sim</label>
+                                        <label><input type="radio" name="ponto_entrega" value="nao" checked> Não</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-card">
+                        <div class="cp-card-head">
+                            <div class="cp-step">4</div>
+                            <span class="cp-section-name">Informações do Representante</span>
+                        </div>
+                        <div class="cp-card-body">
+                            <div class="cp-field">
+                                <label>Nome Completo</label>
+                                <input type="text" name="nome_rep">
+                            </div>
+                            <div class="cp-grid-2">
+                                <div class="cp-field">
+                                    <label>Telefone</label>
+                                    <input type="text" name="tel_rep" placeholder="(XX) XXXXX-XXXX">
+                                </div>
+                                <div class="cp-field">
+                                    <label>E-mail</label>
+                                    <input type="email" name="email_rep" placeholder="exemplo@dominio.com">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-footer">
+                        <button type="button" class="cp-btn-cancel" onclick="window.history.back()">Cancelar</button>
+                        <button type="submit" class="cp-btn-submit">
+                            <i class="ph ph-check-circle"></i> Criar Ponto
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

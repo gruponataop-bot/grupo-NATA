@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Perfil do Coordenador - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/modal-padrao.css">
+    <link rel="stylesheet" href="../css/coordenador.css">
+    <link rel="stylesheet" href="../css/perfil-coordenador.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@300;400;500;600;700&family=MonteCarlo&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="../js/sidebarVoluntarios.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/coordenador.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="perfil">
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Meu Perfil</h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="coordenador-page">
+                <section class="coordenador-header">
+                    <div>
+                        <h2>Informações Pessoais</h2>
+                    </div>
+                    <button class="btn-lite btn-editar-topo" onclick="abrirModalPerfil()">
+                        <i class="ph ph-pencil-simple"></i> Editar Perfil
+                    </button>
+                </section>
+
+                <section class="profile-panel">
+                    <div class="profile-avatar" id="coordenadorIniciais">CD</div>
+                    <div class="profile-main">
+                        <span class="profile-label">Coordenador</span>
+                        <h3 id="coordenadorNome">Carregando...</h3>
+                        <p id="coordenadorCargo">Cargo não informado</p>
+                    </div>
+                    
+                    <div class="profile-data">
+                        <div>
+                            <span>E-mail</span>
+                            <strong id="coordenadorEmail">-</strong>
+                        </div>
+                        <div>
+                            <span>Telefone</span>
+                            <strong id="coordenadorTelefone">-</strong>
+                        </div>
+                        <div>
+                            <span>CPF</span>
+                            <strong id="coordenadorCpf">-</strong>
+                        </div>
+                        <div>
+                            <span>Endereço</span>
+                            <strong id="coordenadorEndereco">-</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="profile-extras">
+                    
+                    <div class="extra-card">
+                        <div class="extra-card-header">
+                            <h3>Minhas Habilidades</h3>
+                            <p>Competências cadastradas no seu perfil</p>
+                        </div>
+                        <div id="visualizacaoHabilidades" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            </div>
+                    </div>
+
+                    <div class="extra-card">
+                        <div class="extra-card-header">
+                            <h3>Quadro de Disponibilidade</h3>
+                            <p>Seus dias e turnos livres para atuar</p>
+                        </div>
+                        
+                        <div class="table-responsive-wrapper">
+                            <table class="table-view">
+                                <thead>
+                                    <tr>
+                                        <th>Dia da Semana</th>
+                                        <th>Manhã</th>
+                                        <th>Tarde</th>
+                                        <th>Noite</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelaVisualizacaoDisponibilidade">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="modalEdicaoPerfil" class="modal-overlay">
+        <div class="modal-caixa modal-larga">
+            <header class="em-header">
+                <div>
+                    <h2 class="em-title">Editar Perfil</h2>
+                    <p class="em-subtitle">Atualize suas informações de contato, habilidades e disponibilidade.</p>
+                </div>
+                <button type="button" class="em-close" onclick="fecharModalPerfil()">
+                    <i class="ph ph-x"></i>
+                </button>
+            </header>
+            
+            <div class="em-body">
+                <div class="em-g2">
+                    <div class="em-field">
+                        <label>Nome Completo</label>
+                        <input type="text" id="editNome" placeholder="Seu nome">
+                    </div>
+                    <div class="em-field">
+                        <label>E-mail</label>
+                        <input type="email" id="editEmail" placeholder="Seu e-mail">
+                    </div>
+                </div>
+                <div class="em-g2">
+                    <div class="em-field">
+                        <label>Telefone</label>
+                        <input type="text" id="editTelefone" placeholder="(00) 00000-0000">
+                    </div>
+                    <div class="em-field">
+                        <label>CPF</label>
+                        <input type="text" id="editCpf" readonly title="O CPF não pode ser alterado.">
+                    </div>
+                </div>
+
+                <div class="em-field">
+                    <label>Endereço</label>
+                    <input type="text" id="editEndereco" placeholder="Rua, número, bairro, cidade...">
+                </div>
+
+                <h3 class="em-section-title">Habilidades</h3>
+                <div class="em-checks" id="containerHabilidades">
+                    <label><input type="checkbox" value="Comunicação"> Comunicação</label>
+                    <label><input type="checkbox" value="Liderança"> Liderança</label>
+                    <label><input type="checkbox" value="Didática"> Didática</label>
+                    <label><input type="checkbox" value="Gestão de Projetos"> Gestão de Projetos</label>
+                    <label><input type="checkbox" value="Tecnologia"> Tecnologia</label>
+                    <label><input type="checkbox" value="Apoio Social"> Apoio Social</label>
+                </div>
+
+                <h3 class="em-section-title">Disponibilidade</h3>
+                <table class="em-avail-table">
+                    <thead>
+                        <tr>
+                            <th>Dia da Semana</th>
+                            <th>Manhã</th>
+                            <th>Tarde</th>
+                            <th>Noite</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoDisponibilidade"></tbody>
+                </table>
+            </div>
+
+            <footer class="em-footer">
+                <button type="button" class="em-btn-cancel" onclick="fecharModalPerfil()">Cancelar</button>
+                <button type="button" class="em-btn-save" onclick="salvarEdicaoPerfil()">
+                    <i class="ph ph-check"></i> Salvar Alterações
+                </button>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

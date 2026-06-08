@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Frota - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/cardAnimadoFoto.css">
+    <link rel="stylesheet" href="../css/modal-padrao.css">
+    <link rel="stylesheet" href="../css/tabela.css">
+    <link rel="stylesheet" href="../css/filtros.css">
+    <link rel="stylesheet" href="../css/adicionar.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+    <link rel="stylesheet" href="../css/switchView.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/switchView.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/veiculos.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="veiculos">
+
+    <div id="alert-container" class="alert-container"></div>
+
+    <div id="container-central-frota"></div>
+
+    <div class="layout-app">
+
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1> Frota </h1>
+                </div>
+
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+                <div class="page-header">
+                    <div>
+                        <p class="page-subtitle">Gerenciamento da frota de veículos</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-adicionar" onclick="window.location.href='cadastroveiculo.html'">
+                            <i class="ph ph-plus"></i> Adicionar veículo
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="filtros-topo-agrupado">
+                    <div class="input-grupo pesquisa">
+                        <i class="ph ph-magnifying-glass"></i>
+                        <input type="text" id="pesquisa-veiculo"
+                            placeholder="Pesquisar placa, modelo ou proprietário...">
+                    </div>
+
+                    <div class="view-switcher" id="view-switcher">
+                        <button class="btn-view active" data-view="tabela" id="btn-view-table">
+                            <i class="ph ph-list"></i> Tabela
+                        </button>
+                        <button class="btn-view" data-view="cards" id="btn-view-cards">
+                            <i class="ph ph-squares-four"></i> Cartões
+                        </button>
+                        <div class="switch-selection"></div>
+                    </div>
+                </div>
+
+                <div class="barra-filtros filtros-container-flex">
+                    <div class="grupo-filtro">
+                        <span class="label-filtro">TIPO:</span>
+                        <label class="filtro-item-inline">
+                            <input type="checkbox" class="filtro-tipo filtro-checkbox-discreto" value="Carro"> Carro
+                        </label>
+                        <label class="filtro-item-inline">
+                            <input type="checkbox" class="filtro-tipo filtro-checkbox-discreto" value="Moto"> Moto
+                        </label>
+                        <label class="filtro-item-inline">
+                            <input type="checkbox" class="filtro-tipo filtro-checkbox-discreto" value="Caminhonete">
+                            Caminhonete
+                        </label>
+                    </div>
+
+                    <div class="grupo-filtro">
+                        <span class="label-filtro">CARGA MÍN:</span>
+                        <input type="number" id="filtro-carga" class="input-discreto-num" placeholder="0" min="0">
+                        <span>kg</span>
+                    </div>
+
+                    <div class="grupo-filtro">
+                        <span class="label-filtro">ANO:</span>
+                        <input type="number" id="filtro-ano" class="input-discreto-num" placeholder="Ex: 2022">
+                    </div>
+
+                    <div class="grupo-filtro">
+                        <span class="label-filtro">REVISÃO APÓS:</span>
+                        <input type="date" id="filtro-data-revisao" class="select-filtro">
+                    </div>
+                </div>
+
+                <div id="container-veiculos"> </div>
+
+                <div class="paginacao-container">
+                    <span class="info-paginacao" id="info-paginacao">Carregando informações...</span>
+                    <div class="controles-paginacao" id="controles-paginacao"></div>
+                </div>
+
+                <div class="modal-overlay" id="modal-overlay" onclick="fecharModais()"></div>
+
+                <div class="modal-caixa modal-larga" id="modal-editar-veiculo">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Editar Veículo</h2>
+                            <p class="em-subtitle">Atualize os dados do veículo e do proprietário</p>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <form id="form-editar-veiculo" class="em-body">
+                        <input type="hidden" id="editar-id">
+                        <div class="em-field">
+                            <label>Tipo</label>
+                            <div class="em-radios">
+                                <label><input type="radio" name="editar-tipo" value="Moto"> Moto</label>
+                                <label><input type="radio" name="editar-tipo" value="Carro"> Carro</label>
+                                <label><input type="radio" name="editar-tipo" value="Caminhonete"> Caminhonete</label>
+                            </div>
+                        </div>
+                        <div class="em-g3">
+                            <div class="em-field">
+                                <label>Placa</label>
+                                <input type="text" id="editar-placa" required>
+                            </div>
+                            <div class="em-field">
+                                <label>Ano</label>
+                                <input type="number" id="editar-ano">
+                            </div>
+                            <div class="em-field">
+                                <label>Marca</label>
+                                <input type="text" id="editar-marca">
+                            </div>
+                        </div>
+                        <div class="em-g3">
+                            <div class="em-field">
+                                <label>Modelo</label>
+                                <input type="text" id="editar-modelo">
+                            </div>
+                            <div class="em-field">
+                                <label>KM Atual</label>
+                                <input type="number" id="editar-km">
+                            </div>
+                            <div class="em-field">
+                                <label>Carga Máxima (kg)</label>
+                                <input type="text" id="editar-carga">
+                            </div>
+                        </div>
+                        <div class="em-field" style="max-width:220px;">
+                            <label>Data da Última Revisão</label>
+                            <input type="date" id="editar-revisao">
+                        </div>
+                        <p class="em-section-title">Proprietário</p>
+                        <div class="em-field">
+                            <label>Nome do Proprietário</label>
+                            <input type="text" id="editar-nome-prop">
+                        </div>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Telefone</label>
+                                <input type="text" id="editar-tel-prop">
+                            </div>
+                            <div class="em-field">
+                                <label>E-mail</label>
+                                <input type="email" id="editar-email-prop">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="em-footer em-footer--split">
+                        <button type="button" class="em-btn-danger" onclick="abrirConfirmacaoExclusao()">
+                            <i class="ph ph-trash"></i> Excluir
+                        </button>
+                        <div class="em-footer-end">
+                            <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
+                            <button type="submit" form="form-editar-veiculo" class="em-btn-save">
+                                <i class="ph ph-floppy-disk"></i> Atualizar Dados
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-caixa modal-confirmacao" id="modal-confirmar-exclusao">
+                    <div class="em-confirm-head">
+                        <i class="ph ph-warning-circle"></i>
+                        <h3>Confirmar Exclusão</h3>
+                    </div>
+                    <div class="em-confirm-body">
+                        Você está prestes a excluir permanentemente o veículo de placa:
+                        <strong><span id="placa-exclusao-titulo"></span></strong>
+                    </div>
+                    <div class="em-confirm-foot">
+                        <button type="button" class="em-confirm-cancel" onclick="fecharConfirmacao()">Cancelar</button>
+                        <button type="button" class="em-confirm-delete" id="btn-confirmar-delete">Sim, excluir</button>
+                    </div>
+                </div>
+
+                <script src="https://unpkg.com/@phosphor-icons/web"></script>
+            </main>
+
+            <div id="footer-container"></div>
+
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chamada de Projetos - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/modal-padrao.css">
+    <link rel="stylesheet" href="../css/coordenador.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@300;400;500;600;700&family=MonteCarlo&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="../js/sidebarVoluntarios.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/coordenador.js" defer></script>
+</head>
+
+<body data-nav-active="presenca">
+    <div id="alert-container" class="alert-container"></div>
+    <div class="layout-app">
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Presença e Frequência</h1>
+                </div>
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="coordenador-page">
+                <section class="coordenador-header">
+                    <div>
+                       <!-- <h2>Registro de Chamadas</h2>-->
+                        <br>
+                    </div>
+                </section>
+
+                <section class="work-area">
+                    <aside class="projects-panel">
+                        <div class="section-title-row">
+                            <div>
+                                <h3>Seus Projetos</h3>
+                                <p id="totalProjetos">0 projetos encontrados</p>
+                            </div>
+                            <button class="icon-button" type="button" onclick="carregarDadosCoordenador()" title="Atualizar">
+                                <i class="ph ph-arrow-clockwise"></i>
+                            </button>
+                        </div>
+                        <div id="listaProjetosCoordenador" class="project-list"></div>
+                    </aside>
+
+                    <section class="attendance-panel">
+                        <div class="attendance-empty" id="estadoSemProjeto">
+                            <i class="ph ph-chalkboard-teacher"></i>
+                            <p>Selecione um projeto ao lado para visualizar os participantes e registrar a chamada.</p>
+                        </div>
+
+                        <div id="areaChamada" style="display:none">
+                            <div class="attendance-header">
+                                <div>
+                                    <span class="profile-label">Projeto selecionado</span>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <h3 id="projetoSelecionadoNome">-</h3>
+                                        
+                                    </div>
+                                    <p id="projetoSelecionadoDetalhes">-</p>
+                                </div>
+                                <div class="attendance-summary">
+                                    <strong id="totalPresentes">0</strong>
+                                    <span>presentes</span>
+                                </div>
+                            </div>
+
+                            <div id="feedbackChamada" class="feedback" style="display:none"></div>
+
+                            <div class="call-actions">
+                                <div class="call-date-control">
+                                    <label for="dataChamada">Data da chamada</label>
+                                    <input type="date" id="dataChamada">
+                                </div>
+                                <button class="btn-lite" type="button" onclick="marcarTodos(true)">
+                                    <i class="ph ph-check-circle"></i> Marcar todos
+                                </button>
+                                <button class="btn-lite" type="button" onclick="marcarTodos(false)">
+                                    <i class="ph ph-x-circle"></i> Limpar
+                                </button>
+                                <button class="btn-primary-prof" type="button" onclick="salvarChamada()">
+                                    <i class="ph ph-floppy-disk"></i> Salvar chamada
+                                </button>
+                            </div>
+
+                            <div id="listaChamada" class="attendance-list"></div>
+                        </div>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="modalFormProjeto" class="modal-overlay" style="display:none">
+        <div class="modal-caixa modal-larga">
+            <header class="em-header">
+                <div>
+                    <h2 class="em-title">Editar Projeto</h2>
+                    <p class="em-subtitle">Atualize as informações do projeto selecionado</p>
+                </div>
+                <button type="button" class="em-close" onclick="fecharModalEdicaoProjeto()">
+                    <i class="ph ph-x"></i>
+                </button>
+            </header>
+            
+            <div class="em-body">
+                <div class="em-field">
+                    <label>Nome do projeto</label>
+                    <input type="text" id="formProjetoNome" style="width: 100%; border: 1.5px solid #e8e2db; padding: 8px; border-radius: 8px;">
+                </div>
+
+                <div class="em-field" style="margin-top: 10px;">
+                    <label>Descrição</label>
+                    <textarea id="formProjetoDescricao" style="width: 100%; border: 1.5px solid #e8e2db; padding: 8px; border-radius: 8px; min-height: 60px;"></textarea>
+                </div>
+
+                <div class="em-g2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
+                    <div class="em-field">
+                        <label>Tipo</label>
+                        <select id="formProjetoTipo" style="width: 100%; border: 1.5px solid #e8e2db; padding: 8px; border-radius: 8px;">
+                            <option>Social</option>
+                            <option>Educacional</option>
+                            <option>Esportivo</option>
+                            <option>Saúde</option>
+                        </select>
+                    </div>
+                    <div class="em-field">
+                        <label>Público-alvo</label>
+                        <select id="formProjetoPublicoAlvo" style="width: 100%; border: 1.5px solid #e8e2db; padding: 8px; border-radius: 8px;">
+                            <option>Comunidade</option>
+                            <option>Residente</option>
+                            <option>Ambos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="em-g2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
+                    <div class="em-field">
+                        <label>Data de início</label>
+                        <input type="date" id="formProjetoDataInicio" style="width: 100%; border: 1.5px solid #e8e2db; padding: 8px; border-radius: 8px;">
+                    </div>
+                    <div class="em-field">
+                        <label>Data de término</label>
+                        <input type="date" id="formProjetoDataFim" style="width: 100%; border: 1.5px solid #e8e2db; padding: 8px; border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+
+            <footer class="em-footer">
+                <button type="button" class="em-btn-cancel" onclick="fecharModalEdicaoProjeto()">Cancelar</button>
+                <button type="button" class="em-btn-save" onclick="salvarEdicaoProjeto()">
+                    <i class="ph ph-check"></i> Salvar alterações
+                </button>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

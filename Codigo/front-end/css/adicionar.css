@@ -1,0 +1,51 @@
+/* Replicando a estrutura de cabeçalho do Financeiro */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* Alinha o botão com a base do título */
+    margin-bottom: var(--space-8); /* Ajuste conforme suas variáveis de espaço */
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.page-subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+/* Estilo do Botão "Verde" (Baseado no btn-entrada do Financeiro) */
+.btn-adicionar {
+    background: #edf7f1; /* Cor de fundo leve */
+    color: #2d7a4f;    /* Verde do texto */
+    border: 1px solid #b8dfc9;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-adicionar i {
+    font-size: 18px;
+}
+
+.btn-adicionar:hover {
+    background: #2d7a4f; /* Verde sólido no hover */
+    color: white;
+    border-color: #2d7a4f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(45, 122, 79, 0.2);
+}

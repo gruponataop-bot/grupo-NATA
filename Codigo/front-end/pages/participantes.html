@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Participantes - NATA</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/tabela.css">
+    <link rel="stylesheet" href="../css/modal-padrao.css">
+    <link rel="stylesheet" href="../css/adicionar.css">
+    <link rel="stylesheet" href="../css/mostrarAlerta.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+    <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/topbar.js" defer></script>
+    <script src="../js/components.js" defer></script>
+    <script src="../js/participantes.js" defer></script>
+    <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
+</head>
+
+<body data-nav-active="participantes">
+    <div id="alert-container" class="alert-container"></div>
+    <div class="layout-app">
+
+        <div id="sidebar-container"></div>
+
+        <div class="conteudo-direito">
+
+            <header class="topbar">
+                <div class="topbar-titulo">
+                    <h1>Participantes</h1>
+                </div>
+
+                <div class="topbar-usuario">
+                    <div class="separador"></div>
+                    <span class="saudacao">
+                        Olá, <strong id="nome-usuario">carregando...</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="area-principal">
+                <div class="page-header">
+                    <div>
+                        <p class="page-subtitle">Gerenciamento dos participantes do evento</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-adicionar" onclick="window.location.href='cadastroparticipante.html'">
+                            <i class="ph ph-plus"></i> Adicionar Participante
+                        </button>
+                    </div>
+                </div>
+
+                <div class="barra-filtros">
+                    <div class="input-grupo pesquisa">
+                        <input type="text" id="pesquisa-nome" placeholder="Pesquisar">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </div>
+
+                </div>
+                <div class="tabela-container">
+                    <table class="tabela-dados">
+                        <thead>
+                            <tr>
+                                <th>Nome do Aluno</th>
+                                <th>Série</th>
+                                <th>Escola</th>
+                                <th>Responsável</th>
+                                <th>Telefone</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-participantes-body">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacao-container">
+                    <span class="info-paginacao" id="info-paginacao">Carregando informações...</span>
+                    <div class="controles-paginacao" id="controles-paginacao">
+                    </div>
+                </div>
+
+                <div id="modal-overlay" class="modal-overlay" onclick="fecharModais()"></div>
+
+                <div id="modal-visualizar" class="modal-caixa modal-larga">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Dados do Aluno</h2>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <div class="em-body">
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome Completo</label>
+                                <input type="text" id="view-nome" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Data de Nascimento</label>
+                                <input type="text" id="view-nascimento" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Série</label>
+                                <input type="text" id="view-serie" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Escola</label>
+                                <input type="text" id="view-escola" readonly>
+                            </div>
+                        </div>
+                        <p class="em-section-title">Responsável</p>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome do Responsável</label>
+                                <input type="text" id="view-responsavel" readonly>
+                            </div>
+                            <div class="em-field">
+                                <label>Telefone</label>
+                                <input type="text" id="view-telefone" readonly>
+                            </div>
+                        </div>
+                        <p class="em-section-title">Necessidades e Horários</p>
+                        <div class="em-field">
+                            <label>Necessidades Específicas</label>
+                            <textarea id="view-necessidades" readonly></textarea>
+                        </div>
+                        <div class="em-field">
+                            <label>Dias de Reforço Selecionados</label>
+                            <div id="view-horarios-lista"></div>
+                        </div>
+                    </div>
+                    <div class="em-footer">
+                        <button class="em-btn-cancel" onclick="fecharModais()">Fechar</button>
+                    </div>
+                </div>
+
+                <div id="modal-editar" class="modal-caixa modal-larga">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Editar Participante</h2>
+                            <p class="em-subtitle">Atualize os dados do aluno</p>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <form id="form-editar-participante" class="em-body">
+                        <input type="hidden" id="edit-id">
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome completo</label>
+                                <input type="text" id="edit-nome">
+                            </div>
+                            <div class="em-field">
+                                <label>Data de Nascimento</label>
+                                <input type="date" id="edit-nascimento">
+                            </div>
+                            <div class="em-field">
+                                <label>Série</label>
+                                <input type="text" id="edit-serie">
+                            </div>
+                            <div class="em-field">
+                                <label>Nome da Escola</label>
+                                <input type="text" id="edit-escola">
+                            </div>
+                        </div>
+                        <div class="em-field">
+                            <label>Status do Aluno</label>
+                            <div class="em-radios">
+                                <label><input type="radio" name="edit-status" value="ativo" id="edit-ativo"> Ativo</label>
+                                <label><input type="radio" name="edit-status" value="inativo" id="edit-inativo"> Inativo</label>
+                            </div>
+                        </div>
+                        <div class="em-field">
+                            <label>Necessidade Especial?</label>
+                            <input type="text" id="edit-necessidades" placeholder="Se sim, qual?">
+                        </div>
+                        <p class="em-section-title">Dados do Responsável</p>
+                        <div class="em-g2">
+                            <div class="em-field">
+                                <label>Nome do Responsável</label>
+                                <input type="text" id="edit-responsavel">
+                            </div>
+                            <div class="em-field">
+                                <label>Telefone de Contato</label>
+                                <input type="text" id="edit-telefone">
+                            </div>
+                            <div class="em-field" style="grid-column: span 2;">
+                                <label>Endereço</label>
+                                <input type="text" id="edit-endereco" placeholder="Rua, número, bairro...">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="em-footer">
+                        <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
+                        <button type="submit" form="form-editar-participante" class="em-btn-save">
+                            <i class="ph ph-floppy-disk"></i> Salvar Alterações
+                        </button>
+                    </div>
+                </div>
+
+                <div id="modal-projetos-participante" class="modal-caixa modal-larga">
+                    <div class="em-header">
+                        <div>
+                            <h2 class="em-title">Vincular a Projetos</h2>
+                            <p class="em-subtitle" id="projetos-participante-subtitulo">Selecione os projetos do participante</p>
+                        </div>
+                        <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
+                    </div>
+                    <div class="em-body">
+                        <div id="lista-projetos-participante" style="display:grid;gap:10px;"></div>
+                        <div id="feedback-projetos-participante" class="feedback" style="display:none"></div>
+                    </div>
+                    <div class="em-footer">
+                        <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
+                        <button type="button" class="em-btn-save" onclick="salvarProjetosParticipante()">
+                            <i class="ph ph-check"></i> Salvar Vínculos
+                        </button>
+                    </div>
+                </div>
+
+                <div id="modal-config" class="modal-caixa modal-confirmacao">
+                    <div class="em-confirm-head">
+                        <i class="ph ph-warning-circle"></i>
+                        <h3>Excluir Participante</h3>
+                    </div>
+                    <div class="em-confirm-body">
+                        Atenção: A exclusão é permanente e removerá todos os dados do aluno.
+                        <strong><span id="config-nome-display"></span></strong>
+                    </div>
+                    <div class="em-confirm-foot">
+                        <button type="button" class="em-confirm-cancel" onclick="fecharModais()">Cancelar</button>
+                        <button type="button" class="em-confirm-delete" onclick="deletarParticipante()">
+                            <i class="ph ph-trash"></i> Excluir
+                        </button>
+                    </div>
+                </div>
+
+        </div>
+        </main>
+
+        <div id="footer-container"></div>
+
+    </div>
+    </div>
+
+</body>
+
+</html>
