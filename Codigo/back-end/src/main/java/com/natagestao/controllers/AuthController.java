@@ -8,6 +8,7 @@ import com.natagestao.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -78,11 +79,18 @@ public ResponseEntity<String> esqueciSenha(@RequestBody LoginRequest request) {
     );
 
     // Envia o e-mail com o link
-    emailService.enviarEmailRedefinirSenha(
-            funcionario.getEmail(),
-            funcionario.getNome_funcionario(),
-            token
-    );
+    try {
+        emailService.enviarEmailRedefinirSenha(
+                funcionario.getEmail(),
+                funcionario.getNome_funcionario(),
+                token
+        );
+    } catch (MailException e) {
+        tokensRedefinicao.remove(token);
+        return ResponseEntity
+                .status(HttpStatus.BAD_GATEWAY)
+                .body("Nao foi possivel enviar o e-mail. Verifique a configuracao do servico de e-mail.");
+    }
 
     return ResponseEntity.ok("E-mail de recuperação enviado com sucesso.");
 }

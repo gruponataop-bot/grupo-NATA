@@ -26,13 +26,19 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const email = document.getElementById('usuario').value.trim();
+      const submitButton = forgotPasswordForm.querySelector('button[type="submit"]');
 
       if (!email) {
         alert('Por favor, informe seu e-mail.');
         return;
       }
 
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+
       try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 30000);
         const resposta = await fetch(
           `${API_BASE_URL}/api/auth/esqueci-senha`,
           {
@@ -40,11 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: {
               'Content-Type': 'application/json'
             },
+            signal: controller.signal,
             body: JSON.stringify({
               email: email
             })
           }
         );
+        clearTimeout(timeout);
 
         const mensagem = await resposta.text();
 
@@ -56,7 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (erro) {
         console.error('Erro ao conectar com o servidor:', erro);
-        alert('Erro ao conectar com o servidor.');
+        alert(erro.name === 'AbortError'
+          ? 'O servidor demorou para responder. Tente novamente em alguns minutos.'
+          : 'Erro ao conectar com o servidor.');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Enviar e-mail de redefinição';
       }
     });
   }
