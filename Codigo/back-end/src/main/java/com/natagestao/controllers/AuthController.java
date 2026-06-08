@@ -85,10 +85,13 @@ public ResponseEntity<String> esqueciSenha(@RequestBody LoginRequest request) {
                 token
         );
     } catch (RuntimeException e) {
+        e.printStackTrace();
         tokensRedefinicao.remove(token);
         return ResponseEntity
                 .status(HttpStatus.BAD_GATEWAY)
-                .body("Nao foi possivel enviar o e-mail. Verifique a configuracao do servico de e-mail.");
+                .body(e instanceof IllegalStateException
+                        ? e.getMessage()
+                        : "Nao foi possivel enviar o e-mail. Consulte os logs do Render.");
     }
 
     return ResponseEntity.ok("E-mail de recuperação enviado com sucesso.");

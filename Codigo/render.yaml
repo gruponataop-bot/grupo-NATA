@@ -22,3 +22,5 @@ services:
         sync: false
       - key: RESEND_FROM_EMAIL
         value: NATA <onboarding@resend.dev>
+      - key: RESEND_REQUIRED
+        value: true

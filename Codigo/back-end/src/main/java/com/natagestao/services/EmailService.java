@@ -24,6 +24,9 @@ public class EmailService {
     @Value("${app.email.from:NATA <onboarding@resend.dev>}")
     private String remetente;
 
+    @Value("${app.email.resend-required:false}")
+    private boolean resendObrigatorio;
+
     private final RestClient resendClient = RestClient.builder()
             .baseUrl("https://api.resend.com")
             .defaultHeader("User-Agent", "NATA-Gestao/1.0")
@@ -54,6 +57,10 @@ public class EmailService {
         if (resendApiKey != null && !resendApiKey.isBlank()) {
             enviarComResend(para, assunto, texto);
             return;
+        }
+
+        if (resendObrigatorio) {
+            throw new IllegalStateException("RESEND_API_KEY nao configurada no Render.");
         }
 
         enviarComSmtp(para, assunto, texto);
