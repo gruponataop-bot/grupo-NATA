@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const API_BASE_URL = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+    ? 'http://localhost:8080'
+    : 'https://meu-projeto-backend.onrender.com';
+
   // ==========================================
   // 1. CONTROLE DO MENU MOBILE
   // ==========================================
@@ -30,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const resposta = await fetch(
-          'http://localhost:8080/api/auth/esqueci-senha',
+          `${API_BASE_URL}/api/auth/esqueci-senha`,
           {
             method: 'POST',
             headers: {

@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const API_BASE_URL = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+    ? 'http://localhost:8080'
+    : 'https://meu-projeto-backend.onrender.com';
+
   // Captura o token da URL
   const token = new URLSearchParams(window.location.search).get('token');
 
@@ -31,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const resposta = await fetch(
-          'http://localhost:8080/api/auth/redefinir-senha',
+          `${API_BASE_URL}/api/auth/redefinir-senha`,
           {
             method: 'POST',
             headers: {
