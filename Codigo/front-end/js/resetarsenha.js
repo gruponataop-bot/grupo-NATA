@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Só considera inválido se for null ou vazio
   if (token === null || token.trim() === '') {
-    mostarAlerta('Link inválido ou expirado.', 'error');
+    mostrarAlerta('Link inválido ou expirado.', 'error');
     return;
   }
 
@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const confirmarSenha = document.getElementById('confirmarSenha').value;
 
       if (novaSenha.length < 6) {
-        mostarAlerta('A senha deve ter pelo menos 6 caracteres.', 'error');
+        mostrarAlerta('A senha deve ter pelo menos 6 caracteres.', 'error');
         return;
       }
 
       if (novaSenha !== confirmarSenha) {
-        mostarAlerta('As senhas não coincidem.', 'error');
+        mostrarAlerta('As senhas não coincidem.', 'error');
         return;
       }
 
@@ -51,14 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const mensagem = await resposta.text();
 
         if (resposta.ok) {
-          mostarAlerta('Senha redefinida com sucesso!', 'success');
+          mostrarAlerta('Senha redefinida com sucesso!', 'success');
           window.location.href = 'login.html';
         } else {
-          mostarAlerta(mensagem || 'Não foi possível redefinir a senha.', 'error');
+          mostrarAlerta(mensagem || 'Não foi possível redefinir a senha.', 'error');
         }
       } catch (erro) {
         console.error(erro);
-        mostarAlerta('Erro ao conectar com o servidor.', 'error');
+        mostrarAlerta('Erro ao conectar com o servidor.', 'error');
       }
     });
   }

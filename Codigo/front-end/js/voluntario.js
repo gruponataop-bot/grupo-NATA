@@ -286,13 +286,13 @@ async function cadastrarVoluntario(event) {
 
     // Validações
     if (!isCPFValido(cpfValor)) {
-        mostarAlerta("Erro: O CPF informado é inválido. Verifique os números.", "error");
+        mostrarAlerta("Erro: O CPF informado é inválido. Verifique os números.", "error");
         if(inputCpf) inputCpf.focus();
         return; 
     }
 
     if (!isEmailValido(emailValor)) {
-        mostarAlerta("Erro: O formato do e-mail é inválido.", "error");
+        mostrarAlerta("Erro: O formato do e-mail é inválido.", "error");
         if(inputEmail) inputEmail.focus();
         return; 
     }
@@ -352,16 +352,16 @@ async function cadastrarVoluntario(event) {
         });
 
         if (resposta.ok) {
-            mostarAlerta("Voluntário cadastrado com sucesso!", "success");
+            mostrarAlerta("Voluntário cadastrado com sucesso!", "success");
             window.location.href = "voluntarios.html"; // Volta para a tabela
         } else {
             const erroTexto = await resposta.text();
-    mostarAlerta(`Erro do servidor: ${erroTexto}`, "error");
+    mostrarAlerta(`Erro do servidor: ${erroTexto}`, "error");
     console.error("Status do erro:", resposta.status);
         }
     } catch (erro) {
         console.error("Erro ao salvar:", erro);
-        mostarAlerta("Erro de conexão com o servidor Java.", "error");
+        mostrarAlerta("Erro de conexão com o servidor Java.", "error");
     }
 }
 
@@ -440,7 +440,7 @@ async function salvarEdicao(event) {
 
     try {
         if (!idVoluntarioEditando) {
-            mostarAlerta("Erro: O sistema perdeu o ID. Tente fechar e abrir o modal de novo.", "error");
+            mostrarAlerta("Erro: O sistema perdeu o ID. Tente fechar e abrir o modal de novo.", "error");
             return;
         }
         
@@ -502,15 +502,15 @@ async function salvarEdicao(event) {
         });
 
         if (resposta.ok) {
-            mostarAlerta("Voluntário atualizado com sucesso!", "success");
+            mostrarAlerta("Voluntário atualizado com sucesso!", "success");
             fecharModais(); 
             carregarVoluntarios(); 
         } else {
-            mostarAlerta("Erro do Java ao atualizar voluntário.", "error");
+            mostrarAlerta("Erro do Java ao atualizar voluntário.", "error");
         }
     } catch (erro) {
         console.error("Erro completo:", erro);
-        mostarAlerta("Erro de conexão. O Java está rodando?", "error");
+        mostrarAlerta("Erro de conexão. O Java está rodando?", "error");
     }
 }
 // ==========================================
@@ -527,14 +527,14 @@ async function deletarVoluntario(id) {
         });
 
         if (resposta.ok) {
-            mostarAlerta("Voluntário deletado com sucesso!", "success");
+            mostrarAlerta("Voluntário deletado com sucesso!", "success");
             carregarVoluntarios(); // Atualiza a tabela tirando o deletado
         } else {
-            mostarAlerta("Erro do Java ao tentar deletar o voluntário.", "error");
+            mostrarAlerta("Erro do Java ao tentar deletar o voluntário.", "error");
         }
     } catch (erro) {
         console.error("Erro completo:", erro);
-        mostarAlerta("Erro de conexão. O Java está rodando?", "error");
+        mostrarAlerta("Erro de conexão. O Java está rodando?", "error");
     }
 }
 
@@ -598,15 +598,15 @@ async function salvarVinculoProjetos() {
         });
 
         if (resposta.ok) {
-            mostarAlerta("Projetos vinculados com sucesso!", "success");
+            mostrarAlerta("Projetos vinculados com sucesso!", "success");
             fecharModais();
             carregarVoluntarios(); // Recarrega a tabela por garantia
         } else {
-            mostarAlerta("Erro do Java ao tentar vincular os projetos.", "error");
+            mostrarAlerta("Erro do Java ao tentar vincular os projetos.", "error");
         }
     } catch (erro) {
         console.error("Erro completo:", erro);
-        mostarAlerta("Erro de conexão. O servidor Java está rodando?", "error");
+        mostrarAlerta("Erro de conexão. O servidor Java está rodando?", "error");
     }
 }
 

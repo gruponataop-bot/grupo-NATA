@@ -28,13 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (error) throw error;
 
-                mostarAlerta('Manutenção excluída com sucesso!', 'success');
+                mostrarAlerta('Manutenção excluída com sucesso!', 'success');
                 fecharModais();
                 buscarManutencoes(); // Recarrega a tabela
 
             } catch (err) {
                 console.error('Erro ao excluir:', err.message);
-                mostarAlerta('Erro ao excluir o registro.', 'error');
+                mostrarAlerta('Erro ao excluir o registro.', 'error');
             }
         });
     }
@@ -218,13 +218,13 @@ if (formEditar) {
 
             if (error) throw error;
 
-            mostarAlerta('Manutenção atualizada com sucesso!', 'success');
+            mostrarAlerta('Manutenção atualizada com sucesso!', 'success');
             fecharModais();
             buscarManutencoes(); // Recarrega a tabela
 
         } catch (err) {
             console.error('Erro ao atualizar:', err.message);
-            mostarAlerta('Erro ao salvar alterações.', 'error');
+            mostrarAlerta('Erro ao salvar alterações.', 'error');
         }
     });
 }

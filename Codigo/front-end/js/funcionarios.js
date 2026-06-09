@@ -35,7 +35,7 @@ async function carregarTabelaFuncionarios() {
 
     } catch (error) {
         console.error("Erro ao carregar tabela:", error);
-        mostarAlerta("Não foi possível carregar a lista de funcionários.", "error");
+        mostrarAlerta("Não foi possível carregar a lista de funcionários.", "error");
     }
 }
 
@@ -57,22 +57,22 @@ async function executarExclusao() {
         });
 
         if (response.ok) {
-            mostarAlerta("Funcionário removido com sucesso!", "success");
+            mostrarAlerta("Funcionário removido com sucesso!", "success");
             document.getElementById('modalExcluir').close();
             carregarTabelaFuncionarios(); 
         } 
         else if (response.status === 409) {
             // Este é o caso específico da chave estrangeira (projeto vinculado)
-            mostarAlerta("Atenção: Este funcionário ainda está listado como responsável por algum projeto e por isto sua exclusão não é possível.", "error");
+            mostrarAlerta("Atenção: Este funcionário ainda está listado como responsável por algum projeto e por isto sua exclusão não é possível.", "error");
             document.getElementById('modalExcluir').close();
         } 
         else {
             const msgErro = await response.text();
-            mostarAlerta("Erro: " + (msgErro || "Não foi possível excluir o funcionário."), "error");
+            mostrarAlerta("Erro: " + (msgErro || "Não foi possível excluir o funcionário."), "error");
         }
     } catch (error) {
         console.error("Erro na requisição DELETE:", error);
-        mostarAlerta("Erro de conexão com o servidor.", "error");
+        mostrarAlerta("Erro de conexão com o servidor.", "error");
     }
 }
 
@@ -113,15 +113,15 @@ async function editarParticipante(event) {
         });
 
         if (response.ok) {
-            mostarAlerta("Funcionário atualizado com sucesso!", "success");
+            mostrarAlerta("Funcionário atualizado com sucesso!", "success");
             document.getElementById('modalEdicao').close();
             carregarTabelaFuncionarios(); 
         } else {
-            mostarAlerta("Erro ao atualizar funcionário.", "error");
+            mostrarAlerta("Erro ao atualizar funcionário.", "error");
         }
     } catch (error) {
         console.error("Erro no PUT:", error);
-        mostarAlerta("Erro de conexão com o servidor.", "error");
+        mostrarAlerta("Erro de conexão com o servidor.", "error");
     }
 }
 
