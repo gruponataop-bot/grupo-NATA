@@ -6,7 +6,7 @@ function montarSidebarVoluntariosHtml() {
     const cargoLogado = (localStorage.getItem('usuarioLogadoCargo') || '').trim().toLowerCase();
     const isProfessor = cargoLogado === 'professor';
     const perfilHref = isProfessor ? 'perfil-professor.html' : 'perfil-coordenador.html';
-    const presencaHref = isProfessor ? 'presenca-professor.html' : 'presenca-coordenador.html';
+    const presencaHref = isProfessor ? 'presenca-coordenador.html' : 'presenca-coordenador.html';
     const projetosHref = isProfessor ? 'projetos-professor.html' : 'projeto-coordenador.html';
 
     // Mantém as abas corretas para a navegação do coordenador

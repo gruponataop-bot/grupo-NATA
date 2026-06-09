@@ -609,18 +609,7 @@ async function salvarVinculoProjetos() {
         alert("Erro de conexão. O servidor Java está rodando?");
     }
 }
-// 1. MÁSCARA DE CPF (Formata enquanto digita)
-function mascaraCPF(input) {
-    let v = input.value.replace(/\D/g, ""); // Remove tudo o que não é dígito
-    if (v.length > 11) v = v.slice(0, 11);
-    
-    // Adiciona a formatação: 000.000.000-00
-    v = v.replace(/(\d{3})(\d)/, "$1.$2");
-    v = v.replace(/(\d{3})(\d)/, "$1.$2");
-    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-    
-    input.value = v;
-}
+
 
 // 2. VALIDADOR MATEMÁTICO DE CPF
 function isCPFValido(cpf) {
