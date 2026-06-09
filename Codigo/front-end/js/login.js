@@ -13,7 +13,7 @@ form.addEventListener('submit', async function (event) {
   }
 
  try {
-    const resposta = await fetch('http://localhost:8080/api/auth/login', {
+    const resposta = await fetch('https://grupo-nata.onrender.com/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

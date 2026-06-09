@@ -1,8 +1,8 @@
 const SUPABASE_URL = 'https://wyhclddqdupnpdmfafde.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_oA60gmRRa3B5bzOpUb-8XQ_L2TqAZZh';
 let _supabase = null;
-const PROJECTS_API_URL = "http://localhost:8080/api/projetos";
-const SITE_CONFIG_API_URL = "http://localhost:8080/api/site-config/home";
+const PROJECTS_API_URL = "https://grupo-nata.onrender.com/api/projetos";
+const SITE_CONFIG_API_URL = "https://grupo-nata.onrender.com/api/site-config/home";
 const HOME_CONFIG_STORAGE_KEY = "nataHomeConfig";
 
 const defaultHomeConfig = {
