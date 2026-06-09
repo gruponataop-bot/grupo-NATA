@@ -136,8 +136,7 @@ async function cadastrarItemEstoque(event) {
             mostrarAlerta("Item adicionado ao estoque com sucesso!", "success");
             setTimeout(() => { window.location.href = 'estoque.html'; }, 1500);
         } else {
-            mostrarAlerta("Item adicionado ao estoque com sucesso!", "success");
-            window.location.href = 'estoque.html';
+            redirecionarComAlerta("estoque.html", "Item adicionado ao estoque com sucesso!", "success");
         }
         
     } catch (err) {

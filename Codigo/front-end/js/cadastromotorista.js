@@ -60,8 +60,7 @@ if (formCadastro) {
                 if (erroDisp) throw erroDisp;
             }
 
-            mostrarAlerta('Motorista e disponibilidade salvos com sucesso!', 'success');
-            window.location.href = 'motoristas.html';
+            redirecionarComAlerta('motoristas.html', 'Motorista e disponibilidade salvos com sucesso!', 'success');
 
         } catch (error) {
             console.error('Erro:', error);

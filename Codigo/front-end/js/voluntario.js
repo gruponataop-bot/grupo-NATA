@@ -352,8 +352,7 @@ async function cadastrarVoluntario(event) {
         });
 
         if (resposta.ok) {
-            mostrarAlerta("Voluntário cadastrado com sucesso!", "success");
-            window.location.href = "voluntarios.html"; // Volta para a tabela
+            redirecionarComAlerta("voluntarios.html", "Voluntário cadastrado com sucesso!", "success");
         } else {
             const erroTexto = await resposta.text();
     mostrarAlerta(`Erro do servidor: ${erroTexto}`, "error");

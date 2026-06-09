@@ -51,8 +51,7 @@ if (formCadastro) {
         try {
             const { error } = await _supabase.from('empresa_parceira').insert([novoParceiro]);
             if (error) throw error;
-            mostrarAlerta('Parceiro cadastrado com sucesso!');
-            window.location.href = 'parceiros.html'; 
+            redirecionarComAlerta('parceiros.html', 'Parceiro cadastrado com sucesso!', 'success');
         } catch (error) {
             console.error('Erro detalhado:', error);
             mostrarAlerta('Erro ao salvar no banco: ' + error.message);

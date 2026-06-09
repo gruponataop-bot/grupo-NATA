@@ -85,8 +85,7 @@ if (formCadastro) {
 
             if (erroProp) throw erroProp;
 
-            mostrarAlerta('Veículo, Proprietário e Foto salvos com sucesso!', 'success');
-            window.location.href = 'veiculos.html';
+            redirecionarComAlerta('veiculos.html', 'Veículo, Proprietário e Foto salvos com sucesso!', 'success');
 
         } catch (error) {
             console.error('Erro detalhado:', error);

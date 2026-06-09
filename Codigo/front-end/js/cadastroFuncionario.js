@@ -39,7 +39,7 @@ async function cadastrarFuncionario(event) {
 
         if (response.ok) {
             const resultado = await response.json();
-            mostrarAlerta(`Sucesso! O funcionário ${resultado.nome_funcionario} foi cadastrado.`, 'success');
+            redirecionarComAlerta('funcionarios.html', `Sucesso! O funcionário ${resultado.nome_funcionario} foi cadastrado.`, 'success');
             event.target.reset(); 
         } else {
             const erro = await response.text();

@@ -196,8 +196,7 @@ async function cadastrarParticipante(event) {
             if (idProjetoSelecionado) {
                 await vincularParticipanteAoProjeto(idProjetoSelecionado, participanteCriado.id);
             }
-            mostrarAlerta("Participante cadastrado com sucesso!");
-            window.location.href = "participantes.html";
+            redirecionarComAlerta("participantes.html", "Participante cadastrado com sucesso!", "success");
         } else {
             mostrarAlerta("Erro ao cadastrar. Verifique o console.");
         }

@@ -73,8 +73,7 @@ if (formManutencao) {
 
             if (error) throw error;
 
-            mostrarAlerta('Manutenção registrada com sucesso!', 'success');
-            window.location.href = 'manutencao.html';
+            redirecionarComAlerta('manutencao.html', 'Manutenção registrada com sucesso!', 'success');
         } catch (error) {
             console.error('Erro detalhado:', error);
             mostrarAlerta('Erro ao salvar: ' + error.message, 'error');

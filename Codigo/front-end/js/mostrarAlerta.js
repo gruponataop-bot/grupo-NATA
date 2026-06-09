@@ -39,3 +39,32 @@ function mostrarAlerta(mensagem, tipo = 'success') {
         setTimeout(() => toast.remove(), 300);
     }, 4000);
 }
+
+// ==========================================
+// Salva o alerta na memória e muda de página
+// ==========================================
+function redirecionarComAlerta(url, mensagem, tipo = 'success') {
+    // 1. Guarda a mensagem na memória do navegador
+    sessionStorage.setItem('alertaPendente', JSON.stringify({ mensagem, tipo }));
+    // 2. Muda de página na mesma hora
+    window.location.href = url;
+}
+
+// ==========================================
+// VERIFICADOR AUTOMÁTICO (Roda em todas as páginas)
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Procura se tem algum alerta guardado na memória
+    const alertaSalvo = sessionStorage.getItem('alertaPendente');
+    
+    if (alertaSalvo) {
+        // 2. Transforma o texto salvo de volta em código
+        const dadosAlerta = JSON.parse(alertaSalvo);
+        
+        // 3. Mostra o alerta na página nova
+        mostrarAlerta(dadosAlerta.mensagem, dadosAlerta.tipo);
+        
+        // 4. Limpa a memória para o alerta não aparecer de novo ao dar F5
+        sessionStorage.removeItem('alertaPendente');
+    }
+});

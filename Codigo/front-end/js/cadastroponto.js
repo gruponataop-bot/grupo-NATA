@@ -52,8 +52,7 @@ if (formCadastro) {
         try {
             const { error } = await _supabase.from('ponto').insert([novoPonto]);
             if (error) throw error;
-            mostrarAlerta('Ponto cadastrado com sucesso!');
-            window.location.href = 'pontos.html'; 
+            redirecionarComAlerta('pontos.html', 'Ponto cadastrado com sucesso!', 'success');
         } catch (error) {
             console.error('Erro detalhado:', error);
             mostrarAlerta('Erro ao salvar no banco: ' + error.message);

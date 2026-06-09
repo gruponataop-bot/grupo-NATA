@@ -209,8 +209,7 @@ async function cadastrarResidente(e) {
                     return;
                 }
             }
-            mostrarAlerta("Cadastrado!", "success");
-            window.location.href = "residentes.html";
+            redirecionarComAlerta("residentes.html", "Residente cadastrado com sucesso!", "success");
         } else {
             mostrarAlerta("Erro ao cadastrar", "error");
         }
