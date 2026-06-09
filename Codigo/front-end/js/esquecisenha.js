@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const submitButton = forgotPasswordForm.querySelector('button[type="submit"]');
 
       if (!email) {
-        alert('Por favor, informe seu e-mail.');
+        mostrarAlerta('Por favor, informe seu e-mail.', 'error');
         return;
       }
 
@@ -57,16 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const mensagem = await resposta.text();
 
         if (resposta.ok) {
-          alert('Um link de recuperação foi enviado para seu e-mail.');
+          mostrarAlerta('Um link de recuperação foi enviado para seu e-mail.', 'success');
           forgotPasswordForm.reset();
         } else {
-          alert(mensagem || 'Não foi possível enviar o e-mail.');
+          mostrarAlerta(mensagem || 'Não foi possível enviar o e-mail.', 'error');
         }
       } catch (erro) {
         console.error('Erro ao conectar com o servidor:', erro);
-        alert(erro.name === 'AbortError'
+        mostrarAlerta(erro.name === 'AbortError'
           ? 'O servidor demorou para responder. Tente novamente em alguns minutos.'
-          : 'Erro ao conectar com o servidor.');
+          : 'Erro ao conectar com o servidor.', 'error');
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = 'Enviar e-mail de redefinição';

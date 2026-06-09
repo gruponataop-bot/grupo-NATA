@@ -712,11 +712,11 @@ async function salvarEdicaoPerfil() {
 
         renderizarPerfil();
         fecharModalPerfil();
-        alert('Perfil atualizado com sucesso!'); 
+        mostrarAlerta('Perfil atualizado com sucesso!', 'success');
 
     } catch (erro) {
         console.error(erro);
-        alert('Não foi possível salvar as alterações.');
+        mostrarAlerta('Não foi possível salvar as alterações.', 'error');
     }
 }
 

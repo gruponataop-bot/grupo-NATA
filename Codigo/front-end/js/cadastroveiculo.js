@@ -85,12 +85,12 @@ if (formCadastro) {
 
             if (erroProp) throw erroProp;
 
-            alert('Veículo, Proprietário e Foto salvos com sucesso!');
+            mostrarAlerta('Veículo, Proprietário e Foto salvos com sucesso!', 'success');
             window.location.href = 'veiculos.html';
 
         } catch (error) {
             console.error('Erro detalhado:', error);
-            alert('Erro no processo: ' + error.message);
+            mostrarAlerta('Erro no processo: ' + error.message, 'error');
         }
     });
 }

@@ -400,10 +400,10 @@ async function gerarPDF() {
         // 4. Baixa para o usuário localmente
         html2pdf().set(opcoes).from(elemento).save();
 
-        alert("Comprovante gerado e salvo com sucesso!");
+        mostrarAlerta("Comprovante gerado e salvo com sucesso!", "success");
     } catch (err) {
         console.error("Erro na operação:", err.message);
-        alert("Erro ao salvar comprovante.");
+        mostrarAlerta("Erro ao salvar comprovante.", "error");
     } finally {
         btn.innerHTML = textoOriginal;
     }

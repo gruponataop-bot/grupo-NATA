@@ -136,7 +136,7 @@ async function cadastrarItemEstoque(event) {
             mostrarAlerta("Item adicionado ao estoque com sucesso!", "success");
             setTimeout(() => { window.location.href = 'estoque.html'; }, 1500);
         } else {
-            alert("Item adicionado ao estoque com sucesso!");
+            mostrarAlerta("Item adicionado ao estoque com sucesso!", "success");
             window.location.href = 'estoque.html';
         }
         
@@ -145,7 +145,7 @@ async function cadastrarItemEstoque(event) {
         if (typeof mostrarAlerta === 'function') {
             mostrarAlerta("Erro ao salvar. Verifique se todos os campos obrigatórios estão preenchidos.", "error");
         } else {
-            alert("Erro ao salvar. Verifique se todos os campos obrigatórios estão preenchidos.");
+            mostrarAlerta("Erro ao salvar. Verifique se todos os campos obrigatórios estão preenchidos.", "error");
         }
     }
 }
@@ -171,13 +171,13 @@ if (formEditar) {
             if (error) throw error;
 
             if (typeof mostrarAlerta === 'function') mostrarAlerta('Dados atualizados com sucesso!', 'success');
-            else alert('Dados atualizados com sucesso!');
+            else mostrarAlerta('Dados atualizados com sucesso!', 'success');
             
             fecharModais();
             buscarEstoqueDoBanco();
         } catch (err) {
             if (typeof mostrarAlerta === 'function') mostrarAlerta('Não foi possível atualizar o item.', 'error');
-            else alert('Não foi possível atualizar o item.');
+            else mostrarAlerta('Não foi possível atualizar o item.', 'error');
         }
     });
 }
@@ -244,7 +244,7 @@ async function deletarItemEstoque() {
         fecharModais();
         buscarEstoqueDoBanco();
     } catch (err) {
-        mostrarAlerta("Erro ao excluir item do banco de dados.");
+        mostrarAlerta("Erro ao excluir item do banco de dados.", "error");
     }
 }
 

@@ -286,13 +286,13 @@ async function cadastrarVoluntario(event) {
 
     // Validações
     if (!isCPFValido(cpfValor)) {
-        alert("Erro: O CPF informado é inválido. Verifique os números.");
+        mostarAlerta("Erro: O CPF informado é inválido. Verifique os números.", "error");
         if(inputCpf) inputCpf.focus();
         return; 
     }
 
     if (!isEmailValido(emailValor)) {
-        alert("Erro: O formato do e-mail é inválido.");
+        mostarAlerta("Erro: O formato do e-mail é inválido.", "error");
         if(inputEmail) inputEmail.focus();
         return; 
     }
@@ -352,16 +352,16 @@ async function cadastrarVoluntario(event) {
         });
 
         if (resposta.ok) {
-            alert("Voluntário cadastrado com sucesso!");
+            mostarAlerta("Voluntário cadastrado com sucesso!", "success");
             window.location.href = "voluntarios.html"; // Volta para a tabela
         } else {
             const erroTexto = await resposta.text();
-    alert(`Erro do servidor: ${erroTexto}`); 
+    mostarAlerta(`Erro do servidor: ${erroTexto}`, "error");
     console.error("Status do erro:", resposta.status);
         }
     } catch (erro) {
         console.error("Erro ao salvar:", erro);
-        alert("Erro de conexão com o servidor Java.");
+        mostarAlerta("Erro de conexão com o servidor Java.", "error");
     }
 }
 
@@ -440,7 +440,7 @@ async function salvarEdicao(event) {
 
     try {
         if (!idVoluntarioEditando) {
-            alert("Erro: O sistema perdeu o ID. Tente fechar e abrir o modal de novo.");
+            mostarAlerta("Erro: O sistema perdeu o ID. Tente fechar e abrir o modal de novo.", "error");
             return;
         }
         
@@ -502,15 +502,15 @@ async function salvarEdicao(event) {
         });
 
         if (resposta.ok) {
-            alert("Voluntário atualizado com sucesso!");
+            mostarAlerta("Voluntário atualizado com sucesso!", "success");
             fecharModais(); 
             carregarVoluntarios(); 
         } else {
-            alert("Erro do Java ao atualizar voluntário.");
+            mostarAlerta("Erro do Java ao atualizar voluntário.", "error");
         }
     } catch (erro) {
         console.error("Erro completo:", erro);
-        alert("Erro de conexão. O Java está rodando?");
+        mostarAlerta("Erro de conexão. O Java está rodando?", "error");
     }
 }
 // ==========================================
@@ -527,14 +527,14 @@ async function deletarVoluntario(id) {
         });
 
         if (resposta.ok) {
-            alert("Voluntário deletado com sucesso!");
+            mostarAlerta("Voluntário deletado com sucesso!", "success");
             carregarVoluntarios(); // Atualiza a tabela tirando o deletado
         } else {
-            alert("Erro do Java ao tentar deletar o voluntário.");
+            mostarAlerta("Erro do Java ao tentar deletar o voluntário.", "error");
         }
     } catch (erro) {
         console.error("Erro completo:", erro);
-        alert("Erro de conexão. O Java está rodando?");
+        mostarAlerta("Erro de conexão. O Java está rodando?", "error");
     }
 }
 
@@ -598,15 +598,15 @@ async function salvarVinculoProjetos() {
         });
 
         if (resposta.ok) {
-            alert("Projetos vinculados com sucesso!");
+            mostarAlerta("Projetos vinculados com sucesso!", "success");
             fecharModais();
             carregarVoluntarios(); // Recarrega a tabela por garantia
         } else {
-            alert("Erro do Java ao tentar vincular os projetos.");
+            mostarAlerta("Erro do Java ao tentar vincular os projetos.", "error");
         }
     } catch (erro) {
         console.error("Erro completo:", erro);
-        alert("Erro de conexão. O servidor Java está rodando?");
+        mostarAlerta("Erro de conexão. O servidor Java está rodando?", "error");
     }
 }
 

@@ -39,15 +39,15 @@ async function cadastrarFuncionario(event) {
 
         if (response.ok) {
             const resultado = await response.json();
-            alert(`Sucesso! O funcionário ${resultado.nome_funcionario} foi cadastrado.`);
+            mostrarAlerta(`Sucesso! O funcionário ${resultado.nome_funcionario} foi cadastrado.`, 'success');
             event.target.reset(); 
         } else {
             const erro = await response.text();
-            alert("Erro ao cadastrar: " + erro);
+            mostrarAlerta("Erro ao cadastrar: " + erro, 'error');
         }
     } catch (error) {
         console.error("Erro na conexão:", error);
-        alert("Não foi possível conectar ao servidor.");
+        mostrarAlerta("Não foi possível conectar ao servidor.", 'error');
     }
 }
 

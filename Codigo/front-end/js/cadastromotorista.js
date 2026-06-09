@@ -60,12 +60,12 @@ if (formCadastro) {
                 if (erroDisp) throw erroDisp;
             }
 
-            alert('Motorista e disponibilidade salvos com sucesso!');
+            mostrarAlerta('Motorista e disponibilidade salvos com sucesso!', 'success');
             window.location.href = 'motoristas.html';
 
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao salvar: ' + error.message);
+            mostrarAlerta('Erro ao salvar: ' + error.message, 'error');
         }
     });
 }

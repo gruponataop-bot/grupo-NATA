@@ -48,7 +48,7 @@ if (formManutencao) {
         dataSelecionadaAjustada.setHours(0, 0, 0, 0);
 
         if (dataSelecionadaAjustada < dataHoje) {
-            alert('A data da manutenção não pode ser anterior à data atual.');
+            mostrarAlerta('A data da manutenção não pode ser anterior à data atual.', 'error');
             return; // Interrompe o envio
         }
 
@@ -73,11 +73,11 @@ if (formManutencao) {
 
             if (error) throw error;
 
-            alert('Manutenção registrada com sucesso!');
+            mostrarAlerta('Manutenção registrada com sucesso!', 'success');
             window.location.href = 'manutencao.html';
         } catch (error) {
             console.error('Erro detalhado:', error);
-            alert('Erro ao salvar: ' + error.message);
+            mostrarAlerta('Erro ao salvar: ' + error.message, 'error');
         }
     });
 }

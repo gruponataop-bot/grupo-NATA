@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Só considera inválido se for null ou vazio
   if (token === null || token.trim() === '') {
-    alert('Link inválido ou expirado.');
+    mostarAlerta('Link inválido ou expirado.', 'error');
     return;
   }
 
@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const confirmarSenha = document.getElementById('confirmarSenha').value;
 
       if (novaSenha.length < 6) {
-        alert('A senha deve ter pelo menos 6 caracteres.');
+        mostarAlerta('A senha deve ter pelo menos 6 caracteres.', 'error');
         return;
       }
 
       if (novaSenha !== confirmarSenha) {
-        alert('As senhas não coincidem.');
+        mostarAlerta('As senhas não coincidem.', 'error');
         return;
       }
 
@@ -51,14 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const mensagem = await resposta.text();
 
         if (resposta.ok) {
-          alert('Senha redefinida com sucesso!');
+          mostarAlerta('Senha redefinida com sucesso!', 'success');
           window.location.href = 'login.html';
         } else {
-          alert(mensagem || 'Não foi possível redefinir a senha.');
+          mostarAlerta(mensagem || 'Não foi possível redefinir a senha.', 'error');
         }
       } catch (erro) {
         console.error(erro);
-        alert('Erro ao conectar com o servidor.');
+        mostarAlerta('Erro ao conectar com o servidor.', 'error');
       }
     });
   }

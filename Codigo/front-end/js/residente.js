@@ -78,6 +78,7 @@ async function carregarResidentes() {
         renderizarTabela();
 
     } catch (e) {
+        mostarAlerta("Erro ao carregar residentes.", "error");
         console.error("Erro:", e);
     }
 }
@@ -204,14 +205,14 @@ async function cadastrarResidente(e) {
                     method: "POST"
                 });
                 if (!vinculo.ok) {
-                    alert("Residente cadastrado, mas houve erro ao vincular ao projeto.");
+                    mostarAlerta("Residente cadastrado, mas houve erro ao vincular ao projeto.", "error");
                     return;
                 }
             }
-            alert("Cadastrado!");
+            mostarAlerta("Cadastrado!", "success");
             window.location.href = "residentes.html";
         } else {
-            alert("Erro ao cadastrar");
+            mostarAlerta("Erro ao cadastrar", "error");
         }
 
     } catch (e) {
@@ -297,15 +298,15 @@ async function salvarEdicao(e) {
         });
 
         if (res.ok) {
-            alert("Residente atualizado com sucesso!");
+            mostarAlerta("Residente atualizado com sucesso!", "success");
             fecharModais();
             carregarResidentes(); // Recarrega a tabela sem precisar dar F5 na página
         } else {
-            alert("Erro ao atualizar residente.");
+            mostarAlerta("Erro ao atualizar residente.", "error");
         }
     } catch (e) {
         console.error("Erro na requisição PUT:", e);
-        alert("Erro de conexão ao tentar atualizar.");
+        mostarAlerta("Erro de conexão ao tentar atualizar.", "error");
     }
 }
 // ==========================================
