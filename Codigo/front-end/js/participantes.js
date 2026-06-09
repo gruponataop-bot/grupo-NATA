@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================
 async function carregarParticipantes() {
     try {
-        const resposta = await fetch('http://localhost:8080/api/participantes');
+        const resposta = await fetch('https://grupo-nata.onrender.com/api/participantes');
         if (resposta.ok) {
             participantesData = await resposta.json();
             participantesFiltrados = [...participantesData];
@@ -185,7 +185,7 @@ async function cadastrarParticipante(event) {
     };
 
     try {
-        const resposta = await fetch('http://localhost:8080/api/participantes', {
+        const resposta = await fetch('https://grupo-nata.onrender.com/api/participantes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(novoParticipante)
@@ -214,7 +214,7 @@ async function deletarParticipante(id) {
     if (!confirmar) return;
 
     try {
-        const resposta = await fetch(`http://localhost:8080/api/participantes/${id}`, {
+        const resposta = await fetch(`https://grupo-nata.onrender.com/api/participantes/${id}`, {
             method: 'DELETE'
         });
 
@@ -255,7 +255,7 @@ async function salvarEdicao(event) {
     };
 
     try {
-        const resposta = await fetch(`http://localhost:8080/api/participantes/${idParticipanteEditando}`, {
+        const resposta = await fetch(`https://grupo-nata.onrender.com/api/participantes/${idParticipanteEditando}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(participanteAtualizado)
@@ -418,7 +418,7 @@ function getStatusBadge(status) {
 }
 
 async function carregarProjetos() {
-    const resposta = await fetch('http://localhost:8080/api/projetos');
+    const resposta = await fetch('https://grupo-nata.onrender.com/api/projetos');
     if (!resposta.ok) throw new Error('Erro ao carregar projetos.');
     return resposta.json();
 }
@@ -474,7 +474,7 @@ async function abrirModalProjetosParticipante(id) {
 
         const vinculosPorProjeto = await Promise.all(projetos.map(async projeto => {
             try {
-                const resposta = await fetch(`http://localhost:8080/api/projetos/${projeto.id}/participantes`);
+                const resposta = await fetch(`https://grupo-nata.onrender.com/api/projetos/${projeto.id}/participantes`);
                 if (!resposta.ok) return { projetoId: projeto.id, vinculado: false };
                 const participantes = await resposta.json();
                 return {
@@ -567,7 +567,7 @@ async function salvarProjetosParticipante() {
 }
 
 async function vincularParticipanteAoProjeto(idProjeto, idParticipante) {
-    const resposta = await fetch(`http://localhost:8080/api/projetos/${idProjeto}/participantes/${idParticipante}`, {
+    const resposta = await fetch(`https://grupo-nata.onrender.com/api/projetos/${idProjeto}/participantes/${idParticipante}`, {
         method: 'POST'
     });
 
@@ -582,7 +582,7 @@ async function vincularParticipanteAoProjeto(idProjeto, idParticipante) {
 }
 
 async function desvincularParticipanteDoProjeto(idProjeto, idParticipante) {
-    const resposta = await fetch(`http://localhost:8080/api/projetos/${idProjeto}/participantes/${idParticipante}`, {
+    const resposta = await fetch(`https://grupo-nata.onrender.com/api/projetos/${idProjeto}/participantes/${idParticipante}`, {
         method: 'DELETE'
     });
 

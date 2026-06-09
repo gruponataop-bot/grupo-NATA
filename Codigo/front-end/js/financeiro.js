@@ -12,7 +12,7 @@ function getSupabase() {
 // ==============================================
 // CONSTANTS
 // ==============================================
-const API_URL = 'http://localhost:8080/api/lancamentos';
+const API_URL = 'https://grupo-nata.onrender.com/api/lancamentos';
 const SUPABASE_BUCKET = 'financeiro';
 const ITENS_POR_PAGINA = 15;
 
