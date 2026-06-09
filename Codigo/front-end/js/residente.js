@@ -118,7 +118,7 @@ function renderizarTabela() {
 
         tr.innerHTML = `
             <td>${r.nome}</td>
-            <td>${r.telefone || "-"}</td>
+            <td>${r.telefone ? mascaraTelefone(r.telefone) : "-"}</td>
             <td>${r.projeto || "-"}</td>
             <td>${getStatusBadge(r.status)}</td>
 
@@ -232,15 +232,14 @@ function abrirModalEditar(id) {
     // Preenche os campos de texto, data e select
     document.getElementById("edit-id").value = r.id || "";
     document.getElementById("edit-nome").value = r.nome || "";
-    document.getElementById("edit-cpf").value = r.cpf || "";
+    document.getElementById("edit-cpf").value = r.cpf ? mascaraCPF(r.cpf) : "";
     document.getElementById("edit-dataNascimento").value = r.dataNascimento || "";
-    document.getElementById("edit-telefone").value = r.telefone || "";
-    document.getElementById("edit-email").value = r.email || "";
+    document.getElementById("edit-telefone").value = r.telefone ? mascaraTelefone(r.telefone) : "";    document.getElementById("edit-email").value = r.email || "";
     document.getElementById("edit-endereco").value = r.endereco || "";
     document.getElementById("edit-necessidades").value = r.necessidadesEspeciais || "";
     document.getElementById("edit-contatoEmergencia").value = r.contatoEmergencia || "";
     document.getElementById("edit-parentesco").value = r.parentesco || "";
-    document.getElementById("edit-telefoneEmergencia").value = r.telefoneEmergencia || "";
+    document.getElementById("edit-telefoneEmergencia").value = r.telefoneEmergencia ? mascaraTelefone(r.telefoneEmergencia) : "";
     
     // Se você carrega os projetos dinamicamente no select de edição, 
     // certifique-se de que a tag <option> com o valor já exista.
@@ -373,15 +372,12 @@ function abrirModalVisualizar(id) {
     if (document.getElementById("view-projeto")) document.getElementById("view-projeto").value = r.projeto || "Nenhum";
     if (document.getElementById("view-status")) document.getElementById("view-status").value = r.status || "";
     if (document.getElementById("view-nome")) document.getElementById("view-nome").value = r.nome || "";
-    if (document.getElementById("view-cpf")) document.getElementById("view-cpf").value = r.cpf || "";
-    if (document.getElementById("view-nascimento")) document.getElementById("view-nascimento").value = r.dataNascimento || "";
-    if (document.getElementById("view-telefone")) document.getElementById("view-telefone").value = r.telefone || "";
-    if (document.getElementById("view-email")) document.getElementById("view-email").value = r.email || "";
+    if (document.getElementById("view-cpf")) document.getElementById("view-cpf").value = r.cpf ? mascaraCPF(r.cpf) : "";    if (document.getElementById("view-nascimento")) document.getElementById("view-nascimento").value = r.dataNascimento || "";
+    if (document.getElementById("view-telefone")) document.getElementById("view-telefone").value = r.telefone ? mascaraTelefone(r.telefone) : "";    if (document.getElementById("view-email")) document.getElementById("view-email").value = r.email || "";
     if (document.getElementById("view-endereco")) document.getElementById("view-endereco").value = r.endereco || "";
     if (document.getElementById("view-necessidades")) document.getElementById("view-necessidades").value = r.necessidadesEspeciais || "Nenhuma";
     if (document.getElementById("view-contatoEmergencia")) document.getElementById("view-contatoEmergencia").value = r.contatoEmergencia || "";
     if (document.getElementById("view-parentesco")) document.getElementById("view-parentesco").value = r.parentesco || "";
-    if (document.getElementById("view-telefoneEmergencia")) document.getElementById("view-telefoneEmergencia").value = r.telefoneEmergencia || "";
-
+    if (document.getElementById("view-telefoneEmergencia")) document.getElementById("view-telefoneEmergencia").value = r.telefoneEmergencia ? mascaraTelefone(r.telefoneEmergencia) : "";
     abrirModal("modal-visualizar");
 }

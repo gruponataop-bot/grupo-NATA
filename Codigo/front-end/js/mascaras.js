@@ -39,7 +39,7 @@ const mascaraCNPJ = (valor) => {
 // Função que encontra os inputs no ecrã e aplica os eventos
 const aplicarMascaras = () => {
     // 1. Aplica nos campos de TELEFONE
-    const inputsTelefone = document.querySelectorAll('input[name="tel_rep"], input[name="telefone"], #editar-telefone');
+    const inputsTelefone = document.querySelectorAll('input[name="tel_rep"], input[name="telefone"], #editar-telefone, #edit-telefone, #edit-telefoneEmergencia');
     inputsTelefone.forEach(input => {
         input.setAttribute('maxlength', '15'); 
         input.addEventListener('input', (e) => {
@@ -57,7 +57,7 @@ const aplicarMascaras = () => {
     });
 
     // 3. Aplica nos campos de CPF
-    const inputsCPF = document.querySelectorAll('input[name="cpf"], #editar-cpf');
+    const inputsCPF = document.querySelectorAll('input[name="cpf"], #editar-cpf, #edit-cpf, #cad-cpf');
     inputsCPF.forEach(input => {
         input.setAttribute('maxlength', '14'); 
         input.addEventListener('input', (e) => {

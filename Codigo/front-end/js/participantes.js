@@ -88,7 +88,7 @@ function renderizarTabela() {
             <td>${part.serie || "-"}</td>
             <td>${part.escola || "-"}</td>
             <td>${part.nomeResponsavel || "-"}</td> 
-            <td>${part.telefoneResponsavel || "-"}</td> 
+            <td>${part.telefoneResponsavel ? mascaraTelefone(part.telefoneResponsavel) : "-"}</td>
             <td>${statusComBadge}</td>
             <td class="acoes-icones">
                 <i class="action-btn" onclick="abrirModalVisualizar(${part.id})" title="Visualizar">Ver</i>
@@ -114,7 +114,7 @@ function abrirModalVisualizar(id) {
     document.getElementById("view-serie").value = part.serie || "";
     document.getElementById("view-escola").value = part.escola || "";
     document.getElementById("view-responsavel").value = part.nomeResponsavel || "";
-    document.getElementById("view-telefone").value = part.telefoneResponsavel || "";
+    document.getElementById("view-telefone").value = part.telefoneResponsavel ? mascaraTelefone(part.telefoneResponsavel) : "";
     document.getElementById("view-necessidades").value = part.necessidadesEspeciais || "Nenhuma";
 
     // Exemplo de como mostrar horários selecionados
@@ -138,7 +138,7 @@ function abrirModalEditar(id) {
     document.getElementById("edit-serie").value = part.serie || "";
     document.getElementById("edit-escola").value = part.escola || "";
     document.getElementById("edit-responsavel").value = part.nomeResponsavel || "";
-    document.getElementById("edit-telefone").value = part.telefoneResponsavel || "";
+    document.getElementById("edit-telefone").value = part.telefoneResponsavel ? mascaraTelefone(part.telefoneResponsavel) : "";
     document.getElementById("edit-endereco").value = part.endereco || "";
     document.getElementById("edit-necessidades").value = part.necessidadesEspeciais || "";
 

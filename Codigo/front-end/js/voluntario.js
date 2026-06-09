@@ -133,7 +133,7 @@ function renderizarTabela() {
 
         tr.innerHTML = `
             <td>${vol.nome}</td>
-            <td>${vol.telefone || "-"}</td>
+            <td>${vol.telefone ? mascaraTelefone(vol.telefone) : "-"}</td>
             <td>${habilidadesStr.substring(0, 30)}</td>
             <td>${diasStr}</td> 
             <td>${turnosStr}</td> 
@@ -221,11 +221,11 @@ function abrirModalVisualizar(id) {
     // 1. Preenche os dados pessoais
     document.getElementById("view-nome").value = vol.nome || "";
     document.getElementById("view-email").value = vol.email || "";
-    document.getElementById("view-telefone").value = vol.telefone || "";
+    document.getElementById("view-telefone").value = vol.telefone ? mascaraTelefone(vol.telefone) : "";
     document.getElementById("view-nascimento").value = vol.dataNascimento || "";
     document.getElementById("view-outras-habilidades").value = vol.outrasHabilidades || "";
     document.getElementById("view-obs-disponibilidade").value = vol.observacoesDisponibilidade || "";
-    document.getElementById("view-cpf").value = vol.cpf || "";
+    document.getElementById("view-cpf").value = vol.cpf ? mascaraCPF(vol.cpf) : "";
     document.getElementById("view-endereco").value = vol.endereco || "";
 
 
@@ -377,13 +377,12 @@ function abrirModalEditar(id) {
 
     document.getElementById("edit-nome").value = vol.nome || "";
     document.getElementById("edit-email").value = vol.email || "";
-    document.getElementById("edit-telefone").value = vol.telefone || "";
+    document.getElementById("edit-telefone").value = vol.telefone ? mascaraTelefone(vol.telefone) : "";
     document.getElementById("edit-nascimento").value = vol.dataNascimento || "";
     document.getElementById("edit-outras-habilidades").value = vol.outrasHabilidades || "";
-    document.getElementById("edit-cpf").value = vol.cpf || "";
+    document.getElementById("edit-cpf").value = vol.cpf ? mascaraCPF(vol.cpf) : "";
     document.getElementById("edit-endereco").value = vol.endereco || "";
     
-    // 👇 NOVA LÓGICA DE STATUS AQUI 👇
     const selectStatus = document.getElementById("edit-status");
     if (selectStatus && vol.status) {
         // Formata a string para garantir que bata com as <option> (ex: "ativo" vira "Ativo")
