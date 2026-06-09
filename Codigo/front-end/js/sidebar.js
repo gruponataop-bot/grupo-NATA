@@ -86,7 +86,7 @@ const SIDEBAR_HTML = `
                 <ul class="submenu">
                     <li>
                         <a href="veiculos.html" class="submenu-link" data-nav="veiculos">
-                            <i class="ph-fill ph-steering-wheel"></i> Frota
+                            <i class="ph-fill ph-steering-wheel"></i> Veículos
                         </a>
                     </li>
                     <li>
