@@ -3,7 +3,7 @@
 // ==============================================
 const SUPABASE_URL = 'https://wyhclddqdupnpdmfafde.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_oA60gmRRa3B5bzOpUb-8XQ_L2TqAZZh';
-const API_URL_PROJETOS = 'http://localhost:8080/api/projetos';
+const API_URL_PROJETOS = 'https://grupo-nata.onrender.com/api/projetos';
 
 let _supabase = null;
 let listaProjetosDoCoordenador = [];

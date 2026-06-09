@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Função para buscar a posição em tempo real do Veículo (Seu código anterior)
     async function atualizarPosicao() {
         try {
-            const resposta = await fetch(`http://localhost:8080/api/rastreamento/veiculo/${placaSelecionada}/localizacao`);
+            const resposta = await fetch(`https://grupo-nata.onrender.com/api/rastreamento/veiculo/${placaSelecionada}/localizacao`);
             if (!resposta.ok) throw new Error('Erro ao buscar dados do veículo');
             
             const dados = await resposta.json();

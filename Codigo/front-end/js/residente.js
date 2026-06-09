@@ -60,7 +60,7 @@ function getStatusBadge(status) {
 // ==========================================
 async function carregarResidentes() {
     try {
-        const res = await fetch("http://localhost:8080/api/residentes");
+        const res = await fetch("https://grupo-nata.onrender.com/api/residentes");
         const dados = await res.json();
 
         residentesData = dados.map(r => ({
@@ -191,7 +191,7 @@ async function cadastrarResidente(e) {
     };
 
     try {
-        const res = await fetch("http://localhost:8080/api/residentes", {
+        const res = await fetch("https://grupo-nata.onrender.com/api/residentes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(residente)
@@ -200,7 +200,7 @@ async function cadastrarResidente(e) {
         if (res.ok) {
             const residenteSalvo = await res.json();
             if (idProjeto && residenteSalvo.id) {
-                const vinculo = await fetch(`http://localhost:8080/api/projetos/${idProjeto}/residentes/${residenteSalvo.id}`, {
+                const vinculo = await fetch(`https://grupo-nata.onrender.com/api/projetos/${idProjeto}/residentes/${residenteSalvo.id}`, {
                     method: "POST"
                 });
                 if (!vinculo.ok) {
@@ -290,7 +290,7 @@ async function salvarEdicao(e) {
     };
 
     try {
-        const res = await fetch(`http://localhost:8080/api/residentes/${idResidenteEditando}`, {
+        const res = await fetch(`https://grupo-nata.onrender.com/api/residentes/${idResidenteEditando}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(residenteAtualizado)
@@ -314,7 +314,7 @@ async function salvarEdicao(e) {
 async function deletarResidente(id) {
     if (!confirm("Deseja excluir?")) return;
 
-    await fetch(`http://localhost:8080/api/residentes/${id}`, {
+    await fetch(`https://grupo-nata.onrender.com/api/residentes/${id}`, {
         method: "DELETE"
     });
 
@@ -341,7 +341,7 @@ async function carregarProjetos(selectId = "projeto", projetoSelecionado = "") {
         // 🔥 ESSA LINHA RESOLVE O ERRO
         if (!select) return;
 
-        const res = await fetch("http://localhost:8080/api/projetos");
+        const res = await fetch("https://grupo-nata.onrender.com/api/projetos");
         const projetos = await res.json();
 
         select.innerHTML = '<option value="">Selecione um projeto</option>';

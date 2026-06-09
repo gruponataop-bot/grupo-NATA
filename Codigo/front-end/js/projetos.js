@@ -12,9 +12,9 @@ function getSupabase() {
 // ==============================================
 // CONSTANTES DA API
 // ==============================================
-const API_URL = 'http://localhost:8080/api/projetos';
-const API_PARTICIPANTES = 'http://localhost:8080/api/participantes';
-const API_FUNCIONARIOS_URL = 'http://localhost:8080/api/funcionarios';
+const API_URL = 'https://grupo-nata.onrender.com/api/projetos';
+const API_PARTICIPANTES = 'https://grupo-nata.onrender.com/api/participantes';
+const API_FUNCIONARIOS_URL = 'https://grupo-nata.onrender.com/api/funcionarios';
 
 // ==============================================
 // ESTADO

@@ -1,8 +1,8 @@
 // ==============================================
 // CONSTANTES DA API
 // ==============================================
-const API_RESIDENTES = 'http://localhost:8080/api/residentes';
-const API_PARTICIPANTES = 'http://localhost:8080/api/participantes';
+const API_RESIDENTES = 'https://grupo-nata.onrender.com/api/residentes';
+const API_PARTICIPANTES = 'https://grupo-nata.onrender.com/api/participantes';
 
 // ==============================================
 // ESTADO

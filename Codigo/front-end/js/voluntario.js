@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================
 async function carregarVoluntarios() {
     try {
-        const resposta = await fetch('http://localhost:8080/api/voluntarios');
+        const resposta = await fetch('https://grupo-nata.onrender.com/api/voluntarios');
         if (resposta.ok) {
             const dados = await resposta.json();
 
@@ -345,7 +345,7 @@ async function cadastrarVoluntario(event) {
     
     try {
         // AQUI CORRIGIMOS O "URL_DO_SEU_BACKEND_AQUI"
-        const resposta = await fetch('http://localhost:8080/api/voluntarios', {
+        const resposta = await fetch('https://grupo-nata.onrender.com/api/voluntarios', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(novoVoluntario)
@@ -495,7 +495,7 @@ async function salvarEdicao(event) {
             endereco: endereco
         };
         
-        const resposta = await fetch(`http://localhost:8080/api/voluntarios/${id}`, {
+        const resposta = await fetch(`https://grupo-nata.onrender.com/api/voluntarios/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(voluntarioAtualizado)
@@ -522,7 +522,7 @@ async function deletarVoluntario(id) {
     if (!confirmar) return;
 
     try {
-        const resposta = await fetch(`http://localhost:8080/api/voluntarios/${id}`, {
+        const resposta = await fetch(`https://grupo-nata.onrender.com/api/voluntarios/${id}`, {
             method: 'DELETE'
         });
 
@@ -556,7 +556,7 @@ async function abrirModalVincularProjeto(idVoluntario) {
     try {
         // Busca a lista de Projetos Reais do seu Banco de Dados
         // (Verifique se a rota do seu Controller de projetos é essa mesma)
-        const resposta = await fetch('http://localhost:8080/api/projetos');
+        const resposta = await fetch('https://grupo-nata.onrender.com/api/projetos');
         const projetos = await resposta.json();
 
         containerProjetos.innerHTML = ""; 
@@ -591,7 +591,7 @@ async function salvarVinculoProjetos() {
 
     try {
         // Manda a lista de IDs para a rota nova que criamos no Java
-        const resposta = await fetch(`http://localhost:8080/api/voluntarios/${idVoluntario}/projetos`, {
+        const resposta = await fetch(`https://grupo-nata.onrender.com/api/voluntarios/${idVoluntario}/projetos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(idsProjetosMarcados)

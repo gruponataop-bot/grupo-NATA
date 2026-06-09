@@ -1,5 +1,5 @@
-const API_PROJETOS = 'http://localhost:8080/api/projetos';
-const API_FUNCIONARIOS = 'http://localhost:8080/api/funcionarios';
+const API_PROJETOS = 'https://grupo-nata.onrender.com/api/projetos';
+const API_FUNCIONARIOS = 'https://grupo-nata.onrender.com/api/funcionarios';
 
 let professorLogado = {};
 let projetosDoProfessor = [];

@@ -1,4 +1,4 @@
-const url_base = 'http://localhost:8080'; 
+const url_base = 'https://grupo-nata.onrender.com'; 
 
 async function carregarTabelaFuncionarios() {
     try {

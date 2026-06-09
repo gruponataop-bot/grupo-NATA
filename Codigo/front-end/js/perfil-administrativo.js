@@ -1,4 +1,4 @@
-const API_FUNCIONARIOS_ADMIN = 'http://localhost:8080/api/funcionarios';
+const API_FUNCIONARIOS_ADMIN = 'https://grupo-nata.onrender.com/api/funcionarios';
 
 let funcionarioAdministrativo = null;
 

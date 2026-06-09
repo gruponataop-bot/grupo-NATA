@@ -6,8 +6,8 @@ function getSupabase() {
     return _supabase;
 }
 
-const API_URL = 'http://localhost:8080/api/projetos';
-const API_FUNCIONARIOS_URL = 'http://localhost:8080/api/funcionarios';
+const API_URL = 'https://grupo-nata.onrender.com/api/projetos';
+const API_FUNCIONARIOS_URL = 'https://grupo-nata.onrender.com/api/funcionarios';
 
 document.addEventListener('DOMContentLoaded', async () => {
     await carregarFuncionarios();
