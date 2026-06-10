@@ -7,8 +7,7 @@
   <title>Redefinir Senha - Nata</title>
   <link rel="stylesheet" href="../css/resetarsenha.css" />
   <link rel="stylesheet" href="../css/auth-padrao.css" />
-  <link rel="stylesheet" href="../css/mostrarAlerta.css">
-  <script src="../js/mostrarAlerta.js" defer></script>
+  <script src="../js/login.js" defer></script>
   <script src="../js/resetarsenha.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +17,6 @@
 </head>
 
 <body>
-  <div id="alert-container" class="alert-container"></div>
   <div class="page">
     <header class="topbar">
       <div class="logo">Nata</div>
@@ -72,7 +70,7 @@
                   <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
                 </svg>
               </div>
-              <input type="password" id="novaSenha" placeholder="NOVA SENHA" required />
+              <input type="password" id="novaSenha" placeholder="Nova Senha" required />
               <button type="button" class="password-toggle" id="toggleNovaSenha" aria-label="Mostrar senha"
                 aria-pressed="false">
                 <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
@@ -98,7 +96,7 @@
                   <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
                 </svg>
               </div>
-              <input type="password" id="confirmarSenha" placeholder="CONFIRMAR NOVA SENHA" required />
+              <input type="password" id="confirmarSenha" placeholder="Confirmar Nova Senha" required />
               <button type="button" class="password-toggle" id="toggleConfirmarSenha" aria-label="Mostrar senha"
                 aria-pressed="false">
                 <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
@@ -117,7 +115,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%; display: block; margin-top: 10px;">
-              SALVAR SENHA
+              Salvar Senha
             </button>
           </form>
         </section>
