@@ -70,7 +70,13 @@ a {
 }
 
 .brand img {
-    height: 50px;
+    height: 80px;
+    width: auto;
+    display: block;
+}
+
+.footer-brand img {
+    height: 90px;
     width: auto;
     display: block;
 }
@@ -79,9 +85,9 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 60px;
   flex: 1;
-  font-size: 0.78rem;
+  font-size: 1.25rem;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -101,12 +107,12 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 36px;
+  min-height: 3rem;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   padding: 0 16px;
   font-family: var(--font-body);
-  font-size: 0.82rem;
+  font-size: 1.25rem;
   font-weight: 600;
   cursor: pointer;
   transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition);
@@ -388,7 +394,7 @@ a {
 
 .public-footer p {
   color: #ffe8dd;
-  margin-top: 8px;
+  margin-top: 1.5rem;
 }
 
 .public-footer address {
@@ -396,7 +402,7 @@ a {
   gap: 6px;
   font-style: normal;
   color: #ffe8dd;
-  font-size: 0.86rem;
+  font-size: 1.5rem;
 }
 
 .public-footer strong {

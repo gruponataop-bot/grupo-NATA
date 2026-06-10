@@ -340,11 +340,11 @@ async function cadastrarVoluntario(event) {
     outrasHabilidades: outrasHabilidades,
     observacoesDisponibilidade: obsDisponibilidade,
     status: status.toLowerCase(),
-    endereco: endereco // ✅ AQUI
+    endereco: endereco 
 };
     
     try {
-        // AQUI CORRIGIMOS O "URL_DO_SEU_BACKEND_AQUI"
+        
         const resposta = await fetch('https://grupo-nata.onrender.com/api/voluntarios', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

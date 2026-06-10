@@ -8,6 +8,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.scheduling.annotation.Async;
 
 @Service
 public class EmailService {
@@ -32,6 +33,7 @@ public class EmailService {
             .defaultHeader("User-Agent", "NATA-Gestao/1.0")
             .build();
 
+    @Async
     public void enviarEmailSenha(String para, String nome, String senhaGerada) {
         String texto = "Ola " + nome + ",\n\n" +
                 "Seu cadastro foi realizado com sucesso.\n" +
@@ -41,6 +43,7 @@ public class EmailService {
         enviar(para, "Bem-vindo! Suas credenciais de acesso", texto);
     }
 
+    @Async
     public void enviarEmailRedefinirSenha(String para, String nome, String token) {
         String link = resetPasswordUrl + "?token=" + token;
         String texto = "Ola " + nome + ",\n\n" +

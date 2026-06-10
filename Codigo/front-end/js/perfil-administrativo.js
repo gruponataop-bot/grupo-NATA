@@ -58,7 +58,7 @@ async function carregarPerfilAdministrativo() {
         preencherFormulario(funcionario);
     } catch (erro) {
         console.error(erro);
-        exibirFeedback(erro.message || 'Não foi possível carregar seu perfil.', true);
+        mostrarAlerta(erro.message || 'Não foi possível carregar seu perfil.', 'error');
     }
 }
 
@@ -85,7 +85,7 @@ async function salvarPerfilAdministrativo(event) {
 
     const id = document.getElementById('adminId').value;
     if (!id) {
-        exibirFeedback('Não foi possível identificar o funcionário logado.', true);
+        mostrarAlerta('Não foi possível identificar o funcionário logado.', 'error');
         return;
     }
 
@@ -100,7 +100,7 @@ async function salvarPerfilAdministrativo(event) {
     };
     
     if (!payload.nome_funcionario || !payload.cpf || !payload.telefone || !payload.email) {
-        exibirFeedback('Preencha todos os campos antes de salvar.', true);
+        mostrarAlerta('Preencha todos os campos antes de salvar.', 'warning');
         return;
     }
 
@@ -125,19 +125,13 @@ async function salvarPerfilAdministrativo(event) {
         preencherFormulario(atualizado);
         const nomeTopbar = document.getElementById('nome-usuario');
         if (nomeTopbar) nomeTopbar.innerText = atualizado.nome_funcionario || payload.nome_funcionario;
-        exibirFeedback('Perfil atualizado com sucesso.');
+        mostrarAlerta('Perfil atualizado com sucesso.', 'success');
     } catch (erro) {
         console.error(erro);
-        exibirFeedback('Não foi possível salvar suas alterações.', true);
+        mostrarAlerta('Não foi possível salvar suas alterações.', 'error');
     }
 }
 
-function exibirFeedback(mensagem, erro = false) {
-    const el = document.getElementById('perfilAdminFeedback');
-    el.textContent = mensagem;
-    el.classList.toggle('is-error', erro);
-    el.style.display = 'block';
-}
 
 function esconderFeedback() {
     const el = document.getElementById('perfilAdminFeedback');

@@ -109,10 +109,10 @@ async function salvarConfiguracaoHome(event) {
 
         salvarConfigLocal(config);
         configAtual = normalizarConfigHome(config);
-        mostrarFeedback("Configuracao salva. A index ja pode carregar os novos dados.", "success");
+        mostrarAlerta("Configuracao salva. A página inicial foi atualizada com sucesso.", "success");
     } catch (error) {
         salvarConfigLocal(config);
-        mostrarFeedback("Servidor indisponivel. Salvei neste navegador como alternativa temporaria.", "error");
+        mostrarAlerta("Servidor indisponivel. Tente novamente mais tarde.", "error");
     }
 }
 
@@ -137,11 +137,6 @@ function preencherContato(contact) {
     document.getElementById("contactSocial").value = contato.social;
 }
 
-function mostrarFeedback(mensagem, tipo) {
-    const feedback = document.getElementById("adminHomeFeedback");
-    feedback.textContent = mensagem;
-    feedback.className = `admin-feedback is-visible is-${tipo}`;
-}
 
 function normalizarConfigHome(config) {
     return {

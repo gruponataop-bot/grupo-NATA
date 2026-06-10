@@ -90,7 +90,7 @@ async function carregarLancamentos() {
 
         renderizarTabela();
     } catch (err) {
-        exibirErroGlobal(err.message);
+        mostrarAlerta('err.message', 'error');
     }
 }
 
@@ -137,7 +137,7 @@ async function carregarResumo() {
             periodoEl.textContent = '';
         }
     } catch (err) {
-        exibirErroGlobal(err.message);
+        mostrarAlerta('err.message', 'error');
     }
 }
 
@@ -381,23 +381,23 @@ async function salvarLancamento() {
 
     // Validações
     if (!descricao) {
-        exibirErro('Descrição obrigatória.');
+        mostrarAlerta('Descrição obrigatória.', 'error');
         return;
     }
     if (isNaN(valor) || valor <= 0) {
-        exibirErro('Informe um valor válido maior que zero.');
+        mostrarAlerta('Informe um valor válido maior que zero.', 'error');
         return;
     }
     if (!data) {
-        exibirErro('Data obrigatória.');
+        mostrarAlerta('Data obrigatória.', 'error');
         return;
     }
     if (!categoria) {
-        exibirErro('Categoria obrigatória.');
+        mostrarAlerta('Categoria obrigatória.', 'error');
         return;
     }
     if (tipo === 'SAIDA' && !destinatario) {
-        exibirErro('Destinatário obrigatório para saídas.');
+        mostrarAlerta('Destinatário obrigatório para saídas.', 'error');
         return;
     }
 
@@ -424,9 +424,9 @@ async function salvarLancamento() {
             comprovanteUrl = urlData.publicUrl;
         } catch (err) {
             if (err.message && err.message.includes('Bucket')) {
-                exibirErro(`Bucket "${SUPABASE_BUCKET}" não encontrado. Crie-o em Supabase Storage → New bucket → nome: ${SUPABASE_BUCKET} → Public.`);
+                mostrarAlerta(`Bucket "${SUPABASE_BUCKET}" não encontrado. Crie-o em Supabase Storage → New bucket → nome: ${SUPABASE_BUCKET} → Public.`, 'error');
             } else {
-                exibirErro('Erro ao enviar comprovante: ' + err.message);
+                mostrarAlerta('Erro ao enviar comprovante: ' + err.message, 'error');
             }
             return;
         }
@@ -463,9 +463,10 @@ async function salvarLancamento() {
         }
 
         fecharModal();
+        mostrarAlerta(id ? 'Lançamento atualizado com sucesso!' : 'Lançamento cadastrado com sucesso!', 'success');
         await Promise.all([carregarLancamentos(), carregarResumo()]);
     } catch (err) {
-        exibirErro(err.message || 'Não foi possível salvar o lançamento. Verifique se o servidor está rodando.');
+        mostrarAlerta(err.message || 'Não foi possível salvar o lançamento. Verifique se o servidor está rodando.', 'error');
         console.error(err);
     }
 }
@@ -574,9 +575,10 @@ async function confirmarDeletar() {
     try {
         await fetch(`${API_URL}/${idParaDeletar}`, { method: 'DELETE' });
         fecharModalDeletar();
+        mostrarAlerta('Lançamento deletado com sucesso!', 'success');
         await Promise.all([carregarLancamentos(), carregarResumo()]);
     } catch (err) {
-        exibirErroGlobal(err.message);
+        mostrarAlerta('err.message', 'error');
     }
 }
 
@@ -628,13 +630,6 @@ function labelFormaPagamento(value) {
 // ==============================================
 // ERROR HELPERS
 // ==============================================
-function exibirErro(msg) {
-    const el = document.getElementById('formErro');
-    if (el) {
-        el.textContent = msg;
-        el.classList.add('visivel');
-    }
-}
 
 function ocultarErro() {
     const el = document.getElementById('formErro');
@@ -644,9 +639,6 @@ function ocultarErro() {
     }
 }
 
-function exibirErroGlobal(msg) {
-    console.error('[Financeiro]', msg);
-}
 
 // ==============================================
 // ENTRY POINT

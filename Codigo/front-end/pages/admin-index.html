@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina inicial - NATA</title>
+    <title>Página inicial - NATA</title>
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/topbar.css">
     <link rel="stylesheet" href="../css/cadastro-padrao.css">
     <link rel="stylesheet" href="../css/admin-index.css">
     <link rel="stylesheet" href="../css/mostrarAlerta.css">
+    <link rel="stylesheet" href="../css/mascaras.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +23,7 @@
     <script src="../js/topbar.js" defer></script>
     <script src="../js/admin-index.js" defer></script>
     <script src="../js/mostrarAlerta.js" defer></script>
+    <script src="../js/mascaras.js" defer></script>
 </head>
 
 <body data-nav-active="admin-index">
@@ -32,13 +34,13 @@
         <div class="conteudo-direito">
             <header class="topbar">
                 <div class="topbar-titulo">
-                    <h1>Pagina inicial</h1>
+                    <h1>Página inicial</h1>
                 </div>
 
                 <div class="topbar-usuario">
                     <div class="separador"></div>
                     <span class="saudacao">
-                        Ola, <strong id="nome-usuario">carregando...</strong>
+                        Olá, <strong id="nome-usuario">carregando...</strong>
                     </span>
                 </div>
             </header>
@@ -49,7 +51,7 @@
                         <i class="ph ph-caret-left"></i> Voltar
                     </button>
                     <div class="cp-title-block">
-                        <h2>Controle da pagina inicial</h2>
+                        <h2>Controle da página inicial</h2>
                         <p>Escolha os projetos em destaque e atualize os canais de contato exibidos na index.</p>
                     </div>
                 </div>
@@ -60,13 +62,13 @@
                     <section class="cp-card">
                         <div class="cp-card-head">
                             <div class="cp-step">1</div>
-                            <span class="cp-section-name">Projetos exibidos na home</span>
+                            <span class="cp-section-name">Projetos exibidos na tela inicial</span>
                         </div>
                         <div class="cp-card-body">
                             <div class="admin-toolbar">
                                 <span id="projectsLoadStatus">Carregando projetos...</span>
                                 <button class="cp-btn-secondary" type="button" id="selectActiveProjects">
-                                    <i class="ph ph-check-square"></i> Marcar ativos
+                                    <i class="ph ph-check-square"></i> Marcar todos ativos
                                 </button>
                             </div>
                             <div class="admin-project-list" id="adminProjectList"></div>
@@ -104,10 +106,10 @@
 
                     <div class="cp-footer">
                         <button type="button" class="cp-btn-cancel" onclick="window.open('../index.html', '_blank')">
-                            Ver index
+                            Ver página inicial   <i class="ph ph-arrow-right"></i>
                         </button>
                         <button type="submit" class="cp-btn-submit">
-                            <i class="ph ph-floppy-disk"></i> Salvar pagina inicial
+                            <i class="ph ph-floppy-disk"></i> Salvar página inicial
                         </button>
                     </div>
                 </form>

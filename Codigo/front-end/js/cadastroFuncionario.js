@@ -14,6 +14,11 @@ function gerarSenha(){
 async function cadastrarFuncionario(event) {
     event.preventDefault();
 
+    const botaoSalvar = document.querySelector('.cp-btn-submit');
+    const textoBotaoOriginal = botaoSalvar.innerHTML;
+    botaoSalvar.innerHTML = '<i class="ph ph-spinner ph-spin"></i> Cadastrando e enviando e-mail...';
+    botaoSalvar.disabled = true;
+
     // 1. Gerar a senha de 8 dígitos antes de enviar
     const senhaGerada = gerarSenha(); 
 
@@ -38,9 +43,7 @@ async function cadastrarFuncionario(event) {
         });
 
         if (response.ok) {
-            const resultado = await response.json();
-            redirecionarComAlerta('funcionarios.html', `Sucesso! O funcionário ${resultado.nome_funcionario} foi cadastrado.`, 'success');
-            event.target.reset(); 
+            redirecionarComAlerta('funcionarios.html', 'Funcionário cadastrado com sucesso!', 'success');
         } else {
             const erro = await response.text();
             mostrarAlerta("Erro ao cadastrar: " + erro, 'error');
