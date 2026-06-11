@@ -1,25 +1,31 @@
 package com.natagestao.services;
 
-import java.util.UUID;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 @Service
 public class EmailService {
 
-    private final JavaMailSender mailSender;
-    private final String remetente;
+    private final RestClient restClient;
+    private final String apiKey;
+    private final String remetenteEmail;
+    private final String remetenteNome;
     private final String resetPasswordUrl;
 
     public EmailService(
-            JavaMailSender mailSender,
-            @Value("${app.email.from}") String remetente,
+            RestClient.Builder restClientBuilder,
+            @Value("${brevo.api-key}") String apiKey,
+            @Value("${brevo.from-email}") String remetenteEmail,
+            @Value("${brevo.from-name}") String remetenteNome,
             @Value("${app.frontend.reset-password-url}") String resetPasswordUrl) {
-        this.mailSender = mailSender;
-        this.remetente = remetente;
+        this.restClient = restClientBuilder.baseUrl("https://api.brevo.com/v3").build();
+        this.apiKey = apiKey;
+        this.remetenteEmail = remetenteEmail;
+        this.remetenteNome = remetenteNome;
         this.resetPasswordUrl = resetPasswordUrl;
     }
 
@@ -29,7 +35,7 @@ public class EmailService {
                 + "Sua senha temporaria e: " + senhaGerada + "\n\n"
                 + "Recomendamos altera-la no primeiro acesso.";
 
-        return enviar(para, "Bem-vindo! Suas credenciais de acesso", texto);
+        return enviar(para, nome, "Bem-vindo! Suas credenciais de acesso", texto);
     }
 
     public void enviarEmailRedefinirSenha(String para, String nome, String token) {
@@ -42,17 +48,41 @@ public class EmailService {
                 + "Este link e valido por 15 minutos.\n\n"
                 + "Se voce nao solicitou esta redefinicao, desconsidere este e-mail.";
 
-        enviar(para, "Redefinicao de senha", texto);
+        enviar(para, nome, "Redefinicao de senha", texto);
     }
 
-    private String enviar(String para, String assunto, String texto) {
-        SimpleMailMessage mensagem = new SimpleMailMessage();
-        mensagem.setFrom(remetente);
-        mensagem.setTo(para);
-        mensagem.setSubject(assunto);
-        mensagem.setText(texto);
-        mailSender.send(mensagem);
+    private String enviar(String para, String nomeDestinatario, String assunto, String texto) {
+        validarConfiguracao();
 
-        return "smtp-" + UUID.randomUUID();
+        @SuppressWarnings("unchecked")
+        Map<String, Object> resposta = restClient.post()
+                .uri("/smtp/email")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("api-key", apiKey)
+                .body(Map.of(
+                        "sender", Map.of("name", remetenteNome, "email", remetenteEmail),
+                        "to", new Object[] { Map.of("name", nomeDestinatario, "email", para) },
+                        "subject", assunto,
+                        "textContent", texto))
+                .retrieve()
+                .body(Map.class);
+
+        Object messageId = resposta == null ? null : resposta.get("messageId");
+        if (messageId == null || messageId.toString().isBlank()) {
+            throw new IllegalStateException("O Brevo nao retornou o ID da mensagem.");
+        }
+        return messageId.toString();
+    }
+
+    private void validarConfiguracao() {
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new IllegalStateException("BREVO_API_KEY nao configurada.");
+        }
+        if (remetenteEmail == null || remetenteEmail.isBlank()) {
+            throw new IllegalStateException("BREVO_FROM_EMAIL nao configurado.");
+        }
+        if (remetenteNome == null || remetenteNome.isBlank()) {
+            throw new IllegalStateException("BREVO_FROM_NAME nao configurado.");
+        }
     }
 }

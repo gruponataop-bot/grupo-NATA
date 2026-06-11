@@ -35,12 +35,12 @@ async function cadastrarFuncionario(event) {
                 const idEmail = resultado.emailMessageId ? ` ID: ${resultado.emailMessageId}.` : '';
                 redirecionarComAlerta(
                     'funcionarios.html',
-                    `Funcionario cadastrado e e-mail aceito para envio.${idEmail}`,
+                    `Funcionario cadastrado e e-mail aceito pelo Brevo.${idEmail}`,
                     'success'
                 );
             } else {
                 const detalhe = resultado.erroEmail ? ` Motivo: ${resultado.erroEmail}` : '';
-                mostrarAlerta(`Funcionario cadastrado, mas o servidor de e-mail rejeitou o envio.${detalhe}`, 'error');
+                mostrarAlerta(`Funcionario cadastrado, mas o Brevo rejeitou o envio.${detalhe}`, 'error');
             }
         } else {
             const erro = await response.text();

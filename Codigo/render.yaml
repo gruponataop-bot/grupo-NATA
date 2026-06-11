@@ -24,7 +24,9 @@ services:
         sync: false
       - key: DATA_PASS
         sync: false
-      - key: GMAIL_USERNAME
+      - key: BREVO_API_KEY
         sync: false
-      - key: GMAIL_APP_PASSWORD
+      - key: BREVO_FROM_EMAIL
         sync: false
+      - key: BREVO_FROM_NAME
+        value: NATA Gestao
