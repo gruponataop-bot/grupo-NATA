@@ -28,12 +28,19 @@ async function cadastrarFuncionario(event) {
         });
 
         if (response.ok) {
-            const emailEnviado = response.headers.get('X-Email-Sent') !== 'false';
+            const resultado = await response.json();
+            const emailEnviado = resultado.emailAceitoPeloResend === true;
 
             if (emailEnviado) {
-                redirecionarComAlerta('funcionarios.html', 'Funcionário cadastrado e e-mail enviado com sucesso!', 'success');
+                const idResend = resultado.resendEmailId ? ` ID Resend: ${resultado.resendEmailId}.` : '';
+                redirecionarComAlerta(
+                    'funcionarios.html',
+                    `Funcionario cadastrado. O Resend aceitou o envio.${idResend} Confira o status no painel do Resend.`,
+                    'success'
+                );
             } else {
-                mostrarAlerta('Funcionário cadastrado, mas o e-mail com a senha não foi enviado. Verifique a configuração SMTP no servidor.', 'error');
+                const detalhe = resultado.erroEmail ? ` Motivo: ${resultado.erroEmail}` : '';
+                mostrarAlerta(`Funcionario cadastrado, mas o Resend rejeitou o envio.${detalhe}`, 'error');
             }
         } else {
             const erro = await response.text();

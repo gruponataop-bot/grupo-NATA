@@ -26,13 +26,13 @@ public class EmailService {
         this.resetPasswordUrl = resetPasswordUrl;
     }
 
-    public void enviarEmailSenha(String para, String nome, String senhaGerada) {
+    public String enviarEmailSenha(String para, String nome, String senhaGerada) {
         String texto = "Ola " + nome + ",\n\n"
                 + "Seu cadastro foi realizado com sucesso.\n"
                 + "Sua senha temporaria e: " + senhaGerada + "\n\n"
                 + "Recomendamos altera-la no primeiro acesso.";
 
-        enviar(para, "Bem-vindo! Suas credenciais de acesso", texto);
+        return enviar(para, "Bem-vindo! Suas credenciais de acesso", texto);
     }
 
     public void enviarEmailRedefinirSenha(String para, String nome, String token) {
@@ -48,12 +48,16 @@ public class EmailService {
         enviar(para, "Redefinicao de senha", texto);
     }
 
-    private void enviar(String para, String assunto, String texto) {
+    private String enviar(String para, String assunto, String texto) {
         if (apiKey == null || apiKey.isBlank()) {
             throw new IllegalStateException("RESEND_API_KEY nao configurada.");
         }
+        if (remetente == null || remetente.isBlank()) {
+            throw new IllegalStateException("RESEND_FROM nao configurado.");
+        }
 
-        restClient.post()
+        @SuppressWarnings("unchecked")
+        Map<String, Object> resposta = restClient.post()
                 .uri("/emails")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
@@ -63,6 +67,12 @@ public class EmailService {
                         "subject", assunto,
                         "text", texto))
                 .retrieve()
-                .toBodilessEntity();
+                .body(Map.class);
+
+        Object id = resposta == null ? null : resposta.get("id");
+        if (id == null || id.toString().isBlank()) {
+            throw new IllegalStateException("O Resend nao retornou o ID do e-mail.");
+        }
+        return id.toString();
     }
 }

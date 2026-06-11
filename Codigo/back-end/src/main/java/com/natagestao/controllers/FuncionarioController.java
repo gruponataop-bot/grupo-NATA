@@ -1,6 +1,7 @@
 package com.natagestao.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,18 +70,28 @@ public class FuncionarioController {
             funcionario.setSenha(passwordService.gerarHash(senhaTemporaria));
             Funcionario salvo = repository.save(funcionario);
             boolean emailEnviado = true;
+            String resendEmailId = null;
+            String erroEmail = null;
 
             try {
-                emailService.enviarEmailSenha(funcionario.getEmail(), funcionario.getNome_funcionario(), senhaTemporaria);
+                resendEmailId = emailService.enviarEmailSenha(
+                        funcionario.getEmail(),
+                        funcionario.getNome_funcionario(),
+                        senhaTemporaria);
             } catch (Exception e) {
                 emailEnviado = false;
+                erroEmail = e.getMessage();
                 System.err.println("Funcionario cadastrado, mas o e-mail de senha nao foi enviado: " + e.getMessage());
                 e.printStackTrace();
             }
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .header("X-Email-Sent", Boolean.toString(emailEnviado))
-                    .body(salvo);
+                    .body(Map.of(
+                            "funcionario", salvo,
+                            "emailAceitoPeloResend", emailEnviado,
+                            "resendEmailId", resendEmailId == null ? "" : resendEmailId,
+                            "erroEmail", erroEmail == null ? "" : erroEmail));
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("CPF ou e-mail ja cadastrado para outro funcionario.");
         }
