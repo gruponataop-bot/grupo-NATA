@@ -43,7 +43,13 @@ async function cadastrarFuncionario(event) {
         });
 
         if (response.ok) {
-            redirecionarComAlerta('funcionarios.html', 'Funcionário cadastrado com sucesso!', 'success');
+            const emailEnviado = response.headers.get('X-Email-Sent') !== 'false';
+
+            if (emailEnviado) {
+                redirecionarComAlerta('funcionarios.html', 'Funcionário cadastrado e e-mail enviado com sucesso!', 'success');
+            } else {
+                mostrarAlerta('Funcionário cadastrado, mas o e-mail com a senha não foi enviado. Verifique a configuração SMTP no servidor.', 'error');
+            }
         } else {
             const erro = await response.text();
             mostrarAlerta("Erro ao cadastrar: " + erro, 'error');
@@ -51,6 +57,9 @@ async function cadastrarFuncionario(event) {
     } catch (error) {
         console.error("Erro na conexão:", error);
         mostrarAlerta("Não foi possível conectar ao servidor.", 'error');
+    } finally {
+        botaoSalvar.innerHTML = textoBotaoOriginal;
+        botaoSalvar.disabled = false;
     }
 }
 

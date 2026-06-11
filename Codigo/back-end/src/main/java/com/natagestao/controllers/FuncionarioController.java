@@ -24,7 +24,7 @@ import com.natagestao.services.EmailService;
 
 @RestController
 @RequestMapping("/api/funcionarios")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", exposedHeaders = "X-Email-Sent")
 public class FuncionarioController {
 
     @Autowired
@@ -62,14 +62,19 @@ public class FuncionarioController {
 
         try {
             Funcionario salvo = repository.save(funcionario);
+            boolean emailEnviado = true;
 
             try {
                 emailService.enviarEmailSenha(funcionario.getEmail(), funcionario.getNome_funcionario(), funcionario.getSenha());
             } catch (Exception e) {
+                emailEnviado = false;
                 System.err.println("Funcionario cadastrado, mas o e-mail de senha nao foi enviado: " + e.getMessage());
+                e.printStackTrace();
             }
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .header("X-Email-Sent", Boolean.toString(emailEnviado))
+                    .body(salvo);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("CPF ou e-mail ja cadastrado para outro funcionario.");
         }
