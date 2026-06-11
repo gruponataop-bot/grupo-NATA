@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const novaSenha = document.getElementById('novaSenha').value;
       const confirmarSenha = document.getElementById('confirmarSenha').value;
 
-      if (novaSenha.length < 6) {
-        alert('A senha deve ter pelo menos 6 caracteres.');
+      if (novaSenha.length < 8) {
+        alert('A senha deve ter pelo menos 8 caracteres.');
         return;
       }
 

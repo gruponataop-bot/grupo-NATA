@@ -18,7 +18,13 @@ services:
     envVars:
       - key: APP_FRONTEND_RESET_PASSWORD_URL
         value: https://grupo-nata.vercel.app/pages/resetarSenha.html
-      - key: MAIL_USERNAME
-        value: natasistema120@gmail.com
-      - key: MAIL_PASSWORD
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESEND_FROM
         sync: false

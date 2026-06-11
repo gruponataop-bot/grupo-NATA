@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final FuncionarioRepository funcionarioRepository;
+    private final PasswordService passwordService;
 
-    public AuthService(FuncionarioRepository funcionarioRepository) {
+    public AuthService(FuncionarioRepository funcionarioRepository, PasswordService passwordService) {
         this.funcionarioRepository = funcionarioRepository;
+        this.passwordService = passwordService;
     }
 
     public LoginResponse login(LoginRequest request) {
@@ -22,8 +24,13 @@ public class AuthService {
         Funcionario funcionario = funcionarioRepository.buscarPorEmailLogin(email)
                 .orElseThrow(() -> new RuntimeException("Email nao encontrado."));
 
-        if (!normalizar(funcionario.getSenha()).equals(senha)) {
+        if (!passwordService.corresponde(senha, funcionario.getSenha())) {
             throw new RuntimeException("Senha invalida.");
+        }
+
+        if (!passwordService.ehHashBcrypt(funcionario.getSenha())) {
+            funcionario.setSenha(passwordService.gerarHash(senha));
+            funcionarioRepository.save(funcionario);
         }
 
         return new LoginResponse(

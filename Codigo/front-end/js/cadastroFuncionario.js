@@ -1,15 +1,5 @@
 const url_base = "https://grupo-nata.onrender.com";
 
-//gerador de senha aleatoria pra  primeira senha do funcionario
-function gerarSenha(){
-    let resultado = '';
-    for (let i = 0; i < 8; i++) {
-        // Gera um número entre 0 e 9 e arredonda para baixo
-        resultado += Math.floor(Math.random() * 10);
-    }
-    return resultado
-}
-
 //post basico
 async function cadastrarFuncionario(event) {
     event.preventDefault();
@@ -19,21 +9,16 @@ async function cadastrarFuncionario(event) {
     botaoSalvar.innerHTML = '<i class="ph ph-spinner ph-spin"></i> Cadastrando e enviando e-mail...';
     botaoSalvar.disabled = true;
 
-    // 1. Gerar a senha de 8 dígitos antes de enviar
-    const senhaGerada = gerarSenha(); 
-
-    // 2. Extrair dados do formulário
+    // A senha temporaria e gerada com seguranca pelo back-end.
     const dadosFuncionario = {
         nome_funcionario: document.getElementById('nome-funcionario').value,
         cpf: document.getElementById('cpf-funcionario').value,
         telefone: document.getElementById('telefone-funcionario').value,
         email: document.getElementById('email-funcionario').value,
-        cargo: document.getElementById('cargo-funcionario').value,
-        senha: senhaGerada // Enviando a senha gerada para o back-end disparar o e-mail
+        cargo: document.getElementById('cargo-funcionario').value
     };
 
     try {
-        // 3. Fazer a requisição POST
         const response = await fetch(url_base+'/api/funcionarios', {
             method: 'POST',
             headers: {

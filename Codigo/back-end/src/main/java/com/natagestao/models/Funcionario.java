@@ -37,6 +37,7 @@ public class Funcionario {
     private String cargo;
 
     @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
 
     public Long getId_funcionario () {return id_funcionario;}

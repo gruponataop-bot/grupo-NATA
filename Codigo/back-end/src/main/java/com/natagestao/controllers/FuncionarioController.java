@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.natagestao.models.Funcionario;
 import com.natagestao.repository.FuncionarioRepository;
 import com.natagestao.services.EmailService;
+import com.natagestao.services.PasswordService;
 
 @RestController
 @RequestMapping("/api/funcionarios")
@@ -32,6 +33,9 @@ public class FuncionarioController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private PasswordService passwordService;
 
     // Listar todos
     @GetMapping
@@ -61,11 +65,13 @@ public class FuncionarioController {
         }
 
         try {
+            String senhaTemporaria = passwordService.gerarSenhaTemporaria();
+            funcionario.setSenha(passwordService.gerarHash(senhaTemporaria));
             Funcionario salvo = repository.save(funcionario);
             boolean emailEnviado = true;
 
             try {
-                emailService.enviarEmailSenha(funcionario.getEmail(), funcionario.getNome_funcionario(), funcionario.getSenha());
+                emailService.enviarEmailSenha(funcionario.getEmail(), funcionario.getNome_funcionario(), senhaTemporaria);
             } catch (Exception e) {
                 emailEnviado = false;
                 System.err.println("Funcionario cadastrado, mas o e-mail de senha nao foi enviado: " + e.getMessage());
@@ -91,7 +97,9 @@ public class FuncionarioController {
                     p.setCargo(dadosNovos.getCargo());
                     p.setCpf(dadosNovos.getCpf());
                     p.setEmail(dadosNovos.getEmail());
-                    p.setSenha(dadosNovos.getSenha());
+                    if (dadosNovos.getSenha() != null && !dadosNovos.getSenha().isBlank()) {
+                        p.setSenha(passwordService.gerarHash(dadosNovos.getSenha().trim()));
+                    }
                     p.setTelefone(dadosNovos.getTelefone());
 
                     return ResponseEntity.ok(repository.save(p));
