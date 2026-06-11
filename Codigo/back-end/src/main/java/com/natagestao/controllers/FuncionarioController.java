@@ -70,11 +70,11 @@ public class FuncionarioController {
             funcionario.setSenha(passwordService.gerarHash(senhaTemporaria));
             Funcionario salvo = repository.save(funcionario);
             boolean emailEnviado = true;
-            String resendEmailId = null;
+            String emailMessageId = null;
             String erroEmail = null;
 
             try {
-                resendEmailId = emailService.enviarEmailSenha(
+                emailMessageId = emailService.enviarEmailSenha(
                         funcionario.getEmail(),
                         funcionario.getNome_funcionario(),
                         senhaTemporaria);
@@ -89,8 +89,8 @@ public class FuncionarioController {
                     .header("X-Email-Sent", Boolean.toString(emailEnviado))
                     .body(Map.of(
                             "funcionario", salvo,
-                            "emailAceitoPeloResend", emailEnviado,
-                            "resendEmailId", resendEmailId == null ? "" : resendEmailId,
+                            "emailAceitoPeloProvedor", emailEnviado,
+                            "emailMessageId", emailMessageId == null ? "" : emailMessageId,
                             "erroEmail", erroEmail == null ? "" : erroEmail));
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("CPF ou e-mail ja cadastrado para outro funcionario.");

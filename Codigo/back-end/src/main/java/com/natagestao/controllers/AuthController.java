@@ -81,7 +81,7 @@ public class AuthController {
                 tokenService.remover(tokenSalvo);
             }
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body("Nao foi possivel enviar o e-mail. Verifique a configuracao do Resend.");
+                    .body("Nao foi possivel enviar o e-mail. Verifique a configuracao SMTP.");
         }
 
         return ResponseEntity.ok("Se o e-mail estiver cadastrado, o link de recuperacao sera enviado.");

@@ -29,18 +29,18 @@ async function cadastrarFuncionario(event) {
 
         if (response.ok) {
             const resultado = await response.json();
-            const emailEnviado = resultado.emailAceitoPeloResend === true;
+            const emailEnviado = resultado.emailAceitoPeloProvedor === true;
 
             if (emailEnviado) {
-                const idResend = resultado.resendEmailId ? ` ID Resend: ${resultado.resendEmailId}.` : '';
+                const idEmail = resultado.emailMessageId ? ` ID: ${resultado.emailMessageId}.` : '';
                 redirecionarComAlerta(
                     'funcionarios.html',
-                    `Funcionario cadastrado. O Resend aceitou o envio.${idResend} Confira o status no painel do Resend.`,
+                    `Funcionario cadastrado e e-mail aceito para envio.${idEmail}`,
                     'success'
                 );
             } else {
                 const detalhe = resultado.erroEmail ? ` Motivo: ${resultado.erroEmail}` : '';
-                mostrarAlerta(`Funcionario cadastrado, mas o Resend rejeitou o envio.${detalhe}`, 'error');
+                mostrarAlerta(`Funcionario cadastrado, mas o servidor de e-mail rejeitou o envio.${detalhe}`, 'error');
             }
         } else {
             const erro = await response.text();
