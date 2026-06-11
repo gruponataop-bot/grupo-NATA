@@ -52,7 +52,7 @@ async function executarExclusao() {
     const id = document.getElementById('id-excluir-oculto').value;
 
     try {
-        const response = await fetch(`http://127.0.0.1:8080/api/funcionarios/${id}`, {
+        const response = await fetch(url_base+`/api/funcionarios/${id}`, {
             method: 'DELETE'
         });
 

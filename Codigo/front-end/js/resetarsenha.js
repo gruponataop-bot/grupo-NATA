@@ -1,8 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const API_BASE_URL = ['localhost', '127.0.0.1'].includes(window.location.hostname)
-    ? 'http://localhost:8080'
-    : 'https://grupo-nata.onrender.com';
+const url_base = 'https://grupo-nata.onrender.com'; 
 
+document.addEventListener('DOMContentLoaded', () => {
   // Captura o token da URL
   const token = new URLSearchParams(window.location.search).get('token');
 
@@ -10,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Só considera inválido se for null ou vazio
   if (token === null || token.trim() === '') {
-    mostrarAlerta('Link inválido ou expirado.', 'error');
+    alert('Link inválido ou expirado.');
     return;
   }
 
@@ -24,18 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const confirmarSenha = document.getElementById('confirmarSenha').value;
 
       if (novaSenha.length < 6) {
-        mostrarAlerta('A senha deve ter pelo menos 6 caracteres.', 'error');
+        alert('A senha deve ter pelo menos 6 caracteres.');
         return;
       }
 
       if (novaSenha !== confirmarSenha) {
-        mostrarAlerta('As senhas não coincidem.', 'error');
+        alert('As senhas não coincidem.');
         return;
       }
 
       try {
         const resposta = await fetch(
-          `${API_BASE_URL}/api/auth/redefinir-senha`,
+          url_base+'/api/auth/redefinir-senha',
           {
             method: 'POST',
             headers: {
@@ -51,14 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const mensagem = await resposta.text();
 
         if (resposta.ok) {
-          mostrarAlerta('Senha redefinida com sucesso!', 'success');
+          alert('Senha redefinida com sucesso!');
           window.location.href = 'login.html';
         } else {
-          mostrarAlerta(mensagem || 'Não foi possível redefinir a senha.', 'error');
+          alert(mensagem || 'Não foi possível redefinir a senha.');
         }
       } catch (erro) {
         console.error(erro);
-        mostrarAlerta('Erro ao conectar com o servidor.', 'error');
+        alert('Erro ao conectar com o servidor.');
       }
     });
   }
