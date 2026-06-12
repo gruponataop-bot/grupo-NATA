@@ -35,7 +35,7 @@ async function cadastrarFuncionario(event) {
                 const idEmail = resultado.emailMessageId ? ` ID: ${resultado.emailMessageId}.` : '';
                 redirecionarComAlerta(
                     'funcionarios.html',
-                    `Funcionario cadastrado e e-mail aceito pelo Brevo.${idEmail}`,
+                    `Funcionario cadastrado e e-mail enviado com sucesso.`, //.${idEmail}
                     'success'
                 );
             } else {

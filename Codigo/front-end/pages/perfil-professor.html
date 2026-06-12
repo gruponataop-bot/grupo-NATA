@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/topbar.css">
-    <link rel="stylesheet" href="../css/perfil-administrativo.css">
+    <!-- Novos CSS para o layout idêntico ao do Coordenador -->
+    <link rel="stylesheet" href="../css/modal-padrao.css">
+    <link rel="stylesheet" href="../css/coordenador.css">
+    <link rel="stylesheet" href="../css/perfil-coordenador.css">
     <link rel="stylesheet" href="../css/mostrarAlerta.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,59 +44,147 @@
                 </div>
             </header>
 
-            <main class="perfil-admin-page">
-                <section class="perfil-admin-header">
-                    <p class="page-kicker">Área do professor</p>
-                    <h2>Dados do Professor</h2>
-                    <p>Visualize e atualize as informações do seu cadastro como professor.</p>
+            <main class="coordenador-page">
+                <section class="coordenador-header">
+                    <div>
+                        <h2>Informações Pessoais</h2>
+                    </div>
+                    <button class="btn-lite btn-editar-topo" onclick="abrirModalPerfil()">
+                        <i class="ph ph-pencil-simple"></i> Editar Perfil
+                    </button>
                 </section>
 
-                <section class="perfil-admin-panel">
-                    <aside class="profile-summary">
-                        <div class="profile-avatar" id="professorIniciais">PR</div>
+                <section class="profile-panel">
+                    <div class="profile-avatar" id="professorIniciais">PR</div>
+                    <div class="profile-main">
                         <span class="profile-label">Professor</span>
-                        <h3 id="professorNomeResumo">Carregando...</h3>
-                        <p id="professorCargoResumo">Professor</p>
-                    </aside>
-
-                    <form id="formPerfilProfessor" class="profile-form">
-                        <input type="hidden" id="professorId">
-                        <input type="hidden" id="professorCargo">
-                        <input type="hidden" id="professorSenha">
-
-                        <div class="form-grid">
-                            <div class="form-field">
-                                <label for="professorNome">Nome completo</label>
-                                <input type="text" id="professorNome" required>
-                            </div>
-                            <div class="form-field">
-                                <label for="professorCpf">CPF</label>
-                                <input type="text" id="professorCpf" required maxlength="14">
-                            </div>
-                            <div class="form-field">
-                                <label for="professorTelefone">Telefone</label>
-                                <input type="text" id="professorTelefone" required maxlength="15">
-                            </div>
-                            <div class="form-field">
-                                <label for="professorEmail">E-mail</label>
-                                <input type="email" id="professorEmail" required>
-                            </div>
+                        <h3 id="professorNome">Carregando...</h3>
+                        <p id="professorCargo">Professor</p>
+                    </div>
+                    
+                    <div class="profile-data">
+                        <div>
+                            <span>E-mail</span>
+                            <strong id="professorEmail">-</strong>
                         </div>
-
-
-                        <div id="perfilProfessorFeedback" class="feedback" style="display:none"></div>
-
-                        <div class="profile-actions">
-                            <button type="button" class="btn-secondary-profile" onclick="carregarPerfilProfessor()">
-                                <i class="ph ph-arrow-clockwise"></i> Recarregar
-                            </button>
-                            <button type="submit" class="btn-primary-profile">
-                                <i class="ph ph-floppy-disk"></i> Salvar alterações
-                            </button>
+                        <div>
+                            <span>Telefone</span>
+                            <strong id="professorTelefone">-</strong>
                         </div>
-                    </form>
+                        <div>
+                            <span>CPF</span>
+                            <strong id="professorCpf">-</strong>
+                        </div>
+                        <div>
+                            <span>Endereço</span>
+                            <strong id="professorEndereco">-</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="profile-extras">
+                    <div class="extra-card">
+                        <div class="extra-card-header">
+                            <h3>Minhas Habilidades</h3>
+                            <p>Competências cadastradas no seu perfil</p>
+                        </div>
+                        <div id="visualizacaoHabilidades" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+                    </div>
+
+                    <div class="extra-card">
+                        <div class="extra-card-header">
+                            <h3>Quadro de Disponibilidade</h3>
+                            <p>Seus dias e turnos livres para atuar</p>
+                        </div>
+                        <div class="table-responsive-wrapper">
+                            <table class="table-view">
+                                <thead>
+                                    <tr>
+                                        <th>Dia da Semana</th>
+                                        <th>Manhã</th>
+                                        <th>Tarde</th>
+                                        <th>Noite</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelaVisualizacaoDisponibilidade"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </section>
             </main>
+        </div>
+    </div>
+
+    <!-- Modal de Edição (Idêntico ao do Coordenador) -->
+    <div id="modalEdicaoPerfil" class="modal-overlay">
+        <div class="modal-caixa modal-larga">
+            <header class="em-header">
+                <div>
+                    <h2 class="em-title">Editar Perfil</h2>
+                    <p class="em-subtitle">Atualize suas informações de contato, habilidades e disponibilidade.</p>
+                </div>
+                <button type="button" class="em-close" onclick="fecharModalPerfil()">
+                    <i class="ph ph-x"></i>
+                </button>
+            </header>
+            
+            <div class="em-body">
+                <div class="em-g2">
+                    <div class="em-field">
+                        <label>Nome Completo</label>
+                        <input type="text" id="editNome" placeholder="Seu nome">
+                    </div>
+                    <div class="em-field">
+                        <label>E-mail</label>
+                        <input type="email" id="editEmail" placeholder="Seu e-mail">
+                    </div>
+                </div>
+                <div class="em-g2">
+                    <div class="em-field">
+                        <label>Telefone</label>
+                        <input type="text" id="editTelefone" placeholder="(00) 00000-0000">
+                    </div>
+                    <div class="em-field">
+                        <label>CPF</label>
+                        <input type="text" id="editCpf" readonly title="O CPF não pode ser alterado.">
+                    </div>
+                </div>
+
+                <div class="em-field">
+                    <label>Endereço</label>
+                    <input type="text" id="editEndereco" placeholder="Rua, número, bairro, cidade...">
+                </div>
+
+                <h3 class="em-section-title">Habilidades</h3>
+                <div class="em-checks" id="containerHabilidades">
+                    <label><input type="checkbox" value="Comunicação"> Comunicação</label>
+                    <label><input type="checkbox" value="Liderança"> Liderança</label>
+                    <label><input type="checkbox" value="Didática"> Didática</label>
+                    <label><input type="checkbox" value="Gestão de Projetos"> Gestão de Projetos</label>
+                    <label><input type="checkbox" value="Tecnologia"> Tecnologia</label>
+                    <label><input type="checkbox" value="Apoio Social"> Apoio Social</label>
+                </div>
+
+                <h3 class="em-section-title">Disponibilidade</h3>
+                <table class="em-avail-table">
+                    <thead>
+                        <tr>
+                            <th>Dia da Semana</th>
+                            <th>Manhã</th>
+                            <th>Tarde</th>
+                            <th>Noite</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoDisponibilidade"></tbody>
+                </table>
+            </div>
+
+            <footer class="em-footer">
+                <button type="button" class="em-btn-cancel" onclick="fecharModalPerfil()">Cancelar</button>
+                <button type="button" class="em-btn-save" onclick="salvarEdicaoPerfil()">
+                    <i class="ph ph-check"></i> Salvar Alterações
+                </button>
+            </footer>
         </div>
     </div>
 </body>

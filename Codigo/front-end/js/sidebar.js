@@ -6,7 +6,7 @@
 const SIDEBAR_HTML = `
 <aside class="sidebar-flutuante">
     <div class="sidebar-logo">
-        <h1 class="logo-text">Nata</h1>
+        <img src="../img/logo_2-bg.png" alt="Logotipo NATA" style="height: 60px; width: auto; display: block; margin: 0 auto;">
     </div>
 
     <nav class="sidebar-nav">
