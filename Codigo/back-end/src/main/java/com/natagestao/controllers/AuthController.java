@@ -3,7 +3,10 @@ package com.natagestao.controllers;
 import java.text.Normalizer;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,6 +27,8 @@ import com.natagestao.services.TokenService;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
 public class AuthController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     private final FuncionarioRepository repository;
     private final EmailService emailService;
@@ -65,31 +70,36 @@ public class AuthController {
 
     @PostMapping("/esqueci-senha")
     public ResponseEntity<String> esqueciSenha(@RequestBody LoginRequest request) {
-        Optional<Funcionario> funcionarioOpt = repository.buscarPorEmailLogin(normalizar(request.getEmail()));
-        if (funcionarioOpt.isEmpty()) {
-            return ResponseEntity.ok("Se o e-mail estiver cadastrado, o link de recuperacao sera enviado.");
-        }
-
-        Funcionario funcionario = funcionarioOpt.get();
-        String token = tokenService.criar(funcionario.getEmail());
+        String operacaoId = UUID.randomUUID().toString().substring(0, 8);
+        String email = normalizar(request == null ? null : request.getEmail());
+        String token = null;
 
         try {
+            logger.info("[recuperacao-senha:{}] Solicitacao recebida para {}", operacaoId, mascararEmail(email));
+
+            Optional<Funcionario> funcionarioOpt = repository.buscarPorEmailLogin(email);
+            if (funcionarioOpt.isEmpty()) {
+                logger.info("[recuperacao-senha:{}] E-mail nao encontrado", operacaoId);
+                return ResponseEntity.ok("Se o e-mail estiver cadastrado, o link de recuperacao sera enviado.");
+            }
+
+            Funcionario funcionario = funcionarioOpt.get();
+            logger.info("[recuperacao-senha:{}] Funcionario encontrado; criando token", operacaoId);
+            token = tokenService.criar(funcionario.getEmail());
+            logger.info("[recuperacao-senha:{}] Token criado; enviando e-mail pelo Brevo", operacaoId);
+
             String messageId = emailService.enviarEmailRedefinirSenha(
                     funcionario.getEmail(),
                     funcionario.getNome_funcionario(),
                     token);
-            System.out.println("E-mail de redefinicao aceito pelo Brevo. Destinatario: "
-                    + funcionario.getEmail() + ", messageId: " + messageId);
-        } catch (RuntimeException e) {
-            System.err.println("Brevo rejeitou o e-mail de redefinicao para "
-                    + funcionario.getEmail() + ": " + e.getMessage());
-            e.printStackTrace();
-            TokenRedefinicaoSenha tokenSalvo = tokenService.buscar(token);
-            if (tokenSalvo != null) {
-                tokenService.remover(tokenSalvo);
+            logger.info("[recuperacao-senha:{}] E-mail aceito pelo Brevo; messageId={}", operacaoId, messageId);
+        } catch (Exception e) {
+            logger.error("[recuperacao-senha:{}] Falha no fluxo: {}", operacaoId, mensagemErro(e), e);
+            if (token != null) {
+                removerTokenAposFalha(token, operacaoId);
             }
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body("Nao foi possivel enviar o e-mail pelo Brevo. Motivo: " + mensagemErro(e));
+                    .body("Nao foi possivel concluir a recuperacao. Codigo: " + operacaoId);
         }
 
         return ResponseEntity.ok("Se o e-mail estiver cadastrado, o link de recuperacao sera enviado.");
@@ -140,10 +150,29 @@ public class AuthController {
         return valor == null ? "" : valor.trim();
     }
 
-    private String mensagemErro(RuntimeException erro) {
+    private void removerTokenAposFalha(String token, String operacaoId) {
+        try {
+            TokenRedefinicaoSenha tokenSalvo = tokenService.buscar(token);
+            if (tokenSalvo != null) {
+                tokenService.remover(tokenSalvo);
+            }
+        } catch (Exception e) {
+            logger.error("[recuperacao-senha:{}] Nao foi possivel remover o token apos a falha", operacaoId, e);
+        }
+    }
+
+    private String mensagemErro(Exception erro) {
         return erro.getMessage() == null || erro.getMessage().isBlank()
                 ? erro.getClass().getSimpleName()
                 : erro.getMessage();
+    }
+
+    private String mascararEmail(String email) {
+        int arroba = email.indexOf('@');
+        if (arroba <= 1) {
+            return "***";
+        }
+        return email.charAt(0) + "***" + email.substring(arroba);
     }
 
     private String normalizarCargo(String cargo) {
