@@ -7,7 +7,7 @@
   <title>Esqueci a Senha - Nata</title>
   <link rel="stylesheet" href="../css/esqueciSenha.css" />
   <link rel="stylesheet" href="../css/auth-padrao.css" />
-  <script src="../js/esqueciSenha.js" defer></script>
+  <script src="../js/esquecisenha.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
@@ -59,7 +59,7 @@
 
           <div class="divider"></div>
 
-          <form id="forgotPasswordForm">
+          <form id="forgotPasswordForm" method="post">
             <div class="field">
               <div class="icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
@@ -68,7 +68,7 @@
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
               </div>
-              <input type="text" id="usuario" placeholder="E-mail" required />
+              <input type="email" id="usuario" placeholder="E-mail" required />
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%; display: block;">
