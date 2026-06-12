@@ -5,7 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - Nata</title>
+  <link rel="stylesheet" href="../css/home.css" />
   <link rel="stylesheet" href="../css/login.css" />
+  
+  
   <link rel="stylesheet" href="../css/auth-padrao.css" />
   <link rel="stylesheet" href="../css/mostrarAlerta.css">
   <script src="../js/login.js" defer></script>
@@ -21,24 +24,22 @@
 
   <div id="alert-container" class="alert-container"></div>
   
-  <div class="page">
-    <header class="topbar">
-      <div class="logo">Nata</div>
+  
+      <header class="public-header">
+        <a class="brand" href="../index.html">
+            <img src="../img/logo_2-bg.png" alt="Logótipo NATA">
+        </a>
 
-      <nav class="nav">
-        <a href="../index.html">Início</a>
-        <a href="../index.html#comunidade">A comunidade</a>
-        <a href="../index.html#projetos">Projetos</a>
-        <a href="doacoes.html">Doações</a>
-        <a href="../index.html#contato">Contato</a>
-      </nav>
+        <nav class="public-nav" aria-label="Navegacao principal">
+            <a href="../index.html#inicio">Início</a>
+            <a href="../index.html#comunidade">A comunidade</a>
+            <a href="../index.html#projetos">Projetos</a>
+            <a href="doacoes.html">Doações</a>
+            <a href="../index.html#contato">Contato</a>
+        </nav>
 
-
-      <button class="menu-toggle" aria-label="Abrir menu" type="button">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+        <!-- Mantemos o botão invisível apenas para que o flexbox mantenha a navegação perfeitamente centralizada -->
+        <a class="btn btn-light" href="#" style="visibility: hidden;">Acesso interno</a>
     </header>
 
     <nav class="mobile-menu" id="mobileMenu">
@@ -49,6 +50,7 @@
       <a href="../index.html#contato">Contato</a>
     </nav>
 
+  <div class="page">
     <main class="content">
       <button class="back-btn" onclick="history.back()">
         <span>←</span>
