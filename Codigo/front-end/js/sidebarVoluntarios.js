@@ -6,9 +6,9 @@ function montarSidebarVoluntariosHtml() {
     const cargoLogado = (localStorage.getItem('usuarioLogadoCargo') || '').trim().toLowerCase();
     const isProfessor = cargoLogado === 'professor';
     const perfilHref = isProfessor ? 'perfil-professor.html' : 'perfil-coordenador.html';
-    const presencaHref = isProfessor ? 'presenca-coordenador.html' : 'presenca-coordenador.html';
+    const presencaHref = isProfessor ? 'presenca-professor.html' : 'presenca-coordenador.html';
     const projetosHref = isProfessor ? 'projetos-professor.html' : 'projeto-coordenador.html';
-
+    
     // Mantém as abas corretas para a navegação do coordenador
     let itensMenuHtml = `
         <li class="nav-item">
@@ -44,7 +44,7 @@ function montarSidebarVoluntariosHtml() {
     return `
         <aside class="sidebar-flutuante">
             <div class="sidebar-logo">
-                <h1 class="logo-text">Nata</h1>
+                <img src="../img/logo_2-bg.png" alt="Logotipo NATA" style="height: 45px; width: auto; display: block; margin: 0 auto;">
             </div>
 
             <nav class="sidebar-nav">
