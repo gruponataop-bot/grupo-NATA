@@ -44,7 +44,7 @@ function montarSidebarVoluntariosHtml() {
     return `
         <aside class="sidebar-flutuante">
             <div class="sidebar-logo">
-                <img src="../img/logo_2-bg.png" alt="Logotipo NATA" style="height: 45px; width: auto; display: block; margin: 0 auto;">
+                <img src="../img/logo_2-bg.png" alt="Logotipo NATA" style="height: 60px; width: auto; display: block; margin: 0 auto;">
             </div>
 
             <nav class="sidebar-nav">

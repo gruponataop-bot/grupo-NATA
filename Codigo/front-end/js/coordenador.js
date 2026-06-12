@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'login.html';
         return;
     }
-    if (cargoLogado !== 'coordenador') {
+    if (!cargoLogado.includes('coordenador')) {
         window.location.href = 'dashboard.html';
         return;
     }

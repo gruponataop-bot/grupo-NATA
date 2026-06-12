@@ -177,3 +177,68 @@ function formatarCpf(valor) {
     if (d.length <= 9) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6)}`;
     return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`;
 }
+
+
+// ==========================================
+// HABILIDADES E GRADE DE DISPONIBILIDADE
+// ==========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderizarTabelaDisponibilidade();
+    carregarHabilidadesEDisponibilidade();
+});
+
+function renderizarTabelaDisponibilidade() {
+    const tbody = document.getElementById('corpoDisponibilidade');
+    if (!tbody) return;
+
+    const diasSemanaList = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'];
+    const turnosList = ['Manhã', 'Tarde', 'Noite'];
+
+    tbody.innerHTML = diasSemanaList.map(dia => {
+        const celulasTurnos = turnosList.map(turno => {
+            const chave = `${dia}_${turno}`;
+            return `
+                <td style="text-align: center; vertical-align: middle;">
+                    <label style="display: flex; justify-content: center; width: 100%; cursor: pointer;">
+                        <input type="checkbox" value="${chave}" class="disp-checkbox" style="width: 18px; height: 18px; accent-color: var(--color-brand);">
+                    </label>
+                </td>`;
+        }).join('');
+
+        return `
+            <tr>
+                <td style="font-weight: 500; padding: 12px 8px;">${dia}</td>
+                ${celulasTurnos}
+            </tr>`;
+    }).join('');
+}
+
+function carregarHabilidadesEDisponibilidade() {
+    const id = localStorage.getItem('usuarioLogadoId');
+    if (!id) return;
+
+    const habilidadesSalvas = JSON.parse(localStorage.getItem(`hab_prof_${id}`) || '[]');
+    document.querySelectorAll('.em-skills-grid input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = habilidadesSalvas.includes(checkbox.value);
+    });
+
+    const disponibilidadeSalva = JSON.parse(localStorage.getItem(`disp_prof_${id}`) || '[]');
+    document.querySelectorAll('.disp-checkbox').forEach(checkbox => {
+        checkbox.checked = disponibilidadeSalva.includes(checkbox.value);
+    });
+}
+
+const formPerfil = document.getElementById('formPerfilProfessor');
+if (formPerfil) {
+    formPerfil.addEventListener('submit', (e) => {
+        const id = localStorage.getItem('usuarioLogadoId');
+        if (!id) return;
+
+        const habilidadesMarcadas = Array.from(document.querySelectorAll('.em-skills-grid input[type="checkbox"]:checked')).map(cb => cb.value);
+        const disponibilidadeMarcada = Array.from(document.querySelectorAll('.disp-checkbox:checked')).map(cb => cb.value);
+
+        localStorage.setItem(`hab_prof_${id}`, JSON.stringify(habilidadesMarcadas));
+        localStorage.setItem(`disp_prof_${id}`, JSON.stringify(disponibilidadeMarcada));
+    });
+}
