@@ -38,7 +38,7 @@ public class EmailService {
         return enviar(para, nome, "Bem-vindo! Suas credenciais de acesso", texto);
     }
 
-    public void enviarEmailRedefinirSenha(String para, String nome, String token) {
+    public String enviarEmailRedefinirSenha(String para, String nome, String token) {
         String separador = resetPasswordUrl.contains("?") ? "&" : "?";
         String link = resetPasswordUrl + separador + "token=" + token;
         String texto = "Ola " + nome + ",\n\n"
@@ -48,7 +48,7 @@ public class EmailService {
                 + "Este link e valido por 15 minutos.\n\n"
                 + "Se voce nao solicitou esta redefinicao, desconsidere este e-mail.";
 
-        enviar(para, nome, "Redefinicao de senha", texto);
+        return enviar(para, nome, "Redefinicao de senha", texto);
     }
 
     private String enviar(String para, String nomeDestinatario, String assunto, String texto) {

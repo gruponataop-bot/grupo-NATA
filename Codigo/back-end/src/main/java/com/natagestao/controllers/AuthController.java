@@ -74,14 +74,22 @@ public class AuthController {
         String token = tokenService.criar(funcionario.getEmail());
 
         try {
-            emailService.enviarEmailRedefinirSenha(funcionario.getEmail(), funcionario.getNome_funcionario(), token);
+            String messageId = emailService.enviarEmailRedefinirSenha(
+                    funcionario.getEmail(),
+                    funcionario.getNome_funcionario(),
+                    token);
+            System.out.println("E-mail de redefinicao aceito pelo Brevo. Destinatario: "
+                    + funcionario.getEmail() + ", messageId: " + messageId);
         } catch (RuntimeException e) {
+            System.err.println("Brevo rejeitou o e-mail de redefinicao para "
+                    + funcionario.getEmail() + ": " + e.getMessage());
+            e.printStackTrace();
             TokenRedefinicaoSenha tokenSalvo = tokenService.buscar(token);
             if (tokenSalvo != null) {
                 tokenService.remover(tokenSalvo);
             }
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body("Nao foi possivel enviar o e-mail. Verifique a configuracao do Brevo.");
+                    .body("Nao foi possivel enviar o e-mail pelo Brevo. Motivo: " + mensagemErro(e));
         }
 
         return ResponseEntity.ok("Se o e-mail estiver cadastrado, o link de recuperacao sera enviado.");
@@ -130,6 +138,12 @@ public class AuthController {
 
     private String normalizar(String valor) {
         return valor == null ? "" : valor.trim();
+    }
+
+    private String mensagemErro(RuntimeException erro) {
+        return erro.getMessage() == null || erro.getMessage().isBlank()
+                ? erro.getClass().getSimpleName()
+                : erro.getMessage();
     }
 
     private String normalizarCargo(String cargo) {

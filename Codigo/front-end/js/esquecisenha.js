@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mensagem = await resposta.text();
 
         if (resposta.ok) {
-          alert('Um link de recuperação foi enviado para seu e-mail.');
+          alert(mensagem || 'Se o e-mail estiver cadastrado, o link de recuperacao sera enviado.');
           forgotPasswordForm.reset();
         } else {
           alert(mensagem || 'Não foi possível enviar o e-mail.');
