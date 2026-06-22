@@ -46,7 +46,7 @@ form.addEventListener('submit', async function (event) {
       } else if (cargoLogado === 'coordenador') {
         window.location.href = 'perfil-coordenador.html';
       } else if (cargoLogado === 'administrativo') {
-        window.location.href = 'perfil-administrativo.html';
+        window.location.href = 'dashboard.html';
       } else {
         window.location.href = 'dashboard.html';
       }
