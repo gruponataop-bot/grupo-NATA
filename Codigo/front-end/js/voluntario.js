@@ -547,31 +547,54 @@ async function abrirModalVincularProjeto(idVoluntario) {
     document.getElementById("config-nome").value = vol.nome;
 
     const containerProjetos = document.getElementById("container-projetos-dinamicos");
-    containerProjetos.innerHTML = "<p>Carregando projetos...</p>";
+    containerProjetos.innerHTML = "<p style='color:#9c9890;font-size:13px;'>Carregando projetos...</p>";
     
     abrirModal("modal-config");
 
     try {
         // Busca a lista de Projetos Reais do seu Banco de Dados
-        // (Verifique se a rota do seu Controller de projetos é essa mesma)
         const resposta = await fetch('https://grupo-nata.onrender.com/api/projetos');
         const projetos = await resposta.json();
 
         containerProjetos.innerHTML = ""; 
 
+        // Descobre quais projetos o voluntário já participa para deixar a caixinha "checked"
+        const projetosDoVoluntario = vol.projetos || [];
+        const idsVinculados = projetosDoVoluntario.map(p => Number(p.id));
+        const nomesVinculados = projetosDoVoluntario.map(p => p.nome);
+
         projetos.forEach(projeto => {
-            // OBS: Aqui você precisará adicionar depois a lógica para dar "checked"
-            // nos projetos que o voluntário já participa, caso ele já tenha vínculos!
+            const idProjeto = Number(projeto.id);
+            
+            // Verifica se o voluntário já está neste projeto (pelo ID ou pelo Nome, por segurança)
+            const isChecked = (idsVinculados.includes(idProjeto) || nomesVinculados.includes(projeto.nome)) ? "checked" : "";
+            
+            // Monta as informações extras igual ao participantes.js
+            const detalhes = [projeto.tipo, projeto.status].filter(Boolean).join(" · ");
+            
+            const horarios = projeto.horarios
+                ? `<small style="display:block;color:#5f574f;font-size:12px;margin-top:6px;white-space:pre-line;"><strong>Horários:</strong> ${projeto.horarios}</small>`
+                : "";
+                
+            const termo = projeto.termoResponsabilidade
+                ? `<small style="display:block;color:#5f574f;font-size:12px;margin-top:6px;white-space:pre-line;"><strong>Termo:</strong> ${projeto.termoResponsabilidade}</small>`
+                : "";
+
             containerProjetos.innerHTML += `
-                <label>
-                    <input type="checkbox" name="projeto-selecionado" value="${projeto.id}"> 
-                    ${projeto.nome}
+                <label style="display:flex;align-items:flex-start;gap:10px;border:1px solid #ece7df;border-radius:8px;padding:12px;cursor:pointer;">
+                    <input type="checkbox" name="projeto-selecionado" value="${idProjeto}" ${isChecked} style="margin-top:3px;">
+                    <span>
+                        <strong style="display:block;color:#2f2a25;font-size:14px;">${projeto.nome || "Projeto sem nome"}</strong>
+                        <small style="display:block;color:#8a8178;font-size:12px;margin-top:2px;">${detalhes || "Sem detalhes"}</small>
+                        ${horarios}
+                        ${termo}
+                    </span>
                 </label>
             `;
         });
     } catch (erro) {
         console.error("Erro ao buscar projetos:", erro);
-        containerProjetos.innerHTML = "<p>Erro ao carregar projetos do banco de dados.</p>";
+        containerProjetos.innerHTML = "<p style='color:#dc3545;font-size:13px;'>Erro ao carregar projetos do banco de dados.</p>";
     }
 }
 

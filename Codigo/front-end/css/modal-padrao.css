@@ -128,6 +128,7 @@ dialog.em-dialog::backdrop {
     gap: 12px;
     overflow-y: auto;
     flex: 1;
+    min-height: 0;
 }
 
 /* ===== SEÇÃO COM TÍTULO (para modais com várias partes) ===== */

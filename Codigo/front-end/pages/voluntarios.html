@@ -263,7 +263,7 @@
                     </div>
                 </div>
 
-                <div id="modal-config" class="modal-caixa">
+                <div id="modal-config" class="modal-caixa modal-larga">
                     <div class="em-header">
                         <div>
                             <h2 class="em-title">Vincular a Projetos</h2>
@@ -271,17 +271,20 @@
                         </div>
                         <button class="em-close" onclick="fecharModais()"><i class="ph ph-x"></i></button>
                     </div>
-                    <form id="form-vincular-projeto" class="em-body">
-                        <input type="hidden" id="config-voluntario-id">
+                    
+                    <div class="em-body"> <input type="hidden" id="config-voluntario-id">
                         <div class="em-field">
                             <label>Voluntário selecionado</label>
                             <input type="text" id="config-nome" readonly>
                         </div>
+                        
                         <p class="em-section-title">Projetos Disponíveis</p>
-                        <div id="container-projetos-dinamicos">
+                        
+                        <div id="container-projetos-dinamicos" style="display:grid;gap:10px;">
                             <p style="color:#9c9890;font-family:'DM Sans',sans-serif;font-size:13px;">Carregando projetos...</p>
                         </div>
-                    </form>
+                    </div>
+                    
                     <div class="em-footer">
                         <button type="button" class="em-btn-cancel" onclick="fecharModais()">Cancelar</button>
                         <button type="button" class="em-btn-save" onclick="salvarVinculoProjetos()">
