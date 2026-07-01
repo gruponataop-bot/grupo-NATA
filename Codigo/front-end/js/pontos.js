@@ -1,5 +1,5 @@
-const SUPABASE_URL = 'https://wyhclddqdupnpdmfafde.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_oA60gmRRa3B5bzOpUb-8XQ_L2TqAZZh';
+const SUPABASE_URL = 'https://raykwpryvxfittrlkbey.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_C5oimXD8Ez6Ngh_MpSg01g_9J6F4Eam';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let pontosCarregados = [];
@@ -33,8 +33,8 @@ async function buscarPontosDoBanco() {
     try {
         // Busca simultânea nas duas tabelas
         const [resPontos, resParceiros] = await Promise.all([
-            supabaseClient.from('ponto').select('*'),
-            supabaseClient.from('empresa_parceira').select('*')
+            supabaseClient.from('ponto').select('*').eq('ativo', true),
+            supabaseClient.from('empresa_parceira').select('*').eq('ativo', true)
         ]);
 
         if (resPontos.error) throw resPontos.error;
@@ -410,7 +410,7 @@ document.getElementById('btn-confirmar-delete').addEventListener('click', async 
     try {
         const { error } = await supabaseClient
             .from(tabela)
-            .delete()
+            .update({ ativo: false })
             .eq(colunaId, idLimpo);
 
         if (error) throw error;
