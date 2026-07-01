@@ -1,5 +1,5 @@
-const SUPABASE_URL = 'https://raykwpryvxfittrlkbey.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_C5oimXD8Ez6Ngh_MpSg01g_9J6F4Eam';
+const SUPABASE_URL = 'https://wyhclddqdupnpdmfafde.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_oA60gmRRa3B5bzOpUb-8XQ_L2TqAZZh';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let pontosCarregados = [];
